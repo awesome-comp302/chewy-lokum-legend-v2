@@ -22,5 +22,6 @@ Select a Level
 ###Use Case Scenarios:
 ###Operation Contracts:
 updateBoard [finished]
+saveGame [finished]
 ###SSD's:
 Load Level [finished]
