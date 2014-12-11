@@ -21,5 +21,6 @@ Select a Level
 ##PHASE 2
 ###Use Case Scenarios:
 ###Operation Contracts:
+updateBoard [finished]
 ###SSD's:
 Load Level [finished]
