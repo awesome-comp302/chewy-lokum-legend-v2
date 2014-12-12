@@ -20,6 +20,10 @@ Select a Level
 
 ##PHASE 2
 ###Use Case Scenarios:
+Play a Level
+Select Level
+Load a Saved Game
+Configure The Game
 ###Operation Contracts:
 updateBoard [finished]
 saveGame [finished]
