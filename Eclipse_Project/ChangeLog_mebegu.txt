@@ -1,0 +1,122 @@
+
+@author: mebegu
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+		*03 December 2014   21:00*
+_________________________________________________________
+
+1. New features:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+a.   Basic gameContoller.java class is created. However,
+we do not have any gui, so all gui update part is missing.
+
+	- There are 8 different issues should be 
+	implemented for gameController. They are 
+	described as comments on gameController.java
+
+_________________________________________________________
+
+1. Changes:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+a.   update() method of Gameplay is revised. It does not
+require looping, when it used. Now, method has its own
+loop cycle.
+
+###########
+
+b.   fillAllNothingsRandomly(), isThereNothing(), 
+isThereAvailableMove(),and dropAll()'s visibility changed
+from public to private due to the change of update method.
+They do not need to be called from outside of class.
+
+
+_________________________________________________________
+
+1. Discovered Issues & Bugs:
+---------------------------------------------------------
+
+>> Major issues
+
++++ There is not any known major issues. :)
+
+
+
+>> Minor issues
+
+a. Due to the visibility change of some Gameplay.java's
+functions, test class and its methods should be revised. 
+
+
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+		*30 November 2014   13:30*
+_________________________________________________________
+
+1. Changes:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+a.   Test.java is revised,and ready to submit.
+
+###########
+
+b.   fillAllNothingsRandomly(), isThereNothing(), 
+isThereAvailableMove(),and dropAll() methods moved to
+GamePlay.java .
+
+
+_________________________________________________________
+
+1. Discovered Issues & Bugs:
+---------------------------------------------------------
+
+a. Check method is working wrong sometimes. Because of 
+that isThereAvailableMove and swap methods are not 
+working properly. You can observe it by checking tests.
+
+
+
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+		*29 November 2014   18:10*
+_________________________________________________________
+
+1. New features:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+a. dropAll() function added to GamePlay class.
+
+	- The function makes all gameobjects
+	 to drop, the old places of dropping
+	 objects are filled with nothing object
+	- You can check it at main.java. There is a
+	 dropTest() method.
+
+###########
+
+b. isThereAvailableMove() function added to GamePlay class.
+
+	- The function returns true if there is
+	 a swapable cell. Otherwise it returns false.
+	- I tried to test it, it failed by another reason
+	 (See also: 1.a. )
+
+
+_________________________________________________________
+
+1. Discovered Issues & Bugs:
+---------------------------------------------------------
+
+a.  Check method is working wrong sometimes. I couldn't 
+manage to fix it. Because of that isThereAvailableMove() 
+method is not working properly.
+
+
+
+
+			<End>
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||
