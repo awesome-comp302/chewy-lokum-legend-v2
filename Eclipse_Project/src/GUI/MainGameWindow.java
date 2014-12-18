@@ -5,6 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -106,7 +108,7 @@ public class MainGameWindow extends JFrame {
 		c.gridx = 3;
 		c.gridy = 0;
 		buttonHolder.add(saveExitButton);
-		saveExitButton.addActionListener(interact);	
+		//saveExitButton.addActionListener(interact);	
 		
 		boardHolder = new JPanel();
 		boardHolder.setBackground(Color.blue);
@@ -135,17 +137,43 @@ public class MainGameWindow extends JFrame {
 		setVisible(true);
 	}
 	
-	private class Interact implements ActionListener {
+	private class Interact implements MouseListener {
+
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
 			Object srcButton =  e.getSource();
 			if (srcButton == saveExitButton) {
 				controller.saveExitButtonClicked(gp);
 			} else if (srcButton.getClass() == CellButton.class){
-				controller.cellClicked((CellButton) srcButton);
+				controller.cellClicked((CellButton)srcButton);
 				
 			}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
 		}	
 	}
 	
@@ -181,7 +209,7 @@ public class MainGameWindow extends JFrame {
 					Cell curr = b.cellAt(j, i);
 					CellButton cb = new CellButton(curr,j,i);
 					boardPanel.add(cb);
-					cb.addActionListener(interact);
+					cb.addMouseListener(interact);
 				}
 			}
 		}

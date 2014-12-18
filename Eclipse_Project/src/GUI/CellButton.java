@@ -2,13 +2,14 @@ package GUI;
 import java.awt.Color;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 
 import Logic.Cell;
 import Logic.ChewyObject;
 import Logic.Lokum;
 
 @SuppressWarnings("serial")
-public class CellButton extends JButton{
+public class CellButton extends JLabel{
 		public int coordX;
 		public int coordY;
 		public CellButton(Cell c, int i, int j){
