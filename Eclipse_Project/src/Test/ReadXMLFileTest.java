@@ -42,7 +42,7 @@ public class ReadXMLFileTest {
 		Level.clearLevelIDs();
 		Board board = new Board(10, 10);
 		gp = new GamePlay(new Level(10000, 20,board, 1));
-		gp.setPlayer(new Player("Player1"));
+		gp.setPlayer(new Player());
 		gp.initBoard();
 		WriteXMLFile.getInstance().saveGame(gp);
 		WriteXMLFile.getInstance().write();
@@ -74,7 +74,7 @@ public class ReadXMLFileTest {
 	
 	@Test
 	public void testUnicode() {
-		gp.setPlayer(new Player("امیر"));
+		gp.setPlayer(new Player());
 		WriteXMLFile.getInstance().saveGame(gp);
 		rxf.read();
 		assertSame(gp.getPlayer().getName() , rxf.loadGame().getPlayer().getName());

@@ -36,7 +36,7 @@ public class RuleEngineTest {
 		Level.clearLevelIDs();
 		Board board = new Board(10, 10);
 		gp = new GamePlay(new Level(10000, 20,board, 1));
-		gp.setPlayer(new Player("Player1"));
+		gp.setPlayer(new Player());
 		gp.initBoard();
 
 		Level.clearLevelIDs();

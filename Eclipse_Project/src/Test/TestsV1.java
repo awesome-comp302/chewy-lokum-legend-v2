@@ -345,19 +345,15 @@ public class TestsV1 {
 		}
 		System.out.println(b3);
 	}*/
-	
-	@SuppressWarnings("unused")
+
 	//@Test
-	public void playerTest(){
-		Player tPlayer = new Player("Berk");
+	private static void playerTest(){
+		Player tPlayer = new Player();
 		System.out.println(tPlayer);
-		tPlayer.setName("Can");
-		System.out.println(tPlayer);
-		
 		Player[] testPlayerList = new Player[999];
 		
 		for(int i=0; i<999; i++){
-			testPlayerList[i] = new Player("test");
+			testPlayerList[i] = new Player();
 		}
 		for(int i=0; i<999; i++){
 			System.out.println(testPlayerList[i]);
@@ -366,10 +362,9 @@ public class TestsV1 {
 		
 	}
 	
-	@SuppressWarnings("unused")
 	//@Test
-	public void xmlWriteTest(){
-		Player player = new Player("berk");
+	private static void xmlWriteTest(){
+		Player player = new Player();
 		Board board = new Board(5, 5);
 		Level level = new Level(500, 50, board, 56);
 		GamePlay gp = new GamePlay(level);

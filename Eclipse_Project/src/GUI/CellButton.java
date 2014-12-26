@@ -9,7 +9,7 @@ import Logic.ChewyObject;
 import Logic.Lokum;
 
 @SuppressWarnings("serial")
-public class CellButton extends JLabel{
+public class CellButton extends JButton{
 		public int coordX;
 		public int coordY;
 		public CellButton(Cell c, int i, int j){
