@@ -54,8 +54,11 @@ public class GameController implements Runnable {
 		mgwCont.updateBoard(gp);// give the initial board to gui at here
 		
 		while(true){
+			System.out.println(x1);
 			if(activity){ //GUI will set activity to true, if any interaction is done 
+				System.out.println("active");
 				if(gp.swap(x1,y1,x2,y2)){//GUI will set x1,y1,x2,y2 with the interaction 
+					System.out.println("swapped");
 					while (gp.isThereNothing() || activity) {
 						activity = false;
 
