@@ -18,7 +18,7 @@ public class GameController implements Runnable {
 	private int y1;
 	private int x2;
 	private int y2;
-	private boolean activity = false;
+	private boolean activity;
 
 	private Board board;
 	private Level level;
@@ -54,7 +54,6 @@ public class GameController implements Runnable {
 		mgwCont.updateBoard(gp);// give the initial board to gui at here
 		
 		while(true){
-
 			if(activity){ //GUI will set activity to true, if any interaction is done 
 				if(gp.swap(x1,y1,x2,y2)){//GUI will set x1,y1,x2,y2 with the interaction 
 					while (gp.isThereNothing() || activity) {
@@ -123,7 +122,6 @@ public class GameController implements Runnable {
 		this.y1 = y1;
 		this.x2 = x2;
 		this.y2 = y2;
-		
 		activity= true;
 	}
 
