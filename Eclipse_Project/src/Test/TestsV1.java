@@ -27,7 +27,7 @@ public class TestsV1 {
 	@Test
 	public void LegalBoardConstructor(){
 		Board b = new Board(10,10);
-		System.out.println("LegalBoardConstructor passsed.");
+		assertTrue(b.repOk());
 	}
 
 	//Class Board, method Board, testing illegal constructor values
@@ -74,7 +74,6 @@ public class TestsV1 {
 	public void LegalcellAt(){	
 		Board b = new Board(5, 5);
 		Cell c = b.cellAt(2, 2);
-		System.out.println("LegalCellAt passed");
 	}
 
 	//Class Board, method CellAt, testing trying to access cells of illegal positions
