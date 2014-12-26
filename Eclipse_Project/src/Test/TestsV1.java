@@ -1,4 +1,8 @@
-package Application;
+package Test;
+import static org.junit.Assert.*;
+
+import org.junit.*;
+
 import XML.ReadXMLFile;
 import XML.WriteXMLFile;
 import Logic.Board;
@@ -9,7 +13,7 @@ import Logic.Lokum;
 import Logic.Player;
 
 
-public class Test {
+public class TestsV1 {
 	
 	private static Board bPrepared = new Board(3, 3);;
 	private static Level testLevel;
@@ -20,150 +24,110 @@ public class Test {
 
 	//Class Board, method Board, testing legal constructor values
 	@SuppressWarnings("unused")
-	public static void LegalBoardConstructor(){
-		try{
-			Board b = new Board(10,10);
-			System.out.println("LegalBoardConstructor passsed.");
-		} catch (Exception e){
-			System.out.println("LegalBoardConstructor failed: " + e.getMessage());
-		}
+	@Test
+	public void LegalBoardConstructor(){
+		Board b = new Board(10,10);
+		System.out.println("LegalBoardConstructor passsed.");
 	}
 
 	//Class Board, method Board, testing illegal constructor values
 	@SuppressWarnings("unused")
-	public static void IllegalBoardConstructor(){
-		try{
-			Board b = new Board(0,0);
-			System.out.println("IllegalBoardConstructor 1 failed. IllegalArgumentException not thrown.");
-		} catch (IllegalArgumentException e){
-			System.out.println("IllegalBoardConstructor 1 passed : " + e.getMessage());
-		}
-		try{
-			Board b = new Board(1,0);
-			System.out.println("IllegalBoardConstructor 2 failed. IllegalArgumentException not thrown.");
-		} catch (IllegalArgumentException e){
-			System.out.println("IllegalBoardConstructor 2 passed : " + e.getMessage());
-		}
-		try{
-			Board b = new Board(0,1);
-			System.out.println("IllegalBoardConstructor 3 failed. IllegalArgumentException not thrown.");
-		} catch (IllegalArgumentException e){
-			System.out.println("IllegalBoardConstructor 3 passed : " + e.getMessage());
-		}
+	@Test (expected = IllegalArgumentException.class)
+	public void IllegalBoardConstructor1(){
+		Board b = new Board(0,0);
+	}
+	@Test (expected = IllegalArgumentException.class)
+	public void IllegalBoardConstructor2(){
+		Board b = new Board(1,0);
+	}
+	@Test (expected = IllegalArgumentException.class)
+	public void IllegalBoardConstructor3(){
+		Board b = new Board(0,1);
 	}
 	
 	//Class Level, method Level, testing legal constructor values
 	@SuppressWarnings("unused")
-	public static void LegalLevelConstructor(){
+	@Test
+	public void LegalLevelConstructor(){
 		int passingScore = 1;
 		int possibleMovements = 1;
 		Board b = new Board(10,10);
 		int levelId = 0;
-		try{
-			Level l = new Level(passingScore,possibleMovements,b,levelId);
-			System.out.println("IllegalLevelConstructor 1 passed");
-		} catch(IllegalArgumentException e){
-			System.out.println("IllegalLevelConstructor 1 failed : " + e.getMessage());
-		}
+		Level l = new Level(passingScore,possibleMovements,b,levelId);
 	}
 
 	//Class Level, method Level, testing illegal constructor values
 	@SuppressWarnings("unused")
-	public static void IllegalLevelConstructor(){
+	@Test (expected = IllegalArgumentException.class)
+	public void IllegalLevelConstructor(){
 		int passingScore = 0;
 		int possibleMovements = 1;
 		Board b = new Board(10,10);
 		int levelId = 0;
-		try{
-			Level l = new Level(passingScore,possibleMovements,b,levelId);
-			System.out.println("IllegalLevelConstructor 1 failed : IllegalArgumentException not thrown.");
-		} catch(IllegalArgumentException e){
-			System.out.println("IllegalLevelConstructor 1 passed : " + e.getMessage());
-		}
+		
+		Level l = new Level(passingScore,possibleMovements,b,levelId);
 	}
 	
 	//Class Board, method cellAt, testing accessing a legal position of the board
 	@SuppressWarnings("unused")
-	public static void LegalcellAt(){
-		try{
-			Board b = new Board(5, 5);
-			Cell c = b.cellAt(2, 2);
-			System.out.println("LegalCellAt passed");
-		} catch(IllegalArgumentException e){
-			System.out.println("LegalCellAt failed : " + e.getMessage());
-		}
+	@Test
+	public void LegalcellAt(){	
+		Board b = new Board(5, 5);
+		Cell c = b.cellAt(2, 2);
+		System.out.println("LegalCellAt passed");
 	}
 
 	//Class Board, method CellAt, testing trying to access cells of illegal positions
 	@SuppressWarnings("unused")
-	public static void IllegalcellAt(){
+	@Test (expected = IllegalArgumentException.class)
+	public void IllegalcellAt1(){
 		Board b = new Board(10,10);
-		try {
-			Cell c = b.cellAt(20, 20);
-			System.out.println("IllegalCellAt 1 failed : IllegalArgumentException not thrown.");
-		} catch (IllegalArgumentException e){
-			System.out.println("IllegalCellAt 1 passed.");
-		}
-		
-		try {
-			Cell c = b.cellAt(-10, 2);
-			System.out.println("IllegalCellAt 1 failed : IllegalArgumentException not thrown.");
-		} catch (IllegalArgumentException e){
-			System.out.println("IllegalCellAt 1 passed.");
-		}
-		
-		try {
-			Cell c = b.cellAt(2, -10);
-			System.out.println("IllegalCellAt 1 failed : IllegalArgumentException not thrown.");
-		} catch (IllegalArgumentException e){
-			System.out.println("IllegalCellAt 1 passed.");
-		}
+		Cell c = b.cellAt(20, 20);
+	}
+	@Test (expected = IllegalArgumentException.class)
+	public void IllegalcellAt2(){
+		Board b = new Board(10,10);
+		Cell c = b.cellAt(-10, 2);
+	}
+	@Test (expected = IllegalArgumentException.class)
+	public void IllegalcellAt3(){
+		Board b = new Board(10,10);
+		Cell c = b.cellAt(2, -10);
 	}
 	
 	//Class Board, method fillCellAt, testing filling board with legal ChewyObject and position
-	public static void LegalfillCellAt(){
+	@Test
+	public void LegalfillCellAt(){
 		Board b = new Board(10,10);
-		try {
-			Lokum l = new Lokum("A");
-			b.fillCellAt(5, 5, l);
-			System.out.println("LegalfillCellAt passed");
-		} catch (Exception e){
-			System.out.println("LegalfillCellAt failed : " + e.getMessage());
-		}
+		Lokum l = new Lokum("A");
+		b.fillCellAt(5, 5, l);
 	}
 
 	//Class Board, method fillCellAt, testing filling board with illegal ChewyObject and position
-	public static void IllegalfillCellAt(){
+	@Test (expected = Exception.class)
+	public void IllegalfillCellAt1(){
 		Board b = new Board(10,10);
-		try {
-			Lokum l = null;
-			b.fillCellAt(5, 5, (Lokum)l);
-			System.out.println("IllegalfillCellAt 1 failed : Exception about null lokum not thrown.");
-		} catch (Exception e){
-			System.out.println("IllegalfillCellAt 1 passed.");
-		}
-		
-		try {
-			Lokum l = new Lokum("A");
-			b.fillCellAt(15, 5, l);
-			System.out.println("IllegalfillCellAt 1 failed : IllegalArgumentException not thrown.");
-		} catch (IllegalArgumentException e){
-			System.out.println("IllegalfillCellAt 1 passed.");
-		}
-		
-		try {
-			Lokum l = new Lokum("A");
-			b.fillCellAt(5, 15, l);
-			System.out.println("IllegalfillCellAt 1 failed : IllegalArgumentException not thrown.");
-		} catch (IllegalArgumentException e){
-			System.out.println("IllegalfillCellAt 1 passed.");
-		}
+		Lokum l = null;
+		b.fillCellAt(5, 5, (Lokum)l);
+	}
+	@Test (expected = Exception.class)
+	public void IllegalfillCellAt2(){
+		Board b = new Board(10,10);
+		Lokum l = new Lokum("A");
+		b.fillCellAt(15, 5, l);
+	}
+	@Test (expected = Exception.class)
+	public void IllegalfillCellAt3(){
+		Board b = new Board(10,10);
+		Lokum l = new Lokum("A");
+		b.fillCellAt(5, 15, l);
 	}
 	
 
 
 	//Class Board, method fillCellAt, Class Lokum, method Lokum, testing filling certain spots on board with new Lokums
-	public static void prapareBoardForFurtherOp(){
+	@Test
+	public void prapareBoardForFurtherOp(){
 		bPrepared.fillCellAt(0, 0, new Lokum("brown hazelnut"));
 		bPrepared.fillCellAt(0, 1, new Lokum("green pistachio"));
 		bPrepared.fillCellAt(0, 2, new Lokum("brown hazelnut"));
@@ -174,30 +138,19 @@ public class Test {
 		bPrepared.fillCellAt(2, 1, new Lokum("brown hazelnut"));
 		bPrepared.fillCellAt(2, 2, new Lokum("red rose"));
 		
-		if(bPrepared.repOk()){
-			System.out.println("Successfull!! Prepared Board is ready to further tests.");
-		}
-		else
-			System.out.println("Fail!! Prepared Board is not ready to further tests.");
-		
+		assertTrue(bPrepared.repOk());
 	}
 	
 	//Class Level, method repOK, testing RepOK of normal constructor
-	public static void initLevel(){
+	@Test
+	public void initLevel(){
 		testLevel = new Level(20, 5, bPrepared, 1);
-		
-		if(testLevel.repOk()){
-			System.out.println("Successfull!! Test level is created.");
-			System.out.println(testLevel);
-		}
-		else
-			System.out.println("Fail!! Test level is not created.");
-			
-		
+		assertTrue(testLevel.repOk());
 	}
 	
 	//Class GamePlay, method GamePlay, testing constructor with legal value
-	/*public static void initGame(){	
+	/*@Test
+	public void initGame(){	
 		testGame = new GamePlay(testLevel);
 		
 		if(testGame.repOk()){
@@ -210,7 +163,8 @@ public class Test {
 	}
 	
 	//Class GamePlay, method swap, testing legal horizontal swap
-	public static void successfulHorSwap(){
+	@Test
+	public void successfulHorSwap(){
 		System.out.println("Horizontal Swap Operation is started.");
 		System.out.println("Before");
 		System.out.println(bPrepared);
@@ -226,7 +180,8 @@ public class Test {
 	}
 
 	//Class GamePlay, method swap, testing illegal horizontal swap
-	public static void failedHorSwap(){
+	@Test
+	public void failedHorSwap(){
 		System.out.println("Horizontal Swap Operation is started.");
 		System.out.println("Before");
 		System.out.println(bPrepared);
@@ -242,7 +197,8 @@ public class Test {
 	}
 
 	//Class GamePlay, method swap, testing legal vertical swap
-	public static void successfulVerSwap(){
+	@Test
+	public void successfulVerSwap(){
 		System.out.println("Vercital Swap Operation is started.");
 		System.out.println("Before");
 		System.out.println(bPrepared);
@@ -258,7 +214,8 @@ public class Test {
 	}
 
 	//Class GamePlay, method swap, testing illegal vertical swap
-	public static void FailedVerSwap(){
+	@Test
+	public void FailedVerSwap(){
 		System.out.println("Vercital Swap Operation is started.");
 		System.out.println("Before");
 		System.out.println(bPrepared);
@@ -274,7 +231,8 @@ public class Test {
 	}
 
 	//Class GamePlay, method swap, testing legal cross swap
-	public static void successfulCrossSwap(){
+	@Test
+	public void successfulCrossSwap(){
 		System.out.println("Cross Swap Operation is started.");
 		System.out.println("Before");
 		System.out.println(bPrepared);
@@ -290,7 +248,8 @@ public class Test {
 	}
 
 	//Class GamePlay, method swap, testing illegal cross swap
-	public static void FailedCrossSwap(){
+	@Test
+	public void FailedCrossSwap(){
 		System.out.println("Cross Swap Operation is started.");
 		System.out.println("Before");
 		System.out.println(bPrepared);
@@ -305,7 +264,8 @@ public class Test {
 		System.out.println(testGame.movementsLeft());
 	}
 	
-	private static void dropTest(){
+	@Test
+	public void dropTest(){
 		Board b3 = new Board(3, 6);
 		Level l3 = new Level(10, 10, b3, 4);
 		GamePlay gp3 = new GamePlay(l3);
@@ -320,7 +280,8 @@ public class Test {
 		
 	}
 	
-	private static void isThereNothingTest() {
+	@Test
+	public void isThereNothingTest() {
 		Board b2 = new Board(3, 3);
 		Level l2 = new Level(10, 10, b2, 50);
 		GamePlay gp2 = new GamePlay(l2);
@@ -344,7 +305,8 @@ public class Test {
 	}
 	
 	
-	private static void isThereAvailableMoveTest() {
+	@Test
+	public void isThereAvailableMoveTest() {
 		Board b2 = new Board(3, 3);
 		Level l2 = new Level(10, 10, b2, 3);
 		GamePlay gp2 = new GamePlay(l2);
@@ -372,7 +334,8 @@ public class Test {
 	}
 	
 	
-	private static void fillRandomlyTest(){
+	@Test
+	public void fillRandomlyTest(){
 		Board b3 = new Board(5, 5);
 		Level l3 = new Level(10, 10,b3 , 10);
 		GamePlay gp3 = new GamePlay(l3);
@@ -384,7 +347,8 @@ public class Test {
 	}*/
 	
 	@SuppressWarnings("unused")
-	private static void playerTest(){
+	//@Test
+	public void playerTest(){
 		Player tPlayer = new Player("Berk");
 		System.out.println(tPlayer);
 		tPlayer.setName("Can");
@@ -403,7 +367,8 @@ public class Test {
 	}
 	
 	@SuppressWarnings("unused")
-	private static void xmlWriteTest(){
+	//@Test
+	public void xmlWriteTest(){
 		Player player = new Player("berk");
 		Board board = new Board(5, 5);
 		Level level = new Level(500, 50, board, 56);
@@ -420,7 +385,8 @@ public class Test {
 	}
 	
 	@SuppressWarnings("unused")
-	private static void xmlReadTest(){
+	//@Test
+	public void xmlReadTest(){
 		ReadXMLFile reader = ReadXMLFile.getInstance();
 		
 		
@@ -429,86 +395,10 @@ public class Test {
 		
 		System.out.println(gp.getLevel().getBoard());
 		
-	}
-	
-	
-
-		
-	public static void main(String[] args) {
-		/*LegalBoardConstructor();
-		IllegalBoardConstructor();
-		LegalLevelConstructor();
-		IllegalLevelConstructor();
-		LegalcellAt();
-		IllegalcellAt();
-		LegalfillCellAt();
-		IllegalfillCellAt();
-
-		
-		System.out.println(testSplitter("Initializing a board by hand. The board will be used further operations."));
-		prapareBoardForFurtherOp();
-		System.out.println(bPrepared.status());
-		System.out.println(bPrepared);
-		
-		System.out.println(testSplitter("Initializing a level."));
-		initLevel();
-		
-		System.out.println(testSplitter("Initializing a game."));
-		initGame();
-		
-		System.out.println(testSplitter("Successful horizontal swap test."));	
-		successfulHorSwap();
-		System.out.println("Resetting the prepared board.");
-		prapareBoardForFurtherOp();
-		
-		System.out.println(testSplitter("Successful vertical swap test."));
-		successfulVerSwap();
-		System.out.println("Resetting the prepared board.");
-		prapareBoardForFurtherOp();
-		
-		System.out.println(testSplitter("Successful cross swap test."));
-		successfulCrossSwap();
-		System.out.println("Resetting the prepared board.");
-		prapareBoardForFurtherOp();
-		
-		System.out.println(testSplitter("Failed horizontal swap test."));
-		failedHorSwap();
-		
-		System.out.println(testSplitter("Failed vertical swap test."));
-		FailedVerSwap();
-		
-		System.out.println(testSplitter("Failed cross swap test."));
-		FailedCrossSwap();
-		
-		System.out.println(testSplitter("Testing the method that searches for an empty cell on board."));
-		isThereNothingTest();
-		
-		System.out.println(testSplitter("Testing the drop method which make objects fall until their bottom is not empty."));
-		dropTest();
-		
-		System.out.println(testSplitter("Testing the isThereAvailableMove method which searches for an available move."));
-		isThereAvailableMoveTest();
-		
-		System.out.println(testSplitter("Initializing an empty board, a associated level and game,then filling that board randomly."));
-		fillRandomlyTest();
-		*/
-		
-		//System.out.println(testSplitter("Player Test"));
-		//playerTest();
-		
-		//System.out.println(testSplitter("XML Write Test"));
-		//xmlWriteTest();
-		
-		//System.out.println(testSplitter("XML Read Test"));
-		//xmlReadTest();
-		
-		//@SuppressWarnings("unused")
-		//LoadGameWindow lg = new LoadGameWindow(); 
-	}
-	
+	}	
 
 	@SuppressWarnings("unused")
-	private static String testSplitter(String s){
+	private String testSplitter(String s){
 		return "\n----------------\n" +
 	           "  Next Test  \n" +
 			   "Test Description: \n"+s+"\n"+
