@@ -16,8 +16,8 @@ public class Player {
 		id = generateID();
 	}
 	
-	public void setName(String name){
-		this.name = name;
+	public void setName(){
+		this.name = "Ahmet";
 	}
 	
 	public String getName(){ return name;}
