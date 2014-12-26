@@ -11,8 +11,8 @@ public class Player {
 	private static ArrayList idList = new ArrayList<int[]>();
 	private String name;
 	
-	public Player(String name){
-		this.name = name;
+	public Player(){
+		this.name = "Ahmet";
 		id = generateID();
 	}
 	

@@ -385,7 +385,7 @@ public class Test {
 	
 	@SuppressWarnings("unused")
 	private static void playerTest(){
-		Player tPlayer = new Player("Berk");
+		Player tPlayer = new Player();
 		System.out.println(tPlayer);
 		tPlayer.setName("Can");
 		System.out.println(tPlayer);
@@ -393,7 +393,7 @@ public class Test {
 		Player[] testPlayerList = new Player[999];
 		
 		for(int i=0; i<999; i++){
-			testPlayerList[i] = new Player("test");
+			testPlayerList[i] = new Player();
 		}
 		for(int i=0; i<999; i++){
 			System.out.println(testPlayerList[i]);
@@ -404,7 +404,7 @@ public class Test {
 	
 	@SuppressWarnings("unused")
 	private static void xmlWriteTest(){
-		Player player = new Player("berk");
+		Player player = new Player();
 		Board board = new Board(5, 5);
 		Level level = new Level(500, 50, board, 56);
 		GamePlay gp = new GamePlay(level);

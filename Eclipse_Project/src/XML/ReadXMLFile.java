@@ -82,7 +82,7 @@ public class ReadXMLFile {
 	
 	Board boardState = new Board(Integer.parseInt(width), Integer.parseInt(height));
 	Level levelTest = new Level(passingScoreState, remainingMovesState, boardState, levelState);
-	Player playerTest = new Player(name);
+	Player playerTest = new Player();
 	playerTest.setID(id);
 	gp = new GamePlay(levelTest);
 	gp.setPlayer(playerTest);

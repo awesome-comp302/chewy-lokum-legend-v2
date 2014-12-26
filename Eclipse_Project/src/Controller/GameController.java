@@ -43,7 +43,7 @@ public class GameController implements Runnable {
 			board = new Board(10, 10);
 			level = new Level(10000, 20,board, 1);
 			gp = new GamePlay(level);
-			gp.setPlayer(new Player("Player1"));
+			gp.setPlayer(new Player());
 			gp.initBoard();
 			mgw = new MainGameWindow(gp);
 			mgwCont = new MainGameWindowController(mgw);
