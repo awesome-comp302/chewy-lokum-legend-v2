@@ -11,7 +11,7 @@
  - [None]
 
 ##Assessment of Success:
-	Well – completed design phase, figured out JUnit, and got everyone up to speed on Github
+Well – completed design phase, figured out JUnit, and got everyone up to speed on Github
 
 ##Plan for next week(s):
  - Figure out Graphics issues
