@@ -34,6 +34,19 @@ public class WriteXMLFile {
 		
 	}
 	
+	public Player getPlayer(){
+		return player_;
+	}
+	public Board getBoard(){
+		return board;
+	}
+	public Level getLevel(){
+		return level;
+	}
+	public GamePlay getGamePlay(){
+		return gp;
+	}
+	
 	public static WriteXMLFile getInstance(){
 		if (instance == null) {
 			instance = new WriteXMLFile();

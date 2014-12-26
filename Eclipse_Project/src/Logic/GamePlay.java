@@ -56,6 +56,10 @@ public class GamePlay implements Serializable{
 	public void setScore(int score){
 		this.score = score;
 	}
+	
+	public Board getBoard(){
+		return board;
+	}
 
 	/**
 	 * Gets the score.

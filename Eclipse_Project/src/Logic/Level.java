@@ -40,6 +40,10 @@ public class Level {
 		return possibleMovements;
 	}
 	
+	public static void clearLevelIDs(){
+		allLevelIds = new ArrayList<Integer>();
+	}
+	
 	public boolean repOk() {
 		//inspects whether the constructor did its job
 		if (passingScore <= 0)
