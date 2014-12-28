@@ -3,8 +3,10 @@ package Test;
 import Logic.GamePlay;
 import Logic.Level;
 import Logic.Board;
-
+import Logic.MatchingScaleInformer;
+import Logic.RuleEngine;
 import static org.junit.Assert.*;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,9 +41,43 @@ public class GamePlayTest {
 	}
 	
 	@Test
+	/**
+	 * Can Gümeli:
+	 * The biggest risk during the board initialization is updating game data. 
+	 * I updated the initTest with an emphasis of this issue.
+	 * I also added tests for other specifications, such as game's being playable after the init.
+	 */
 	public void initTest(){
+		int initScore = gp.getScore();
+		int initMovements = gp.getMovementsLeft();
+		int initSpecialMovements = gp.getSpecialMovementsLeft();
+		
 		gp.initBoard();
+		
 		assertTrue(gp.repOk());
+		
+		//score and movement numbers should not be effected by initialization process
+		assertEquals(initScore, gp.getScore());
+		assertEquals(initMovements, gp.getMovementsLeft());
+		assertEquals(initSpecialMovements, gp.getSpecialMovementsLeft());
+		
+		//board supposed to be full of nonempty cells
+		assertFalse(gp.isThereNothing());
+		
+		//game should be playable
+		assertTrue(gp.isThereAvailableMove());
+		
+		//there should be no matches
+		MatchingScaleInformer m[][] = gp.generateScaleMatrix();
+		boolean match = false;
+		for (int i = 0; i < m.length && !match; i++) {
+			for (int j = 0; j < m[0].length && !match; j++) {
+				if (RuleEngine.getInstance().shouldErased(m[i][j])) {
+					match = true;
+				}	
+			}
+		}
+		assertFalse(match);
 	}
 	
 	@Test
@@ -91,5 +127,17 @@ public class GamePlayTest {
 	@Test
 	public void availableMoveTest(){
 		assertTrue(gp.isThereAvailableMove());
+	}
+	
+	@Test
+	/**
+	 * Can Gümeli
+	 *Test for GamePlay.specialSwap
+	 */
+	public void specialSwapTest() {
+		int initialSM = gp.getSpecialMovementsLeft();
+		
+		
+		
 	}
 }

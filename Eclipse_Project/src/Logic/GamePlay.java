@@ -20,7 +20,8 @@ public class GamePlay implements Serializable{
 
 	/** The movements left. */
 	private int movementsLeft;
-
+	private int specialMovementsLeft;
+	
 	/** The rules. */
 	private RuleEngine rules;
 
@@ -102,7 +103,7 @@ public class GamePlay implements Serializable{
 	 *           <li>RuleEngine has instance predicate methods
 	 *           gameEndedByMovements(int) and isSwappable(Board, int, int,
 	 *           int).
-	 *           <li>board field is non-null, contains non-null cells with
+	 *           <li>level.board is non-null, contains non-null cells with
 	 *           non-null ChewyObjects</li>
 	 *           <li>Board has an instance method fillCellAt(int, int,
 	 *           ChewyObject)</li>
@@ -110,8 +111,7 @@ public class GamePlay implements Serializable{
 	 *           </ul>
 	 * @modifies if returned true;
 	 *           <ul>
-	 *           <li>board field</li>
-	 *           <li>level field</li>
+	 *           <li>level.board</li>
 	 *           <li>movementsLeft field</li>
 	 *           </ul>
 	 * @ensures If swap returns true, then ChewyObjects of the cells at the
@@ -145,6 +145,20 @@ public class GamePlay implements Serializable{
 		board.fillCellAt(x2, y2, temp);
 		movementsLeft--;
 		return true;
+	}
+	
+	
+	/**
+	 *@requires RuleEngine generates non null objects that works correctly based on specified rules, level, level.board are non null and level.board have non null cells
+	 *@modifies score, specialMovementsLeft, movementsLeft, level.board
+	 *@ensures if specialMove is valid, 
+	 */
+	public boolean specialSwap(int x1, int y1, int x2, int y2) {
+		return true;
+	}
+	
+	public int getSpecialMovementsLeft() {
+		return specialMovementsLeft;
 	}
 
 	/**
