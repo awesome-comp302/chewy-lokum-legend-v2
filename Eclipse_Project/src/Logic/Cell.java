@@ -47,8 +47,8 @@ public class Cell implements Clonable{
 	
 	
 	/**
-	 * @modifies: currentObject
-	 * @param Object: object for filling the cell
+	 * @modifies currentObject
+	 * @param object : object for filling the cell
 	 */
 	public void setCurrentObject(ChewyObject object) {
 		

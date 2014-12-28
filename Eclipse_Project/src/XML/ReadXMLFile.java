@@ -1,11 +1,13 @@
 package XML;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import Logic.Board;
 import Logic.GamePlay;
@@ -14,6 +16,7 @@ import Logic.Lokum;
 import Logic.Player;
 
 import java.io.File;
+import java.io.IOException;
  
 public class ReadXMLFile {
 	
@@ -24,6 +27,9 @@ public class ReadXMLFile {
 		
 	}
 	
+	/**
+	 * @return Instance of Class
+	 */
 	public static ReadXMLFile getInstance(){
 		if (instance == null) {
 			instance = new ReadXMLFile();
@@ -31,18 +37,45 @@ public class ReadXMLFile {
 		return instance;
 	}
 	
+	
+	
+	/**
+	 * @requires A file should have been read from disk wit read() method before using this method.
+	 * @return the Gameplay which was read from a file
+	 */
 	public GamePlay loadGame(){
 		return gp;
 	}
+	
  
-  public void read() {
+  /**
+   * 
+   *  Reads saved GamePlay's data from a file, and constructs a new gameplay. 
+   *  @requires  File with the given name should be existed and should be in proper XML format.
+   *  @param fileName  the file, with this label, will be read.
+   *  @throws ParserConfigurationException, IOException, SAXException; if the file is missing, corrupted, or not in proper format.
+   */
+public void read() {
  
-    try {
+
  
 	File fXmlFile = new File("file.xml");
 	DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-	DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-	Document doc = dBuilder.parse(fXmlFile);
+	DocumentBuilder dBuilder;
+	Document doc = null;
+	try {
+		dBuilder = dbFactory.newDocumentBuilder();
+		doc = dBuilder.parse(fXmlFile);
+	} catch (ParserConfigurationException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (SAXException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
  
 	//optional, but recommended
 	//read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
@@ -69,8 +102,6 @@ public class ReadXMLFile {
 	
 	Element el = (Element) player.item(0);
 	
-	
-	String name = getTextValue(el,"name");
 	int id = getIntValue(el,"id");
 
 	
@@ -96,9 +127,7 @@ public class ReadXMLFile {
 		boardState.fillCellAt(x, y, new Lokum(type, sType));
 	}
 	
-    } catch (Exception e) {
-	e.printStackTrace();
-    }
+
   }
   
   private static String getTextValue(Element ele, String tagName) {

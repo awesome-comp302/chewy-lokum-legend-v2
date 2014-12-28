@@ -61,10 +61,7 @@ public class WriteXMLFileTest {
 	@Test
 	public void testSaveGame() {
 		WriteXMLFile.getInstance().saveGame(gp);
-		assert(wxf.getBoard() != null &&
-				wxf.getGamePlay() != null &&
-				wxf.getLevel() != null &&
-				wxf.getPlayer() != null);
+		assertTrue(wxf.repOk());
 	}
 
 	@Test
@@ -81,19 +78,6 @@ public class WriteXMLFileTest {
 		wxf.saveGame(gp);
 	}
 
-	@Test (expected = Exception.class)
-	public void testNullBoard(){
-		gp.setLevel(new Level(10, 10, (Board)null, 1));
-		wxf.saveGame(gp);
-		wxf.getBoard().cellAt(0, 0);
-	}
-
-	@Test (expected = Exception.class)
-	public void testNullPlayer(){
-		gp.setPlayer((Player)null);
-		wxf.saveGame(gp);
-		wxf.getPlayer().getName();
-	}
 
 	@Test (expected = Exception.class)
 	public void testNullLevel(){
