@@ -35,10 +35,7 @@ public class GamePlay implements Serializable{
 	 * Instantiates a new game play.
 	 *
 	 * @param level
-	 *            : The Level played
-	 * @requires:
-	 * @modifies:
-	 * @ensures:
+	 *            : The Level will be played
 	 */
 	public GamePlay(Level level) {
 		rules = RuleEngine.getInstance();
@@ -50,14 +47,25 @@ public class GamePlay implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 	
+	/**
+	 * Sets a new player to the GamePlay
+	 * @param player
+	 */
 	public void setPlayer(Player player){
 		this.player = player;
 	}
 	
+	/**
+	 * Sets a new score to the GamePlay
+	 * @param score
+	 */
 	public void setScore(int score){
 		this.score = score;
 	}
 	
+	/**
+	 * @return current board
+	 */
 	public Board getBoard(){
 		return board;
 	}
@@ -65,8 +73,8 @@ public class GamePlay implements Serializable{
 	/**
 	 * Gets the score.
 	 *
-	 * @requires: repOk
-	 * @ensures: current score data is returned
+	 * @requires repOk
+	 * @ensures current score data is returned
 	 */
 	public int getScore() {
 		return score;
@@ -75,8 +83,8 @@ public class GamePlay implements Serializable{
 	/**
 	 * Gets the level id.
 	 *
-	 * @requires: level is non null
-	 * @ensures: is of the played level is returned
+	 * @requires level is non null
+	 * @ensures is of the played level is returned
 	 * @return the level id
 	 */
 	public int getLevelId() {
@@ -85,9 +93,8 @@ public class GamePlay implements Serializable{
 
 	/**
 	 * Gets the movements left.
-	 *
-	 * @requires movementsLeft exists and initialized
-	 * @ensures: current movementsLeft field is returned
+	 *@requires movementsLeft exists and initialized
+	 *@ensures current movementsLeft field is returned
 	 */
 	public int getMovementsLeft() {
 		return movementsLeft;
@@ -170,9 +177,8 @@ public class GamePlay implements Serializable{
 
 	/**
 	 * Sets the level.
-	 * 
 	 * @requires GamePlay has a field named Level of type Level
-	 * @modifies: level
+	 * @modifies level
 	 * @param level
 	 */
 	public void setLevel(Level level) {
@@ -238,8 +244,7 @@ public void initBoard() {
 	/**
 	 * Erase all matches.
 	 *
-	 * @param scaleMatrix
-	 *            the scale matrix
+	 * @param scaleMatrix the scale matrix
 	 */
 	public void eraseAllMatches(MatchingScaleInformer[][] scaleMatrix) {
 		for (int i = 0; i < board.getWidth(); i++) {
@@ -369,6 +374,19 @@ public void initBoard() {
 		return score;
 	}
 
+	/**
+	 *@requires
+	 *board is non-null,
+	 *cells of the board are non-null,
+	 *Board has instance methods cellAt(int, int) and fillCellAt(int, int, ChewyObject),
+	 *Nothing and Lokum inherits ChewyObject.
+	 *Default type of the Nothing object is String "empty".
+	 *
+	 *@modifies
+	 *level, board.
+	 *@ensures
+	 *There is no cell in the board whose bottom contains a Nothing abject.
+	 */
 	public void dropAll() {
 		for (int i = board.getWidth() - 1; i > -1; i--) {
 			for (int j = board.getHeight() - 1; j > -1; j--) {
@@ -407,7 +425,18 @@ public void initBoard() {
 
 		return false;
 	}
+	
+	
 
+	/**
+	 * @requires
+	 * board is non-null, 
+	 * board's all cells returned are non-null and contain non-null objects that are that has
+	 * getType methods returning type as String. 
+	 * Nothing objects type is "empty", ignoring case.
+	 * @ensures
+	 * returned true if there is any Nothing object(any empty cell) in the board, false o/w.  
+	 */
 	public boolean isThereNothing() {
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
@@ -420,6 +449,17 @@ public void initBoard() {
 		return false;
 	}
 
+	/**
+	 * @requires
+	 * board is non-null, 
+	 * board's all cells returned are non-null and contain non-null objects that are that has
+	 * getType methods returning type as String. 
+	 * Nothing objects type is "empty", ignoring case.
+	 * @modifies
+	 * board, level
+	 * @ensures
+	 * all cells are filled with ChewyObjects that are not Nothing.  
+	 */
 	public void fillAllNothingsRandomly() {
 		String str[] = Lokum.possibleTypes;
 		for (int i = 0; i < board.getWidth(); i++) {
@@ -456,9 +496,8 @@ public void initBoard() {
 
 
 	/**
-	 * Rep ok.
+	 * Checks for correct initialization.
 	 *
-	 * @return true, if successful
 	 */
 	public boolean repOk() {
 		// inspects whether the constructor did its job
@@ -475,18 +514,14 @@ public void initBoard() {
 	}
 
 	/**
-	 * Movements left.
-	 *
-	 * @return the string
+	 * @return movementsLeft as a String for testing purposes
 	 */
 	public String movementsLeft() {
 		return "Movements Left: " + movementsLeft;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
+	/**
+	 * @return the info of a GamePlay instance as a formated String for testing purposes. 
 	 */
 	@Override
 	public String toString() {
