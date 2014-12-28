@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="public" additionalparam=" -tag requires:a:&quot;Requires: &quot;&#13;&#10;-tag modifies:a:&quot;Modifies: &quot;&#13;&#10;-tag ensures:a:&quot;Ensures: &quot;&#13;&#10;-locale en_US" author="true" classpath="C:\Users\Berk\Desktop\eclipse\plugins\org.junit_4.11.0.v201303080030\junit.jar;C:\Users\Berk\Desktop\eclipse\plugins\org.hamcrest.core_1.3.0.v201303031735.jar" destdir="C:\Users\Berk\Documents\GitHub\chewy-lokum-legend-v2\JavaDocs" doctitle="Chewy Lokum Legend" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="Test,Application,Logic,XML,Controller,GUI" source="1.7" sourcepath="C:\Users\Berk\Documents\GitHub\chewy-lokum-legend-v2\Eclipse_Project\src" splitindex="true" stylesheetfile="C:\Users\Berk\Documents\GitHub\chewy-lokum-legend-v2\JavaDocs\stylesheet.css" use="true" version="true"/>
+    </target>
+</project>
