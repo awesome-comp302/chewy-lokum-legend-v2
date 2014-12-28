@@ -3,6 +3,33 @@
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+		*28 December 2014   15:40*
+_________________________________________________________
+
+1. New features:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+a.   LevelSelector and LevelData classes are added.
+
+b.   LevelSelectorTest and LevelDataTest tests are added.
+
+c.   New javaDocs are added for GamePlay, Board, Level,
+     ReadXMLFile, WriteXMLFile
+
+
+_________________________________________________________
+
+1. Changes:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+a.   repOk() method is added to WriteXMLFile Class.
+
+b.   Three test cases of WriteXMLFileTest are deleted due
+     to be unnecessary.
+
+
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 		*21 December 2014   17:15*
 _________________________________________________________
 
