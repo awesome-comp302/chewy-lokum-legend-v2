@@ -133,6 +133,7 @@ public class GamePlayTest {
 	/**
 	 * Can Gümeli
 	 *Test for GamePlay.specialSwap
+	 *We could not manage this tests since level class requires some fundameetal changes that will be done during the implementation.
 	 */
 	public void specialSwapTest() {
 		int initialSM = gp.getSpecialMovementsLeft();

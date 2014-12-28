@@ -5,8 +5,8 @@ import Logic.GamePlay;
 import Logic.BoardUpdater;
 import Logic.Level;
 import Logic.RuleEngine;
-
 import static org.junit.Assert.*;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +28,8 @@ public class BoardUpdaterTest {
 		
 		board = new Board(10,10);
 		level = new Level(20,10,board,1);
+		gp.createNewBoard(); 
+		System.out.println("Initial board \n" +gp.getLevel().getBoard() );
 		gp = new GamePlay(level);
 		bUpdater = new BoardUpdater(gp, re);
 	}
@@ -51,13 +53,26 @@ public class BoardUpdaterTest {
 		assertTrue(!bUpdater.stillToDo());
 	}
 	
+	/**
+	 * Can:
+	 * I added the following tests
+	 */
 	public void shuffleTest(){
-		Board temp = gp.getLevel().getBoard();
+		int initScore = bUpdater.getScoreIncrease();
 		bUpdater.shuffle();
-		assertFalse(temp == gp.getLevel().getBoard());
+		//no score change
+		assertTrue(initScore == bUpdater.getScoreIncrease());
+		assertTrue(gp.isThereAvailableMove());
 	}
 	
-	
+	/**
+	 *All cells should be filled by fillEmptyCells method
+	 */
+	public void fillEmptyCellsTest() {
+		bUpdater.eraseAll();
+		bUpdater.fillEmptyCells();
+		assertFalse(gp.isThereNothing());
+	}
 	
 	
 	
