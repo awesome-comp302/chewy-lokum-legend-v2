@@ -127,7 +127,7 @@ public class GamePlay implements Serializable{
 		if (!rules.isSwappable(board, x1, y1, x2, y2)) {
 			return false;
 		}
-
+			
 		successfullSwapLog[0] = new Position(x1, y1);
 		successfullSwapLog[1] = new Position(x2, y2);
 		

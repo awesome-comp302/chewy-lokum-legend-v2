@@ -37,7 +37,7 @@ public class BoardTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void sizeTest(){
-		board = new Board(-2,10);
+		board = new Board(-2,-10);
 	}
 
 }
