@@ -216,4 +216,9 @@ public class MainGameWindow extends JFrame {
 		boardPanel.updateUI();
 		buttonHolder.updateUI();
 	}
+
+	public static void playTheGame(GamePlay gp2) {
+		// TODO Auto-generated method stub
+		
+	}
 }

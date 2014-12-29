@@ -12,6 +12,7 @@ import javax.xml.transform.stream.StreamResult;
  
 
 
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -34,19 +35,9 @@ public class WriteXMLFile {
 		
 	}
 	
-	public Player getPlayer(){
-		return player_;
-	}
-	public Board getBoard(){
-		return board;
-	}
-	public Level getLevel(){
-		return level;
-	}
-	public GamePlay getGamePlay(){
-		return gp;
-	}
-	
+	/**
+	 * @return Instance of Class
+	 */
 	public static WriteXMLFile getInstance(){
 		if (instance == null) {
 			instance = new WriteXMLFile();
@@ -54,13 +45,41 @@ public class WriteXMLFile {
 		return instance;
 	}
 	
-	public void saveGame(GamePlay gc){
-		gp = gc;
-		player_ = gc.getPlayer();
+	
+	/**
+	 * Divides the given GamePlay into pieces as level, player, and board.
+	 * 
+	 * @param gamePlay
+	 * @requires Given GamePlay is not null, the components of GamePlay (level, board, player) is not null.
+	 * 
+	 */
+	public void saveGame(GamePlay gamePlay){
+		gp = gamePlay;
+		player_ = gamePlay.getPlayer();
 		level = gp.getLevel();
 		board = level.getBoard();
 	}
+	
+	
  
+	/**
+	 * @return true, if the class is ready to write a GamePlay. Otherwise, false. 
+	 */
+	public boolean repOk(){
+		if(board == null || gp == null || level == null || player_ == null) return false;
+		
+		return true;
+		
+	}
+	
+	
+	  /**
+	   * 
+	   *  Writes GamePlay's data, which is given by saveGame method. 
+	   *  @requires  repOk check, the program should be able to write files to its directory.
+	   *  @param fileName the file will be written with this label.
+	   *  @throws ParserConfigurationException, TransformerException; if the data is corrupted or not in proper format.
+	   */
 	public void write() {
 
 		

@@ -31,13 +31,11 @@ public class RuleEngine {
 	}
 
 	/**
-	 * @requires: board and cellAt is non null and NO_MATCH should be 0
-	 * @ensures: returns the value of the correct constant
+	 * @requires board and cellAt is non null and NO_MATCH should be 0
+	 * @ensures returns the value of the correct constant
 	 * @param board
 	 * @param x1
 	 * @param y1
-	 * @param cellAt
-	 * @return
 	 * 
 	 */
 	public MatchingScaleInformer getMatchingScaleInformer(Board board, int x1,
@@ -278,9 +276,8 @@ public class RuleEngine {
 	}
 
 	/**
-	 * @requires: specialityCode should reference to a special case
+	 * @requires specialityCode should reference to a special case
 	 * @param specialityCode
-	 * @return
 	 */
 	public Lokum getRelevantSpecialObject(String initialType, int specialityCode) {
 		Lokum sl = null;
