@@ -54,6 +54,9 @@ public class ReadXMLFileTest {
 	public void tearDown() throws Exception {
 	}
 
+	//-------------------------------------------------------------------------
+	//BLACK BOX TESTING
+	
 	@Test
 	public void testGetInstance() {
 		assertTrue(rxf != null);
@@ -71,6 +74,19 @@ public class ReadXMLFileTest {
 		rxf.read();
 		assertSame(gp , rxf.loadGame());
 	}
+	
+	//-------------------------------------------------------------------------
+	//GLASS BOX TESTING
+	
+	/*
+	 * For saving/reading, feature space:
+	 * 1. Valid XML file composed of ASCII toolset
+	 * 2. Corrupted File
+	 * NOTE:
+	 *  - Why not have a partition for valid XML schema but bad values (ie string for a number)?
+	 *  	Because there is no way to induce that state in code, besides hand-editing the file.
+	 *  	So its not a real partition. 
+	 */
 	
 	@Test
 	public void testUnicode() {
@@ -99,4 +115,5 @@ public class ReadXMLFileTest {
 		rxf.read();
 	}
 
+	//-------------------------------------------------------------------------
 }

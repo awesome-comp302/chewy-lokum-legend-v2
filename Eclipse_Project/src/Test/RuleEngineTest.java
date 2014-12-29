@@ -46,6 +46,9 @@ public class RuleEngineTest {
 	public void tearDown() throws Exception {
 	}
 
+	//-------------------------------------------------------------------------
+	//GLASS BOX TESTING
+	
 	@Test
 	public void testGetInstance() {
 		assertTrue(re != null);
@@ -94,7 +97,7 @@ public class RuleEngineTest {
 
 	@Test
 	public void testShouldErased() {
-		re.getMatchingScaleInformer(gp.getBoard(), 3, 3, gp.getBoard().cellAt(2, 3).getCurrentObject());
+		re.shouldErased(re.getMatchingScaleInformer(gp.getBoard(), 3, 3, gp.getBoard().cellAt(2, 3).getCurrentObject()));
 	}
 
 	@Test
@@ -166,12 +169,169 @@ public class RuleEngineTest {
 
 	@Test
 	public void testGetSpecialMoveScore() {
-		fail("Not yet implemented");
+		gp.getBoard().fillCellAt(0, 0, new Lokum("red rose", "Color Bomb"));
+		gp.getBoard().fillCellAt(0, 1, new Lokum("red rose", "Wrapped"));
+		assertTrue( re.getSpecialMoveScore(0, 0, 0, 1, gp.getBoard(), (Lokum)gp.getBoard().cellAt(0, 0).getCurrentObject(), (Lokum)gp.getBoard().cellAt(0, 1).getCurrentObject()) != 0);
 	}
 
 	@Test
 	public void testGetUsingScore() {
-		fail("Not yet implemented");
+		gp.getBoard().fillCellAt(0, 0, new Lokum("red rose", "Horizontal Striped"));
+		assertTrue( re.getUsingScore(0, 0, gp.getBoard(), (Lokum)gp.getBoard().cellAt(0, 0).getCurrentObject()) != 0);
+	}
+
+	//-------------------------------------------------------------------------
+	//Black Box Testing
+
+	/*
+	 * GetMatchingScaleInformer
+	 * Feature Space:
+	 * 	Valid board:
+	 * 	no matches
+	 * 	one match - do for each lokum type
+	 * 	two/more matches (same/different types)
+	 * 	all one regular color
+	 * 	one special lokum
+	 * 	two/more special lokums
+	 * 	all special lokums
+	 * 	special lokum inside match
+	 * 	special lokum and separate match
+	 * 
+	 * NOTE:
+	 * Why no invalid board options?
+	 *  - The method assumes a valid board
+	 */
+	
+	@Test
+	public void testGetMatchingScaleInformer() {
+		Board b = new Board(10, 10);
+		b.fillCellAt(3, 1, new Lokum("red rose"));
+		b.fillCellAt(3, 2, new Lokum("red rose"));
+		b.fillCellAt(2, 3, new Lokum("red rose"));
+		gp.setLevel(new Level(10000, 10, b, 1));
+		MatchingScaleInformer msi = re.getMatchingScaleInformer(gp.getBoard(), 3, 3, b.cellAt(2, 3).getCurrentObject());
+		assertTrue(msi.getLeftScale() != 0 ||
+				msi.getDownScale() != 0 ||
+				msi.getRightScale() != 0 ||
+				msi.getUpScale() != 0);
+	}
+
+	/*
+	 * IsSwappable
+	 * Feature Space:
+	 * 	
+	 */
+	
+	@Test
+	public void testIsSwappableTrue() {
+		Board b = new Board(10, 10);
+		b.fillCellAt(3, 1, new Lokum("red rose"));
+		b.fillCellAt(3, 2, new Lokum("red rose"));
+		b.fillCellAt(2, 3, new Lokum("red rose"));
+		gp.setLevel(new Level(10000, 10, b, 1));
+		assertTrue(re.isSwappable(b, 2, 3, 3, 3));
+	}
+	
+	@Test
+	public void testIsSwappableFalse() {
+		Board b = new Board(10, 10);
+		/*
+		 * W W R
+		 * R 
+		 * R
+		 */
+		b.fillCellAt(0, 0, new Lokum("white coconut"));
+		b.fillCellAt(1, 0, new Lokum("white coconut"));
+		b.fillCellAt(0, 1, new Lokum("red rose"));
+		b.fillCellAt(0, 2, new Lokum("red rose"));
+		b.fillCellAt(1, 2, new Lokum("red rose"));
+		gp.setLevel(new Level(10000, 10, b, 1));
+		assertFalse(re.isSwappable(b, 0, 0, 1, 0));
+	}
+
+	@Test
+	public void testShouldErased() {
+		re.shouldErased(re.getMatchingScaleInformer(gp.getBoard(), 3, 3, gp.getBoard().cellAt(2, 3).getCurrentObject()));
+	}
+
+	@Test
+	public void testGameEndedByMovements() {
+		assertTrue(re.gameEndedByMovements(0) && re.gameEndedByMovements(-1) && !re.gameEndedByMovements(1));
+	}
+
+	@Test
+	public void testGetStandardScore() {
+		Board b = new Board(10, 10);
+		b.fillCellAt(3, 1, new Lokum("red rose"));
+		b.fillCellAt(3, 2, new Lokum("red rose"));
+		b.fillCellAt(2, 3, new Lokum("red rose"));
+		gp.setLevel(new Level(10000, 10, b, 1));
+		MatchingScaleInformer msi = re.getMatchingScaleInformer(gp.getBoard(), 3, 3, b.cellAt(2, 3).getCurrentObject());
+		
+		assertTrue(re.getStandardScore(1, msi) > 0);
+	}
+
+	@Test
+	public void testGetSpecialityCode() {
+		Board b = new Board(10, 10);
+		b.fillCellAt(3, 1, new Lokum("red rose"));
+		b.fillCellAt(3, 2, new Lokum("red rose"));
+		b.fillCellAt(3, 3, new Lokum("red rose"));
+		b.fillCellAt(3, 4, new Lokum("red rose"));
+		b.fillCellAt(3, 5, new Lokum("red rose"));
+		b.fillCellAt(3, 6, new Lokum("red rose"));
+		gp.setLevel(new Level(10000, 10, b, 1));
+		MatchingScaleInformer msi = re.getMatchingScaleInformer(gp.getBoard(), 3, 3, b.cellAt(2, 3).getCurrentObject());
+		
+		assertTrue(re.getSpecialityCode(msi) != re.REGULAR);
+	}
+
+	@Test
+	public void testIsSpecialCase() {
+		assertTrue(re.isSpecialCase(re.COLOR_BOMB) &&
+				re.isSpecialCase(re.HSTRIPED) &&
+				re.isSpecialCase(re.VSTRIPED) &&
+				re.isSpecialCase(re.WRAPPED)
+				);
+	}
+
+	@Test
+	public void testGetRelevantSpecialObject() {
+		String[] nt = Lokum.possibleTypes.clone();
+		int[] st = new int[4];
+		st[0] = RuleEngine.COLOR_BOMB;
+		st[1] = re.HSTRIPED;
+		st[2] = re.VSTRIPED;
+		st[3] = RuleEngine.WRAPPED;
+
+		for( String n : nt){
+			for( int s : st){
+				Lokum sp = re.getRelevantSpecialObject(n, s);
+				if(!sp.isSpecial() || !Lokum.class.isInstance(sp)) fail("sp not special lokum");
+			}
+		}
+	}
+
+	@Test
+	public void testGetRelevantCreationScore() {
+		assertTrue(re.getRelevantCreationScore(re.COLOR_BOMB) == 200 &&
+				re.getRelevantCreationScore(re.WRAPPED) == 200 &&
+				re.getRelevantCreationScore(re.VSTRIPED) == 120 &&
+				re.getRelevantCreationScore(re.HSTRIPED) == 120
+				);
+	}
+
+	@Test
+	public void testGetSpecialMoveScore() {
+		gp.getBoard().fillCellAt(0, 0, new Lokum("red rose", "Color Bomb"));
+		gp.getBoard().fillCellAt(0, 1, new Lokum("red rose", "Wrapped"));
+		assertTrue( re.getSpecialMoveScore(0, 0, 0, 1, gp.getBoard(), (Lokum)gp.getBoard().cellAt(0, 0).getCurrentObject(), (Lokum)gp.getBoard().cellAt(0, 1).getCurrentObject()) != 0);
+	}
+
+	@Test
+	public void testGetUsingScore() {
+		gp.getBoard().fillCellAt(0, 0, new Lokum("red rose", "Horizontal Striped"));
+		assertTrue( re.getUsingScore(0, 0, gp.getBoard(), (Lokum)gp.getBoard().cellAt(0, 0).getCurrentObject()) != 0);
 	}
 
 }
