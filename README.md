@@ -9,7 +9,7 @@ The game takes candy crash saga and bejeweld as examples.
 
 
 |Group Members
-|------|----------
+|-------------------
 |Nickname | Real Name
 |------|----------
 |mebegu | Berk
