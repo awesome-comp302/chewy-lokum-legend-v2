@@ -14,6 +14,7 @@ public class Level {
 
 
 	/**
+	 * -Going to be removed-
 	 * Note: Some optimizations should be done to constructor.
 	 * @requires
 	 * board class exists and accessible from the Level, 
@@ -40,12 +41,28 @@ public class Level {
 		this.board = board;
 	}
 	
+	
+	
+	
+	/**
+	 * @param
+	 * levelVars Level variables which will determine the instances of the class.
+	 * levelMode Level modes which will determine the active modes.
+	 * 
+	 * 
+	 * @modifies
+	 * passingScore, levelId, board, allLevelIds, possibleMovements, time, specialMoveCount, levelModes
+	 * @throws
+	 * IllegalArgumentException, if one of the setters request it.
+	 * 
+	 */
 	public Level(int[] levelVars, boolean[] levelMode) throws IllegalArgumentException{
+		setLevelModes(levelMode);
 		setPassingScore(levelVars);
 		setPossibleMovements(levelVars);
 		setSpecialMoveCount(levelVars);
 		setTime(levelVars);
-		setLevelModes(levelMode);
+		setLevelId(levelVars);
 		
 		board = new Board(10,10);
 		
@@ -69,6 +86,7 @@ public class Level {
 		return levelId;
 	}
 
+	
 	/**
 	 * 
 	 * @return the passing score of the level
@@ -84,17 +102,24 @@ public class Level {
 		return possibleMovements;
 	}
 	
-	
+	/**
+	 * @return the current time state of level.
+	 */
 	public int getTime() {
 		return time;
 	}
 	
+	
+	/**
+	 * @return the current special move state
+	 */
 	public int getSpecialMoveCount() {
 		return specialMoveCount;
 	}
 	
 
 	/**
+	 * -Going to be removed-
 	 * Clears the LevelIDs list's history 
 	 */
 	public static void clearLevelIDs(){
@@ -102,53 +127,129 @@ public class Level {
 	}
 
 
+	/**
+	 * @modifies the passing score of level
+	 * @throws IllegalArgumentException - if the passing score is not positive
+	 */
 	private void setPassingScore(int[] levelVars) {
-		this.passingScore = levelVars[0];
+		passingScore = levelVars[0];
+		
+		if (passingScore <= 0) {
+			throw new IllegalArgumentException("Passing score should be positive");
+		}
 	}
 
+	/**
+	 * @modifies the possible move number of level
+	 * @throws IllegalArgumentException - if the possible move number is not positive
+	 */
 	private void setPossibleMovements(int[] levelVars) {
-		this.possibleMovements = levelVars[1];
+		possibleMovements = levelVars[1];
+		
+		if (possibleMovements <= 0) {
+			throw new IllegalArgumentException("Possible moves should be positive");
+		}
 	}
 	
+
+	/**
+	 * @modifies the timer of level
+	 * @throws IllegalArgumentException - if the timer is activated but it is not positive
+	 */
 	private void setTime(int[] levelVars) {
-		this.time = levelVars[2];
+		time = levelVars[2];
+		
+		if (time <= 0 && hasTimer()) {
+			throw new IllegalArgumentException("Timer should be positive");
+		}
 	}
 	
+	
+	/**
+	 * @modifies the special move number of level
+	 * @throws IllegalArgumentException - if the special move is activated but it is not positive
+	 */
 	private void setSpecialMoveCount(int[] levelVars) {
-		this.specialMoveCount = levelVars[3];
+		specialMoveCount = levelVars[3];
+		
+		if (specialMoveCount <= 0 && hasSpecialMove()) {
+			throw new IllegalArgumentException("Special moves should be positive");
+		}
+	}
+	
+	/**
+	 * @modifies the level id of level
+	 */
+	private void setLevelId(int[] levelVars) {
+		this.levelId = levelVars[4];
 	}
 	
 	
+	/**
+	 * @modifies the level modes of level
+	 */
 	private void setLevelModes(boolean[] levelModes) {
 		this.levelModes = levelModes;
 	}
 	
 	
+	/**
+	 * Reduces special move number by one.
+	 * @modifies Special move number
+	 */
 	public void useSpecialMove(){
 		specialMoveCount--;
 	}
 	
+	/**
+	 * Reduces possible move number by one.
+	 * @modifies possible move number
+	 */
+	public void useMove(){
+		possibleMovements--;
+	}
+	
+	/**
+	 * Increases timer by five.
+	 * @modifies Timer
+	 */
 	public void boostTime(){
 		time += 5;
 	}
 	
+	/**
+	 * Reduces timer by one.
+	 * @modifies Timer
+	 */
 	public void countDownTimer(){
 		time--;
 	}
 
 	
+	/**
+	 * @return True, if special lokum mode is activated.
+	 */
 	public boolean hasSpecialLokums(){
 		return levelModes[0];
 	}
 	
+	/**
+	 * @return True, if timer mode is activated.
+	 */
 	public boolean hasTimer(){
 		return levelModes[1];
 	}
 	
+	/**
+	 * @return True, if timer lokum mode is activated.
+	 */
 	public boolean hasTimerLokum(){
 		return levelModes[2];
 	}
 	
+	/**
+	 * @return True, if special move mode is activated.
+	 */
 	public boolean hasSpecialMove(){
 		return levelModes[3];
 	}
@@ -168,10 +269,13 @@ public class Level {
 		if (levelId < 0)
 			return false;
 		
-		if (!allLevelIds.contains(levelId))
+		if (levelModes == null)
 			return false;
 		
 		if(board == null || !board.repOk())
+			return false;
+		
+		if (levelModes == null)
 			return false;
 		
 		
@@ -179,18 +283,28 @@ public class Level {
 	}
 
 	/**
-	Returns the data of the board as a formatted String.
+	@return the data of the board as a formatted String.
 	 */
 	@Override
 	public String toString() {
 
 		return  "\nLEVEL INFO \n"+
+				"=======================\n"+
+				"Level Mode: \n"+
+				"------\n"+
+				"Special lokum mode: " +hasSpecialLokums()+"\n"+
+				"Timer mode: " +hasTimer()+"\n"+
+				"Timer lokum mode: " +hasTimerLokum()+"\n"+
+				"Special move mode: " +hasSpecialMove()+"\n"+
+				"------\n"+
+				"Level instances: \n"+
+				"------\n"+
 				"Level ID: " +levelId+ "\n"+
 				"Passing Score: " +passingScore+ "\n"+
 				"Possible Movements: " +possibleMovements+ "\n"+
-				"**"+
-				board.status() + "\n"+
-				"**\n"+
-				"Possible Movements: "  +  possibleMovements;
+				"Current timer status: " +time+ "\n"+
+				"Special number count: " +specialMoveCount+ "\n"+
+				"=======================\n"+
+				board.status();
 	}
 }

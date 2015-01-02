@@ -3,6 +3,37 @@
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+		*02 January 2015   20:00*
+_________________________________________________________
+
+1. New features:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+a.   LevelData initialization is much more clear.
+
+b.   JavaDocs for Level, LevelData are completed.
+
+
+_________________________________________________________
+
+2. Description:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+a.   Level and LevelData is almost has the final shape.
+When we remove the unnecessary, These classes will be 
+completed.
+
+
+_________________________________________________________
+
+3. Upcoming Objectives:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+a.   XML reader and writer should be revised.
+
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 		*02 January 2015   18:40*
 _________________________________________________________
 
