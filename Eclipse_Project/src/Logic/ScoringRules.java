@@ -2,7 +2,7 @@ package Logic;
 
 
 public interface ScoringRules {
-	public int getMatchingScore(Object o);
+	public int getMatchingScore(MatchingScaleInformer msi);
 	public int getCreationScore(ChewyObject co);
-	int getSwapScore(Move m);
+	int getSwapScore(Move m, Board b);
 }

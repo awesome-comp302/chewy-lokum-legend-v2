@@ -38,7 +38,24 @@ public class RuleEngine {
 	 * @param y1
 	 * 
 	 */
-	public MatchingScaleInformer getMatchingScaleInformer(Board board, int x1,
+	
+	public SwapRules getSwapRules(Move move) {
+		if (move.isSpecial()) {
+			return SpecialSwapRules.getInstance();
+		}
+		
+		return NormalSwapRules.getInstance();
+	}
+
+	public ScoringRules getScoringRules(GamePlay gp) {
+		return StandardScoringRules.getInstance();
+	}
+
+	
+	
+	
+	
+	/*public MatchingScaleInformer getMatchingScaleInformer(Board board, int x1,
 			int y1, ChewyObject object) {
 
 		MatchingScaleInformer info = new MatchingScaleInformer();
@@ -135,11 +152,11 @@ public class RuleEngine {
 		return sum;
 	}
 
-	/*
+	
 	 * private int countVert(Board board, int x1, int y1, Matchable candidate) {
 	 * return 1 + countTop(board, x1, y1, candidate) + countBottom(board, x1,
 	 * y1, candidate); }
-	 */
+	 
 
 	private int countBottom(Board board, int x1, int y1, Matchable candidate) {
 		int sum = 0;
@@ -189,10 +206,10 @@ public class RuleEngine {
 		return true;
 	}
 
-	/*
+	
 	 * Left and up scale should only stand for checking whether the cell was
 	 * matched previously check always occurs from left to right and up to down
-	 */
+	 
 	public int getStandardScore(int eraseCount, MatchingScaleInformer msi) {
 		if (msi.getLeftScale() > 0) {
 			return 0;
@@ -275,10 +292,10 @@ public class RuleEngine {
 				|| specialityCode == WRAPPED || specialityCode == COLOR_BOMB;
 	}
 
-	/**
+	*//**
 	 * @requires specialityCode should reference to a special case
 	 * @param specialityCode
-	 */
+	 *//*
 	public Lokum getRelevantSpecialObject(String initialType, int specialityCode) {
 		Lokum sl = null;
 
@@ -437,7 +454,7 @@ public class RuleEngine {
 			}
 		}
 		return n;
-	}
+	}*/
 	
 
 }

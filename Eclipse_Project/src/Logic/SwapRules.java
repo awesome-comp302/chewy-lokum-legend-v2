@@ -1,5 +1,5 @@
 package Logic;
 
 public interface SwapRules {
-	public boolean isValid(Move move);
+	public boolean isValid(GamePlay gp, Move move);
 }
