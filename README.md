@@ -1,14 +1,19 @@
-Musketeer's Chewy Lokum Legend  *version 2*
+#
+##
+###Musketeer's Chewy Lokum Legend  *version 2*
 =====================
 
-Project Description:
+
+####
+
+#####Project Description:
 -------
 
 This is a match-three puzzle game.
 The game takes candy crash saga and bejeweld as examples.
 
 
-Group Members:
+#####Group Members:
 ----------------
 
 |Nickname | Real Name
