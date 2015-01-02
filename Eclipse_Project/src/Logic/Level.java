@@ -8,6 +8,9 @@ public class Level {
 	private Board board;
 	private static ArrayList<Integer> allLevelIds = new ArrayList<Integer>();
 	private int possibleMovements;
+	private int time;
+	private int specialMoveCount;
+	private boolean[] levelModes;
 
 
 	/**
@@ -36,7 +39,20 @@ public class Level {
 		allLevelIds.add(levelId);
 		this.board = board;
 	}
+	
+	public Level(int[] levelVars, boolean[] levelMode) throws IllegalArgumentException{
+		setPassingScore(levelVars);
+		setPossibleMovements(levelVars);
+		setSpecialMoveCount(levelVars);
+		setTime(levelVars);
+		setLevelModes(levelMode);
+		
+		board = new Board(10,10);
+		
+	}
 
+	
+	
 	/**
 	 * 
 	 * @return the board of the level
@@ -68,6 +84,15 @@ public class Level {
 		return possibleMovements;
 	}
 	
+	
+	public int getTime() {
+		return time;
+	}
+	
+	public int getSpecialMoveCount() {
+		return specialMoveCount;
+	}
+	
 
 	/**
 	 * Clears the LevelIDs list's history 
@@ -75,7 +100,58 @@ public class Level {
 	public static void clearLevelIDs(){
 		allLevelIds = new ArrayList<Integer>();
 	}
+
+
+	private void setPassingScore(int[] levelVars) {
+		this.passingScore = levelVars[0];
+	}
+
+	private void setPossibleMovements(int[] levelVars) {
+		this.possibleMovements = levelVars[1];
+	}
 	
+	private void setTime(int[] levelVars) {
+		this.time = levelVars[2];
+	}
+	
+	private void setSpecialMoveCount(int[] levelVars) {
+		this.specialMoveCount = levelVars[3];
+	}
+	
+	
+	private void setLevelModes(boolean[] levelModes) {
+		this.levelModes = levelModes;
+	}
+	
+	
+	public void useSpecialMove(){
+		specialMoveCount--;
+	}
+	
+	public void boostTime(){
+		time += 5;
+	}
+	
+	public void countDownTimer(){
+		time--;
+	}
+
+	
+	public boolean hasSpecialLokums(){
+		return levelModes[0];
+	}
+	
+	public boolean hasTimer(){
+		return levelModes[1];
+	}
+	
+	public boolean hasTimerLokum(){
+		return levelModes[2];
+	}
+	
+	public boolean hasSpecialMove(){
+		return levelModes[3];
+	}
 	
 	/**
 	 * Checks whether all data of the class is set legally 

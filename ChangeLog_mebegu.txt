@@ -3,6 +3,45 @@
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+		*02 January 2015   18:40*
+_________________________________________________________
+
+1. New features:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+a.   A new constructor is added to Level.java
+
+b.   Time, special move count and modes are added to 
+Level.java
+
+c.   All setters and getters are arranged for Level.java
+
+
+_________________________________________________________
+
+2. Description:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+a.   Level.java has new constructor now. I keep the old
+one because if I remove it, we need to change all tests
+and other classes.
+
+
+_________________________________________________________
+
+3. Upcoming Objectives:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+a.   Implementing more convinient level data creation.
+
+b.   JavaDocs for new methods.
+
+c.   XML reader and writer should be revised.
+
+
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 		*28 December 2014   15:40*
 _________________________________________________________
 
@@ -18,7 +57,7 @@ c.   New javaDocs are added for GamePlay, Board, Level,
 
 _________________________________________________________
 
-1. Changes:
+2. Changes:
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 a.   repOk() method is added to WriteXMLFile Class.
 
@@ -45,7 +84,7 @@ b.   A new alternative of UpdateBoard added (Can's version)
 
 _________________________________________________________
 
-1. Changes:
+2. Changes:
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 a.   Syntax and naming errors are revised.
 
@@ -68,7 +107,7 @@ a.   New sequence diagram is added.
 
 _________________________________________________________
 
-1. Changes:
+2. Changes:
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 a.   Some minor changes in design raw material.
 
@@ -100,7 +139,7 @@ a.   New sequence diagrams are added.
 
 _________________________________________________________
 
-1. Changes:
+2. Changes:
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 a.   Location of ChangeLog_mebegu is moved from 
 Eclipse_Project to root folder.
@@ -124,7 +163,7 @@ we do not have any gui, so all gui update part is missing.
 
 _________________________________________________________
 
-1. Changes:
+2. Changes:
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 a.   update() method of Gameplay is revised. It does not
 require looping, when it used. Now, method has its own
@@ -140,7 +179,7 @@ They do not need to be called from outside of class.
 
 _________________________________________________________
 
-1. Discovered Issues & Bugs:
+3. Discovered Issues & Bugs:
 ---------------------------------------------------------
 
 >> Major issues
@@ -175,7 +214,7 @@ GamePlay.java .
 
 _________________________________________________________
 
-1. Discovered Issues & Bugs:
+2. Discovered Issues & Bugs:
 ---------------------------------------------------------
 
 a. Check method is working wrong sometimes. Because of 
@@ -214,7 +253,7 @@ b. isThereAvailableMove() function added to GamePlay class.
 
 _________________________________________________________
 
-1. Discovered Issues & Bugs:
+2. Discovered Issues & Bugs:
 ---------------------------------------------------------
 
 a.  Check method is working wrong sometimes. I couldn't 
