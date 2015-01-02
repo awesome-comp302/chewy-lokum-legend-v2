@@ -31,7 +31,9 @@ For version 1 [Visit Here](https://github.com/awesome-comp302/chewy-lokum-legend
 ---------------
 
 *This project has educational purpose. No copyright intended.*
+
 *Koc University, Comp302 Software Engineering Course*
+
 *Group 10*
  
  
