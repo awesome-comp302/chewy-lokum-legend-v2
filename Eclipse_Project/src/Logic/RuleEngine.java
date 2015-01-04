@@ -16,6 +16,9 @@ public class RuleEngine {
 	public static final int HSTRIPED = 8;
 	public static final int WRAPPED = 5;
 	public static final int COLOR_BOMB = 6;
+	
+	public static final int SPECIAL_ERASE = 1;
+	public static final int NORMAL_ERASE = 2;
 
 	public static final int MINIMUM_MATCH_REQUIRED = 3;
 
@@ -51,45 +54,17 @@ public class RuleEngine {
 		return StandardScoringRules.getInstance();
 	}
 
-	public boolean shouldErased(MatchingScaleInformer currentMSI) {
+	public EraseRules getEraseRules(int sel) {
 		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public int getSpecialityCode(MatchingScaleInformer currentMSI) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public boolean isSpecialCase(int specialityCode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public int getRelevantCreationScore(int specialityCode) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public ChewyObject getRelevantSpecialObject(String type, int specialityCode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public int getStandardScore(int eraseCount,
-			MatchingScaleInformer matchingScaleInformer) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public boolean isSwappable(Board board, int i, int j, int k, int j2) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean gameEndedByMovements(int movementsLeft) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		switch (sel) {
+		case NORMAL_ERASE:
+			return NormalEraseRules.getInstance();
+		case SPECIAL_ERASE:
+			return SpecialEraseRules.getInstance();
+		default:
+			return null;
+		}
 	}
 
 	

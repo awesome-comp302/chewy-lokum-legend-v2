@@ -321,20 +321,6 @@ public void initBoard() {
 	 *
 	 * @param scaleMatrix the scale matrix
 	 */
-	public void eraseAllMatches(MatchingScaleInformer[][] scaleMatrix) {
-		
-		
-		for (int i = 0; i < board.getWidth(); i++) {
-			for (int j = 0; j < board.getHeight(); j++) {
-				MatchingScaleInformer currentMSI = scaleMatrix[j][i];
-				if (rules.shouldErased(currentMSI)) {
-					eraseForNormal(currentMSI, i, j);
-
-				}
-				
-			}
-		}
-	}
 
 
 	private void eraseForNormal(MatchingScaleInformer currentMSI, int i, int j) {

@@ -107,34 +107,63 @@ public class BoardUpdater {
 	 * @ensures  relevant deletions in the game.level.board were done, scoreIncrease is updated based on rules
 	 */
 	public void eraseAll(){
-		MatchingScaleInformer[][] scaleMatrix = generateScaleMatrix();
-		eraseForSpecials();
-		eraseForNormals();
+		eraseForNormal();
+		eraseForSpecial();
+	}
+
+
+	private void eraseForSpecial() {
+		scoreIncrease += calculateSpecialScore();
+		Board board = gp.getLevel().getBoard();
+		EraseRules eraseRules = rules.getEraseRules(RuleEngine.SPECIAL_ERASE);
+		for (int x = 0; x < board.getWidth(); x++) {
+			for (int y = 0; y < board.getHeight(); y++) {
+				Position p = new Position(x, y);
+				if (eraseRules.shouldErased(EraseRules.PERSISTENT, gp, null, p)) {
+					ChewyObject current = board.cellAt(x, y).getCurrentObject();
+					if (!(current instanceof Nothing)) {
+						board.fillCellAt(x, y, new Nothing());
+					}
+				}
+			}
+		}
+	}
+
+
+	private void eraseForNormal() {
+		EraseRules eraseRules = rules.getEraseRules(RuleEngine.NORMAL_ERASE);
+		MatchingScaleInformer scaleMatrix[][] = generateScaleMatrix();
+		scoreIncrease += calculateMatchingScore(scaleMatrix);
+		Board board = gp.getLevel().getBoard();
+		for (int i = 0; i < scaleMatrix.length; i++) {
+			for (int j = 0; j < scaleMatrix[0].length; j++) {
+				int x = j;
+				int y = i;
+				if (eraseRules.shouldErased(null, scaleMatrix[i][j], new Position(x, y))) {
+					ChewyObject current = board.cellAt(x, y).getCurrentObject();
+					if (!(current instanceof Nothing)) {
+						board.fillCellAt(x, y, new Nothing());
+					}
+				}
+			}
+		}
+	}
+
+
+	private int calculateMatchingScore(MatchingScaleInformer[][] scaleMatrix) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
-	private void eraseForNormals() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	private void eraseForSpecials() {
-		Move lastMove = gp.getLastMove();
-		//
-	}
-
-
-	private void eraseForOneColorBomb() {
-		
-		
+	private int calculateSpecialScore() {
+		return 0;
 	}
 
 
 	private MatchingScaleInformer[][] generateScaleMatrix() {
 		Board board = gp.getLevel().getBoard();
 		MatchingScaleInformerFactory factory = MatchingScaleInformerFactory.getInstance();
-		MatchingScaleInformer[][] scaleMatrix = new MatchingScaleInformer[board
-				.getHeight()][board.getWidth()];
+		MatchingScaleInformer[][] scaleMatrix = new MatchingScaleInformer[board.getHeight()][board.getWidth()];
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
 				scaleMatrix[j][i] = factory.getMatchingScaleInformer(board, i, j,
