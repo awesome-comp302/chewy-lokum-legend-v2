@@ -15,32 +15,16 @@ public class MainMenuWindow extends JFrame {
 	private JButton loadGameButton;
 	private JButton exitButton;
 	MainMenuController controller;
+	private JButton selectLevel;
 	
 	public MainMenuWindow() {
 		super("Game");
-		controller = new MainMenuController(this);
-		setResizable(false);
-		setLocationRelativeTo(null);
-		setUndecorated(true);
-		getRootPane().setWindowDecorationStyle(3);
-		setVisible(true);
-		setLayout(new GridLayout(3, 1));
-		setSize(300, 400);
+		
+		prepareFrame();
 		
 		Interact interact = new Interact();
 		
-		startGameButton = new JButton("Start");
-		add(startGameButton);
-		startGameButton.addActionListener(interact);
-		
-		loadGameButton = new JButton("Load");
-		add(loadGameButton);
-		loadGameButton.addActionListener(interact);
-		
-		
-		exitButton = new JButton("Exit");
-		add(exitButton);
-		exitButton.addActionListener(interact);
+		addButtons(interact);
 		
 		
 	}
@@ -52,13 +36,47 @@ public class MainMenuWindow extends JFrame {
 			Object srcButton =  e.getSource();
 			if (srcButton == startGameButton) {
 				controller.startButtonClicked();
+			} else if (srcButton == selectLevel) {
+				controller.levelButtonClicked();
+				
 			} else if (srcButton == loadGameButton) {
 				controller.loadButtonClicked();
+				
 			} else if (srcButton == exitButton) {
 				controller.exitButtonClicked();
 			}
 		}
 		
 		
+	}
+	
+	private void addButtons(Interact interact){
+		startGameButton = new JButton("Start");
+		add(startGameButton);
+		startGameButton.addActionListener(interact);
+		
+		selectLevel = new JButton("Select Level");
+		add(selectLevel);
+		selectLevel.addActionListener(interact);
+		
+		loadGameButton = new JButton("Load");
+		add(loadGameButton);
+		loadGameButton.addActionListener(interact);
+		
+		
+		exitButton = new JButton("Exit");
+		add(exitButton);
+		exitButton.addActionListener(interact);
+	}
+	
+	private void prepareFrame(){
+		controller = new MainMenuController(this);
+		setResizable(false);
+		setLocationRelativeTo(null);
+		setUndecorated(true);
+		getRootPane().setWindowDecorationStyle(3);
+		setVisible(true);
+		setLayout(new GridLayout(4, 1));
+		setSize(300, 400);
 	}
 }

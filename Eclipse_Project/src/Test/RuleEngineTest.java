@@ -1,4 +1,4 @@
-package Test;
+/*package Test;
 
 import static org.junit.Assert.*;
 
@@ -88,7 +88,7 @@ public class RuleEngineTest {
 		 * W W R
 		 * R 
 		 * R
-		 */
+		 *//*
 		b.fillCellAt(0, 0, new Lokum("white coconut"));
 		b.fillCellAt(1, 0, new Lokum("white coconut"));
 		b.fillCellAt(0, 1, new Lokum("red rose"));
@@ -203,7 +203,7 @@ public class RuleEngineTest {
 	 * NOTE:
 	 * Why no invalid board options?
 	 *  - The method assumes a valid board
-	 */
+	 *//*
 	
 	@Test
 	public void testGetMatchingScaleInformer1() {
@@ -259,7 +259,7 @@ public class RuleEngineTest {
 	 * 2	Both horiz > MINMATCHREQUIRED
 	 * 3	Both vertical > MINMATCHREQUIRED
 	 * 4	None > MINMATCHREQUIRED
-	 */
+	 *//*
 
 	@Test
 	public void testShouldErased1() {
@@ -272,7 +272,7 @@ public class RuleEngineTest {
 	 * 1	-1
 	 * 2	0
 	 * 3	1
-	 */
+	 *//*
 
 	@Test
 	public void testGameEndedByMovementsAll() {
@@ -287,7 +287,7 @@ public class RuleEngineTest {
 	 * 3	right >= MIN-1, bot < MIN-1
 	 * 4	right < MIN-1, bot >= MIN-1
 	 * 5	both > MIN-1
-	 */
+	 *//*
 
 	@Test
 	public void testGetStandardScore1() {
@@ -335,7 +335,7 @@ public class RuleEngineTest {
 	 * 3	hms == 4
 	 * 4	vms = 4
 	 * 5	none of the above
-	 */
+	 *//*
 
 	@Test
 	public void testGetSpecialityCode1() {
@@ -384,7 +384,7 @@ public class RuleEngineTest {
 	 * 3	VS
 	 * 4	WR
 	 * 5	N/A
-	 */
+	 *//*
 
 	@Test
 	public void testIsSpecialCaseAll() {
@@ -402,7 +402,7 @@ public class RuleEngineTest {
 	 * X	All combinations of regular/special types
 	 * 1	bad reg string
 	 * 2	null string(s)
-	 */
+	 *//*
 
 	@Test
 	public void testGetRelevantSpecialObjectX12() {
@@ -430,7 +430,7 @@ public class RuleEngineTest {
 	 * 2	WR
 	 * 3	VS
 	 * 4	HS
-	 */
+	 *//*
 	
 	@Test
 	public void testGetRelevantCreationScoreAll() {
@@ -445,7 +445,7 @@ public class RuleEngineTest {
 	 * GetSpecialMoveScore
 	 * Feature Space:
 	 * X	Each combo of special lokum
-	 */
+	 *//*
 
 	@Test
 	public void testGetSpecialMoveScoreX() {
@@ -463,7 +463,7 @@ public class RuleEngineTest {
 	 * GetUsingScore
 	 * Feature Space:
 	 * X	Specials
-	 */
+	 *//*
 	
 	@Test
 	public void testGetUsingScoreX() {
@@ -473,4 +473,4 @@ public class RuleEngineTest {
 		}
 	}
 
-}
+}*/

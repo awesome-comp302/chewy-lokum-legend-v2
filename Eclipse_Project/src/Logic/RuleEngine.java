@@ -51,6 +51,47 @@ public class RuleEngine {
 		return StandardScoringRules.getInstance();
 	}
 
+	public boolean shouldErased(MatchingScaleInformer currentMSI) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public int getSpecialityCode(MatchingScaleInformer currentMSI) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public boolean isSpecialCase(int specialityCode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public int getRelevantCreationScore(int specialityCode) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public ChewyObject getRelevantSpecialObject(String type, int specialityCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int getStandardScore(int eraseCount,
+			MatchingScaleInformer matchingScaleInformer) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public boolean isSwappable(Board board, int i, int j, int k, int j2) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean gameEndedByMovements(int movementsLeft) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	
 	
 	

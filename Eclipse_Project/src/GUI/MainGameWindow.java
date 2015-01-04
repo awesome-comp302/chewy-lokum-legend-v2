@@ -17,6 +17,7 @@ import Controller.MainGameWindowController;
 import Logic.Board;
 import Logic.Cell;
 import Logic.GamePlay;
+import Logic.Lokum;
 
 
 @SuppressWarnings("serial")
@@ -37,6 +38,7 @@ public class MainGameWindow extends JFrame {
 	private int score;
 	private int remMove;
 	private MainGameWindowController controller;
+
 	
 	public MainGameWindow(GamePlay gap){
 		super("Game");
@@ -49,7 +51,7 @@ public class MainGameWindow extends JFrame {
 		getRootPane().setWindowDecorationStyle(2);
 		
 		getContentPane().setLayout(new GridBagLayout());
-		setSize(800, 600);
+		setSize(800, 850);
 		setLocationRelativeTo(null);
 		interact = new Interact();
 		GridBagConstraints c = new GridBagConstraints();
@@ -111,7 +113,7 @@ public class MainGameWindow extends JFrame {
 		//saveExitButton.addActionListener(interact);	
 		
 		boardHolder = new JPanel();
-		boardHolder.setBackground(Color.blue);
+		boardHolder.setBackground(Color.white);
 		c.anchor = GridBagConstraints.LAST_LINE_START;
 		c.fill = GridBagConstraints.BOTH;
 		c.gridwidth = 0;
@@ -217,8 +219,15 @@ public class MainGameWindow extends JFrame {
 		buttonHolder.updateUI();
 	}
 
-	public static void playTheGame(GamePlay gp2) {
-		// TODO Auto-generated method stub
+	public static void playTheGame(GamePlay gp) {
+		
+		@SuppressWarnings("unused")
+		MainGameWindow gameScreen = new MainGameWindow(gp);
+		
+		gp.getBoard().fillCellAt(0, 0, new Lokum("brown hazelnut", "Regular"));
+		gp.fillAllNothingsRandomly();
+		gameScreen.updateBoard(gp);
+		
 		
 	}
 }

@@ -1,6 +1,11 @@
 package GUI;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -9,7 +14,7 @@ import Logic.ChewyObject;
 import Logic.Lokum;
 
 @SuppressWarnings("serial")
-public class CellButton extends JButton{
+public class CellButton extends JLabel{
 		public int coordX;
 		public int coordY;
 		public CellButton(Cell c, int i, int j){
@@ -19,7 +24,20 @@ public class CellButton extends JButton{
 			ChewyObject co = c.getCurrentObject();
 			String type = co.getType();
 			
-			if (co instanceof Lokum) {
+            BufferedImage icon = null;
+			try {
+				icon = ImageIO.read(new File("example.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            setIcon(new ImageIcon(icon));
+            setHorizontalAlignment(JLabel.CENTER);
+            setVerticalAlignment(JLabel.CENTER);
+            setHorizontalTextPosition(JLabel.CENTER);
+            setVerticalTextPosition(JLabel.CENTER);
+			
+			/*if (co instanceof Lokum) {
 				
 				Lokum l = (Lokum)co;
 				if (!l.getSpecialType().equalsIgnoreCase("regular")) {
@@ -40,7 +58,7 @@ public class CellButton extends JButton{
 			}else{
 				setBackground(Color.GRAY);
 				setText("");
-			}
+			}*/
 			
 			
 			

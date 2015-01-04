@@ -2,6 +2,7 @@ package Controller;
 import java.io.File;
 
 import GUI.MainMenuWindow;
+import GUI.SelectLevelWindow;
 
 
 public class MainMenuController {
@@ -23,6 +24,17 @@ public class MainMenuController {
 		view.dispose();
 	}
 	
+
+	public void levelButtonClicked() {
+		view.dispose();
+		
+		@SuppressWarnings("unused")
+		SelectLevelWindow sl = new SelectLevelWindow(); 
+		
+		
+		
+	}
+	
 	public void loadButtonClicked() {
 		
 		
@@ -35,4 +47,5 @@ public class MainMenuController {
 	public void exitButtonClicked() {
 		System.exit(0);
 	}
+
 }
