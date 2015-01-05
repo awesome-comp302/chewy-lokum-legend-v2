@@ -31,15 +31,20 @@ public class MainGameWindow extends JFrame {
 	private JPanel	buttonHolder;
 	private JPanel 	boardPanel;
 	private Interact interact;
+	private Color uiColor = new Color(154,173,180);
+	private Color gameColor = new Color(100,180,150);
 	
 	private GamePlay gp;
 	private int score;
 	private int remMove;
+	CellButton buttons[][];
 	private MainGameWindowController controller;
 
 	
 	public MainGameWindow(GamePlay gap){
 		super("Game");
+		gp = gap;
+		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		controller = new MainGameWindowController(this);
 		
@@ -49,13 +54,13 @@ public class MainGameWindow extends JFrame {
 		getRootPane().setWindowDecorationStyle(2);
 		
 		getContentPane().setLayout(new GridBagLayout());
-		setSize(800, 850);
+		setSize(600, 600);
 		setLocationRelativeTo(null);
 		interact = new Interact();
 		GridBagConstraints c = new GridBagConstraints();
 		
 		buttonHolder = new JPanel();
-		buttonHolder.setBackground(Color.RED);
+		buttonHolder.setBackground(uiColor);
 		c.gridx = 0;
 		c.gridy = 0;
 		c.anchor = GridBagConstraints.PAGE_START;
@@ -111,7 +116,7 @@ public class MainGameWindow extends JFrame {
 		//saveExitButton.addActionListener(interact);	
 		
 		boardHolder = new JPanel();
-		boardHolder.setBackground(Color.white);
+		boardHolder.setBackground(gameColor);
 		c.anchor = GridBagConstraints.LAST_LINE_START;
 		c.fill = GridBagConstraints.BOTH;
 		c.gridwidth = 0;
@@ -122,15 +127,33 @@ public class MainGameWindow extends JFrame {
 		add(boardHolder,c);
 		
 		boardPanel = new JPanel();
-		updateBoard(gap);
 		c.anchor = GridBagConstraints.LAST_LINE_START;
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 0.9;
 		c.weighty = 0.9;
+
+		boardPanel.setBackground(gameColor);
+		
 		boardHolder.add(boardPanel,c);
 		boardHolder.setVisible(true);
+
+		
+		Board b = gp.getBoard();
+		
+		buttons = new CellButton[b.getHeight()][b.getWidth()];
+		
+		for(int i = 0; i < b.getWidth(); i++){
+			for(int j = 0; j < b.getHeight(); j++){
+				Cell curr = b.cellAt(j, i);
+				buttons[j][i] = new CellButton(curr,j,i);
+				boardPanel.add(buttons[j][i]);
+				buttons[j][i].addMouseListener(interact);
+			}
+		}
+		
+		updateBoard(gap);
 		
 		
 		//pack();
@@ -197,7 +220,7 @@ public class MainGameWindow extends JFrame {
 			boardPanel.add(lost);
 		} else {
 			this.gp = gp;
-			Board b = gp.getLevel().getBoard();
+			Board b = gp.getBoard();
 			
 			boardPanel.setLayout(new GridLayout(b.getHeight(),b.getWidth()));
 			
@@ -207,22 +230,23 @@ public class MainGameWindow extends JFrame {
 			for(int i = 0; i < b.getWidth(); i++){
 				for(int j = 0; j < b.getHeight(); j++){
 					Cell curr = b.cellAt(j, i);
-					CellButton cb = new CellButton(curr,j,i);
-					boardPanel.add(cb);
-					cb.addMouseListener(interact);
+					buttons[j][i].updateButton(curr);
+					boardPanel.add(buttons[j][i]);
 				}
 			}
+			
 		}
 		boardPanel.updateUI();
 		buttonHolder.updateUI();
 	}
 
 	public static void playTheGame(GamePlay gp) {
+		gp.getBoard().fillCellAt(0, 0, new Lokum("brown hazelnut", "Regular"));
+		gp.fillAllNothingsRandomly();
+		
 		
 		MainGameWindow gameScreen = new MainGameWindow(gp);
 		
-		gp.getBoard().fillCellAt(0, 0, new Lokum("brown hazelnut", "Regular"));
-		gp.fillAllNothingsRandomly();
 		gameScreen.updateBoard(gp);
 		
 		

@@ -1,5 +1,6 @@
 package GUI;
 
+import java.awt.Color;
 import java.io.IOException;
 import javax.swing.JLabel;
 import Logic.Cell;
@@ -11,12 +12,15 @@ public class CellButton extends JLabel{
 		public int coordX;
 		public int coordY;
 		private ImageStorage is;
+		private ChewyObject co;
+		private String type;
+		private String sType;
 		
 		public CellButton(Cell c, int i, int j){
-			super(c.getCurrentObject().getType().substring(0, 2));
+			super();
 			coordX = i;
 			coordY = j;
-			ChewyObject co = c.getCurrentObject();
+			setBackground(Color.blue);
 			
 			try {
 				is = ImageStorage.getInstance();
@@ -24,40 +28,34 @@ public class CellButton extends JLabel{
 				e1.printStackTrace();
 			}
 			
+			updateButton(c);
+			
+
+            setHorizontalAlignment(JLabel.CENTER);
+            setVerticalAlignment(JLabel.CENTER);
+            setHorizontalTextPosition(JLabel.CENTER);
+            setVerticalTextPosition(JLabel.CENTER);
+            
+            
+		}
+		
+		public void updateButton(Cell cell){
+			co = cell.getCurrentObject();
+			
 			if(co instanceof Lokum){
 				setAsLokum((Lokum)co);
 			}else{
 				setAsNothing();
 			}
-			
-            setHorizontalAlignment(JLabel.CENTER);
-            setVerticalAlignment(JLabel.CENTER);
-            setHorizontalTextPosition(JLabel.CENTER);
-            setVerticalTextPosition(JLabel.CENTER);
-            
-            /*BufferedImage icon = null;
-			try {
-				icon = ImageIO.read(new File("example.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
-            //setIcon(new ImageIcon(icon));
-            setHorizontalAlignment(JLabel.CENTER);
-            setVerticalAlignment(JLabel.CENTER);
-            setHorizontalTextPosition(JLabel.CENTER);
-            setVerticalTextPosition(JLabel.CENTER);
-            
-            
 		}
 		
-		public void setAsNothing(){
+		private void setAsNothing(){
 			setIcon(is.getIcon(0));
 		}
 		
-		public void setAsLokum(Lokum lo){
-			String type = lo.getType();
-			String sType = lo.getSpecialType();
+		private void setAsLokum(Lokum lo){
+			type = lo.getType();
+			sType = lo.getSpecialType();
 			
 			
 			if (sType.equalsIgnoreCase("regular")) {
@@ -103,11 +101,11 @@ public class CellButton extends JLabel{
 			}else{
 				setIcon(is.getIcon(17));
 			}
-			
+
 		}
 		
 		public void setAsTimer(){
-			setText("+5");
+			setText("+5 Time");
 		}
 		
 		public void unsetAsTimer(){

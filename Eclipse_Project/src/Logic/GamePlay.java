@@ -56,7 +56,7 @@ public class GamePlay implements Serializable{
 	
 	public void addListener(GameUpdateListener listener) {
 		if (listeners == null) {
-			listeners = new ArrayList<>();
+			//listeners = new ArrayList<>();
 		}
 		listeners.add(listener);
 	}
@@ -275,7 +275,7 @@ public void initBoard() {
 				MatchingScaleInformer[][] scaleMatrix = generateScaleMatrix();
 
 				// erase all matched cells
-				eraseAllMatches(scaleMatrix);
+				//eraseAllMatches(scaleMatrix);
 
 
 				// drop objects if necessary
@@ -364,12 +364,12 @@ public void initBoard() {
 				swapped = swappedObject1;
 			}
 			
-			int specialityCode = rules.getSpecialityCode(currentMSI);
+			/*int specialityCode = rules.getSpecialityCode(currentMSI);
 			if (rules.isSpecialCase(specialityCode)) {
 				score += rules.getRelevantCreationScore(specialityCode);
 				board.fillCellAt(i, j,
 						rules.getRelevantSpecialObject(swapped.getType(), specialityCode));
-			}
+			}*/
 		}
 
 	}
@@ -428,10 +428,10 @@ public void initBoard() {
 		
 		for (int i = 0; i < msi.length; i++) {
 			for (int j = 0; j < msi[0].length; j++) {
-				if (rules.shouldErased(msi[i][j])) {
+				/*if (rules.shouldErased(msi[i][j])) {
 					eraseCount++;
 				}
-				score += rules.getStandardScore(eraseCount, msi[i][j]);
+				score += rules.getStandardScore(eraseCount, msi[i][j]);*/
 			}
 		}
 		return score;
@@ -477,12 +477,12 @@ public void initBoard() {
 	public boolean isThereAvailableMove() {
 		for (int i = 0; i < board.getWidth() - 1; i++) {
 			for (int j = 0; j < board.getHeight() - 1; j++) {
-				if (rules.isSwappable(board, i, j, i + 1, j))
+				/*if (rules.isSwappable(board, i, j, i + 1, j))
 					return true;
 				if (rules.isSwappable(board, i, j, i + 1, j + 1))
 					return true;
 				if (rules.isSwappable(board, i, j, i, j + 1))
-					return true;
+					return true;*/
 			}
 		}
 
@@ -540,7 +540,8 @@ public void initBoard() {
 	}
 	
 	public boolean isGameOver(){
-		return rules.gameEndedByMovements(movementsLeft);
+		//return rules.gameEndedByMovements(movementsLeft);
+		return false;
 	}
 	
 	public void createNewBoard(){

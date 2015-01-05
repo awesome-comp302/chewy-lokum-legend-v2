@@ -64,7 +64,7 @@ public class Level {
 		setTime(levelVars);
 		setLevelId(levelVars);
 		
-		board = new Board(10,10);
+		board = new Board(6,6);
 		
 	}
 

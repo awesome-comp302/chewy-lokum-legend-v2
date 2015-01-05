@@ -86,7 +86,7 @@ public class GameController implements Runnable {
 						MatchingScaleInformer[][] scaleMatrix = gp.generateScaleMatrix();
 
 						// erase all matched cells
-						gp.eraseAllMatches(scaleMatrix);
+						//gp.eraseAllMatches(scaleMatrix);
 						
 						mgwCont.updateBoard(gp);
 						try {
