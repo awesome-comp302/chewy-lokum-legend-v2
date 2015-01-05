@@ -3,8 +3,6 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -221,7 +219,6 @@ public class MainGameWindow extends JFrame {
 
 	public static void playTheGame(GamePlay gp) {
 		
-		@SuppressWarnings("unused")
 		MainGameWindow gameScreen = new MainGameWindow(gp);
 		
 		gp.getBoard().fillCellAt(0, 0, new Lokum("brown hazelnut", "Regular"));

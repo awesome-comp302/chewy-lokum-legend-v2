@@ -31,7 +31,7 @@ public class NormalSwapRules implements SwapRules {
 			return false;
 		}
 						
-		if (!isConsecutive(x1, y1, x2, y2)) {
+		if (!isConsecutive(x1, y1, x2, y2) && !move.isSpecial()) {
 			return false;
 		}
 		

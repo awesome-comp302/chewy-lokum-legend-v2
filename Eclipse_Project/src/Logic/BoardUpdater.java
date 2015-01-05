@@ -183,8 +183,7 @@ public class BoardUpdater {
 		String str[] = Lokum.possibleTypes;
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
-				if (board.cellAt(i, j).getCurrentObject().getType()
-						.equalsIgnoreCase("empty")) {
+				if (board.cellAt(i, j).getCurrentObject() instanceof Nothing) {
 					Lokum currentLokum = new Lokum(
 							str[new Random().nextInt(str.length)]);
 					board.fillCellAt(i, j, currentLokum);
@@ -227,8 +226,7 @@ public class BoardUpdater {
 		Board board = gp.getLevel().getBoard();
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
-				if (board.cellAt(i, j).getCurrentObject().getType()
-						.equalsIgnoreCase("empty")) {
+				if (board.cellAt(i, j).getCurrentObject() instanceof Nothing) {
 					return true;
 				}
 			}
