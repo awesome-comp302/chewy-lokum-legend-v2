@@ -201,9 +201,9 @@ public class BoardUpdater {
 	 */
 	public boolean stillToDo(){
 		//shuffle needed
-		if (!isThereAvailableMove()) {
+		/*if (!isThereAvailableMove()) {
 			return true;
-		}
+		}*/
 		//empty places
 		if (isThereNothing()) {
 			return true;

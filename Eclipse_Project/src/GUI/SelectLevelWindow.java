@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import Logic.GamePlay;
 import Logic.LevelSelector;
 
 
@@ -57,8 +58,11 @@ public class SelectLevelWindow extends JFrame{
 			
 			
 			if(buttonId>0){
+				GamePlay gp = LevelSelector.createGamePlay(buttonId);
 				
-				MainGameWindow.playTheGame(LevelSelector.createGamePlay(buttonId));
+				MainGameWindow gameScreen = new MainGameWindow(gp);
+				
+				gameScreen.playTheGame(gp);
 				dispose();
 				
 			}else{

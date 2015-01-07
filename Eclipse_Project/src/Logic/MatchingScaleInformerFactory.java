@@ -7,6 +7,7 @@ public class MatchingScaleInformerFactory {
 	private MatchingScaleInformerFactory() {}
 	
 	public static MatchingScaleInformerFactory getInstance() {
+		if(instance == null) instance= new MatchingScaleInformerFactory();
 		return instance;
 	}
 	

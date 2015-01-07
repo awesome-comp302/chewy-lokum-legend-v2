@@ -2,6 +2,90 @@
 @author: mebegu
 
 
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+		*07 January 2015   20:15*
+_________________________________________________________
+
+1. New features:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+a.   Fully functional GUI is created.
+
+b.   UpdateGame method of Gameplay is started to use.
+
+c.   GameUpdateListeners is started to use.
+
+d.   According to GameUpdateListener, onGameUpdate method
+is added to MainGameWindow.
+
+e.  Updating MainGameWindow components is made more fluent.
+Now, on every update, GUI waits a moment and shows the
+board state.
+
+f.   MainGameWindowController releases the CellButton
+when the right click is used.
+
+
+_________________________________________________________
+
+2. Changes:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+a.   updateBoard method of MainGameWindow is removed due
+to existance of new alternative onGameUpdate method.
+
+b.   Save and Exit Button fixed.
+
+c.   swap method of GamePlay takes Move object, rather
+than taking reference coordinates.
+
+d.   InýtBoard method of GamePlay is changed to a more 
+appropriate form, but still has to improve.
+
+e.   GameController class is removed due to be unnecessary.
+
+
+_________________________________________________________
+
+3. Upcoming Objectives:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+a.   XML reader and writer will be revised.
+
+b.   Start button of MainMenuWindow will be functional.
+
+c.   A button for special move functionality will be added
+to MainGameWindow.
+
+d.   Time Will be added to game.
+
+e.   JavaDoc for crucial methods will be added to make
+clear their functionalities.
+
+
+_________________________________________________________
+
+4. Discovered Issues & Bugs:
+---------------------------------------------------------
+
+a.   IsValid method of normalSwapRules does not work properly.
+
+b.   stilltoDo method of BoardUpdater does not work properly.
+
+c.   Scoring does is not enabled and tried.
+
+d.   SpecialLokum generation and erasing is not enabled 
+and tried.
+
+e.   isGameOver method of GamePlay does not work properly.
+
+
+f.   All tests should be revised. Too much time passed since
+the last revision. -Last thing to do, it does not required
+on demo presentation.-
+
+
+
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 		*05 January 2015   18:25*
@@ -13,7 +97,7 @@ a.   Icon images imported to game.
 
 _________________________________________________________
 
-3. Upcoming Objectives:
+2. Upcoming Objectives:
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 a.   XML reader and writer should be revised.
@@ -32,7 +116,7 @@ b.   Lokum Graphics can be imported into game.
 
 _________________________________________________________
 
-3. Upcoming Objectives:
+2. Upcoming Objectives:
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 a.   The remaining lokum icons will be adjusted and 
