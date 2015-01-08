@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public class ImageStorage {
-	private static ImageIcon iconList[] = new ImageIcon[18];
+	private static ImageIcon iconList[] = new ImageIcon[21];
 	private static ImageStorage instance;
 	
 	public static ImageStorage getInstance() throws IOException{
@@ -41,6 +41,11 @@ public class ImageStorage {
 		iconList[15] = new ImageIcon(ImageIO.read(new File("data\\icons\\WhiteCoconutWrap.png")));
 		iconList[16] = new ImageIcon(ImageIO.read(new File("data\\icons\\BrownHazelnutWrap.png")));
 		iconList[17] = new ImageIcon(ImageIO.read(new File("data\\icons\\ColorBomb.png")));
+		iconList[18] = new ImageIcon(ImageIO.read(new File("data\\uiButtons\\logo.png")));
+		iconList[19] = new ImageIcon(ImageIO.read(new File("data\\uiButtons\\menuButton.png")));
+		iconList[20] = new ImageIcon(ImageIO.read(new File("data\\uiButtons\\gameButton.png")));
+
+		
 	}
 	
 	public ImageIcon getIcon(int id){

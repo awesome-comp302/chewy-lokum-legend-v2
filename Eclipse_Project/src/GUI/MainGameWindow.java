@@ -1,5 +1,7 @@
 package GUI;
 import java.awt.Color;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -7,17 +9,19 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import Controller.MainGameWindowController;
+import XML.WriteXMLFile;
+
+
 import Logic.Board;
 import Logic.Cell;
 import Logic.GamePlay;
 import Logic.GameUpdateListener;
+import Logic.Move;
 import Logic.UpdateType;
 
 
@@ -34,8 +38,8 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 	private JLabel llspMove;
 	private JLabel lltime;
 	private JCheckBox SpeMoveCB;
-	private JButton saveButton;
-	private JButton quitButton;
+	private UIButton saveButton;
+	private UIButton quitButton;
 	private JPanel 	boardHolder;
 	private JPanel	buttonHolder;
 	private JPanel 	boardPanel;
@@ -47,25 +51,28 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 	private int score;
 	private int remMove;
 	private CellButton buttons[][];
-	private MainGameWindowController controller;
+
 	
+	private GraphicsDevice device = GraphicsEnvironment
+	        .getLocalGraphicsEnvironment().getScreenDevices()[0];
+	private CellButton click1;
+	private CellButton click2;
 
 	
 	public MainGameWindow(GamePlay gap){
 		super("Game");
 		gp = gap;
 		
-		
+		setUndecorated(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		controller = new MainGameWindowController(this);
+		
+		device.setFullScreenWindow(this);
 		
 		setResizable(false);
 		
-		setUndecorated(true);
-		getRootPane().setWindowDecorationStyle(2);
 		
+
 		getContentPane().setLayout(new GridBagLayout());
-		setSize(600, 600);
 		setLocationRelativeTo(null);
 		interact = new Interact();
 		GridBagConstraints c = new GridBagConstraints();
@@ -78,6 +85,7 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 1;
 		add(buttonHolder,c);
+		buttonHolder.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		lgoal = new JLabel("Goal");
 		c.gridheight = 1;
@@ -135,7 +143,7 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 		
 		buttonHolder.add(SpeMoveCB);
 		
-		saveButton = new JButton("Save");
+		saveButton = new UIButton("game", "Save", uiColor);
 		c.gridheight = 1;
 		c.weightx = 0.5;
 		c.anchor = GridBagConstraints.PAGE_START;
@@ -145,7 +153,7 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 		buttonHolder.add(saveButton);
 		saveButton.addMouseListener(interact);	
 		
-		quitButton = new JButton("Quit");
+		quitButton = new UIButton("game", "Quit", uiColor);
 		c.gridheight = 1;
 		c.weightx = 0.5;
 		c.anchor = GridBagConstraints.PAGE_START;
@@ -194,7 +202,6 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			}
 		}
 		
-		controller.setGP(gap);
 		onGameUpdate(gap, UpdateType.all);
 
 		setVisible(true);
@@ -209,15 +216,15 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 				
 				Object srcButton =  e.getSource();
 				if (srcButton == saveButton) {
-					controller.saveButtonClicked(gp);
+					saveButtonClicked();
 				} else if (srcButton.getClass() == CellButton.class){
-					controller.cellClicked((CellButton)srcButton);
+					cellClicked((CellButton)srcButton);
 				} else if (srcButton == quitButton){
-					controller.exitButtonClicked(gp);
+					exitButtonClicked();
 				}
 				
 			}else if(e.getButton() == MouseEvent.BUTTON3){
-				controller.releaseCells();
+				releaseCells();
 			}
 		}
 
@@ -353,5 +360,48 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 		gp.initBoard();
 		
 	}
+	
+	public void cellClicked(CellButton cb){
+		if(click1 != null && (cb.coordX != click1.coordX || cb.coordY != click1.coordY)){
+			click2 = cb;
+			if(click1 == null || click2 == null){ System.out.println("ouch"); }
+			click1.setBorder(BorderFactory.createEmptyBorder());
+			click2.setBorder(BorderFactory.createEmptyBorder());
+			sendSwap();
+		}else {
+			click1 = cb;
+			cb.setBorder(BorderFactory.createLineBorder(Color.red));
+		}
+	}
+	
+	public void sendSwap(){
+		Move move = new Move(click1.coordX, click1.coordY, click2.coordX, click2.coordY, gp, SpeMoveCB.isSelected());
+		gp.swap(move);
+		gp.updateBoard();
+		
+		releaseCells();
+	}
+	
+	public void saveButtonClicked() {
+		WriteXMLFile.getInstance().saveGame(gp);
+		WriteXMLFile.getInstance().write();
+	}
+
+	public void exitButtonClicked() {
+		// to do something to end the gameplay
+		dispose();
+	}
+	
+	public void releaseCells(){
+		if(click1 != null){
+			click1.setBorder(BorderFactory.createEmptyBorder());
+			click1 = null;
+		}
+		if(click2 != null){
+			click2.setBorder(BorderFactory.createEmptyBorder());
+			click2 = null;
+		}
+	}
+	
 
 }
