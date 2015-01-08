@@ -1,8 +1,9 @@
 package Logic;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Random;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class GamePlay.
  */
@@ -21,6 +22,7 @@ public class GamePlay implements Serializable{
 	/** The movements left. */
 	private int movementsLeft;
 	private int specialMovementsLeft;
+	private Move lastMove;
 	
 	/** The rules. */
 	private RuleEngine rules;
@@ -30,7 +32,13 @@ public class GamePlay implements Serializable{
 	
 
 	private Player player;
+	private BoardUpdater updater;
 
+	/**
+	 *private field for storing listeners 
+	 */
+	private ArrayList<GameUpdateListener> listeners;
+	
 	/**
 	 * Instantiates a new game play.
 	 *
@@ -43,8 +51,15 @@ public class GamePlay implements Serializable{
 		score = 0;
 		movementsLeft = level.getPossibleMovements();
 		board = level.getBoard();
-		successfullSwapLog = new Position[2];
-		// TODO Auto-generated constructor stub
+		player = new Player();
+		//successfullSwapLog = new Position[2];
+	}
+	
+	public void addListener(GameUpdateListener listener) {
+		if (listeners == null) {
+			listeners = new ArrayList<>();
+		}
+		listeners.add(listener);
 	}
 	
 	/**
@@ -100,6 +115,9 @@ public class GamePlay implements Serializable{
 		return movementsLeft;
 	}
 
+	public Move getLastMove() {
+		return lastMove;
+	}
 	/**
 	 * Tries to swap the objects in two cells specified by their coordinates. If
 	 * swap becomes successful, returns true. Otherwise, returns false.
@@ -126,14 +144,14 @@ public class GamePlay implements Serializable{
 	 *          Otherwise, nothing will be changed.
 	 */
 
-	public boolean swap(int x1, int y1, int x2, int y2) {
-		if (rules.gameEndedByMovements(movementsLeft)) {
+	public boolean swap(Move move) {
+		
+		SwapRules swapRules = rules.getSwapRules(move);		
+		
+		if (!swapRules.isValid(this, move)) {
 			return false;
 		}
-
-		if (!rules.isSwappable(board, x1, y1, x2, y2)) {
-			return false;
-		}
+<<<<<<< HEAD
 			
 		successfullSwapLog[0] = new Position(x1, y1);
 		successfullSwapLog[1] = new Position(x2, y2);
@@ -142,17 +160,28 @@ public class GamePlay implements Serializable{
 		Cell cell2 = board.cellAt(x2, y2);
 		swappedObject1 = (Lokum)cell1.getCurrentObject();
 		swappedObject2  = (Lokum)cell2.getCurrentObject();
+=======
+>>>>>>> 0e38f928002873cb8dfb0a6085a472f9ecea25a5
 		
-		score += rules.getSpecialMoveScore(x1, y1, x2, y2, board, swappedObject1, swappedObject2);
-		score += rules.getUsingScore(x1, y1, board, swappedObject1);
-		score += rules.getUsingScore(x2, y2, board, swappedObject2);
+		//ScoringRules scoringRules = rules.getScoringRules(move);
+		lastMove = move;
+		//score += scoringRules.getSwapScore(move);
 		
+		Cell cell1 = board.cellAt(move.getPosition1().getX(), move.getPosition1().getY());
+		Cell cell2 = board.cellAt(move.getPosition2().getX(), move.getPosition2().getY());
+
 		ChewyObject temp = cell1.getCurrentObject();
-		board.fillCellAt(x1, y1, cell2.getCurrentObject());
-		board.fillCellAt(x2, y2, temp);
+		board.fillCellAt(move.getPosition1().getX(), move.getPosition1().getY(), cell2.getCurrentObject());
+		board.fillCellAt(move.getPosition2().getX(), move.getPosition2().getY(), temp);
 		movementsLeft--;
+		publishGame("movementsLeft");
+		publishGame("board");
 		return true;
+		
+		
 	}
+	
+	
 	
 	
 	/**
@@ -161,8 +190,29 @@ public class GamePlay implements Serializable{
 	 *@ensures if specialMove is valid, 
 	 */
 	public boolean specialSwap(int x1, int y1, int x2, int y2) {
+		
+		Move move = new Move(x1, y1, x2, y2, this, true);		
+		SwapRules swapRules = rules.getSwapRules(move);
+		
+		if (!swapRules.isValid(this, move)) {
+			return false;
+		}
+		Cell cell1 = board.cellAt(x1, y1);
+		Cell cell2 = board.cellAt(x2, y2);
+		
+		ChewyObject temp = cell1.getCurrentObject();
+		
+		board.fillCellAt(x1, y1, cell2.getCurrentObject());
+		board.fillCellAt(x2, y2, temp);
+		
+		movementsLeft--;
+		publishGame("movementsLeft");
+		specialMovementsLeft--;
+		publishGame("specialMovementsLeft");
 		return true;
 	}
+	
+	
 	
 	public int getSpecialMovementsLeft() {
 		return specialMovementsLeft;
@@ -186,40 +236,50 @@ public class GamePlay implements Serializable{
 	}
 
 
-	
-	
-	
-public void initBoard() {
+	public void updateBoard() {
+		updater = new BoardUpdater(this, rules);
+		updater.eraseAll();
+		publishGame("board");
 		
-		while(true){
-			while (isThereNothing()) {
-				
-				// Checking if the board is playable
-				fillAllNothingsRandomly();
+		while(updater.stillToDo()) {
 			
-				// generate scaling matrix
-				MatchingScaleInformer[][] scaleMatrix = generateScaleMatrix();
-
-				// erase all matched cells
-				eraseAllMatches(scaleMatrix);
-
-
-				// drop objects if necessary
-				dropAll();
+			updater.eraseAll();
+			publishGame("board");
+			score += updater.getScoreIncrease();
+			publishGame("score");
 			
-				
-			}
+			updater.dropAll();
+			publishGame("board");
 			
-			if(isThereAvailableMove()) break;
-			else {
-				
-				System.out.println("There is no available move. New board is initilized.");
-				createNewBoard();
-			}
+			updater.fillEmptyCells();
+			publishGame("board");
+
+			updater.eraseAll();
+			publishGame("board");
+			score += updater.getScoreIncrease();
+			publishGame("score");
 		}
 		
+	}
+	
+	
+	private void publishGame(String name) {
+		for (int i = 0; i < listeners.size(); i++) {
+			listeners.get(i).onGameUpdate(this, name);
+		}
 		
+	}
 
+	public void initBoard() {
+
+		updater = new BoardUpdater(this, rules);
+		
+		while(updater.stillToDo()){ 
+			updater.fillEmptyCells();
+			
+			updater.eraseAll();
+		}
+		publishGame("all");
 
 	}
 
@@ -230,11 +290,12 @@ public void initBoard() {
 	 */
 	public MatchingScaleInformer[][] generateScaleMatrix() {
 
+		MatchingScaleInformerFactory factory = MatchingScaleInformerFactory.getInstance();
 		MatchingScaleInformer[][] scaleMatrix = new MatchingScaleInformer[board
 				.getHeight()][board.getWidth()];
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
-				scaleMatrix[j][i] = rules.getMatchingScaleInformer(board, i, j,
+				scaleMatrix[j][i] = factory.getMatchingScaleInformer(board, i, j,
 						board.cellAt(i, j).getCurrentObject());
 			}
 		}
@@ -246,20 +307,9 @@ public void initBoard() {
 	 *
 	 * @param scaleMatrix the scale matrix
 	 */
-	public void eraseAllMatches(MatchingScaleInformer[][] scaleMatrix) {
-		for (int i = 0; i < board.getWidth(); i++) {
-			for (int j = 0; j < board.getHeight(); j++) {
-				MatchingScaleInformer currentMSI = scaleMatrix[j][i];
-				if (rules.shouldErased(currentMSI)) {
-					eraseForNormal(currentMSI, i, j);
-
-				}
-				
-			}
-		}
-	}
 
 
+	@SuppressWarnings("unused")
 	private void eraseForNormal(MatchingScaleInformer currentMSI, int i, int j) {
 		String type;
 		if (board.cellAt(i, j).getCurrentObject() instanceof Lokum) {
@@ -301,12 +351,12 @@ public void initBoard() {
 				swapped = swappedObject1;
 			}
 			
-			int specialityCode = rules.getSpecialityCode(currentMSI);
+			/*int specialityCode = rules.getSpecialityCode(currentMSI);
 			if (rules.isSpecialCase(specialityCode)) {
 				score += rules.getRelevantCreationScore(specialityCode);
 				board.fillCellAt(i, j,
 						rules.getRelevantSpecialObject(swapped.getType(), specialityCode));
-			}
+			}*/
 		}
 
 	}
@@ -361,14 +411,14 @@ public void initBoard() {
 	 * @return the int
 	 */
 	public int calculateScore(MatchingScaleInformer[][] msi) {
-		int eraseCount = 0;
+		//int eraseCount = 0;
 		
 		for (int i = 0; i < msi.length; i++) {
 			for (int j = 0; j < msi[0].length; j++) {
-				if (rules.shouldErased(msi[i][j])) {
+				/*if (rules.shouldErased(msi[i][j])) {
 					eraseCount++;
 				}
-				score += rules.getStandardScore(eraseCount, msi[i][j]);
+				score += rules.getStandardScore(eraseCount, msi[i][j]);*/
 			}
 		}
 		return score;
@@ -414,12 +464,12 @@ public void initBoard() {
 	public boolean isThereAvailableMove() {
 		for (int i = 0; i < board.getWidth() - 1; i++) {
 			for (int j = 0; j < board.getHeight() - 1; j++) {
-				if (rules.isSwappable(board, i, j, i + 1, j))
+				/*if (rules.isSwappable(board, i, j, i + 1, j))
 					return true;
 				if (rules.isSwappable(board, i, j, i + 1, j + 1))
 					return true;
 				if (rules.isSwappable(board, i, j, i, j + 1))
-					return true;
+					return true;*/
 			}
 		}
 
@@ -477,7 +527,8 @@ public void initBoard() {
 	}
 	
 	public boolean isGameOver(){
-		return rules.gameEndedByMovements(movementsLeft);
+		//return rules.gameEndedByMovements(movementsLeft);
+		return false;
 	}
 	
 	public void createNewBoard(){

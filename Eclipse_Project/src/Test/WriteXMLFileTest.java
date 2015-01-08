@@ -53,6 +53,9 @@ public class WriteXMLFileTest {
 	public void tearDown() throws Exception {
 	}
 
+	//-------------------------------------------------------------------------
+	//BLACK BOX TESTING
+	
 	@Test
 	public void testGetInstance() {
 		assertTrue(WriteXMLFile.getInstance() != null);
@@ -71,11 +74,24 @@ public class WriteXMLFileTest {
 		File f = new File("file.xml");
 		assertTrue(f.exists() && !f.isDirectory());
 	}
+	
+	//-------------------------------------------------------------------------
+	//GLASS BOX TESTING
 
+	/*
+	 * WriteXMLFile.saveGame saves 4 values to WriteXMLFile singleton
+	 * Lets test for each of these values being null
+	 * Feature Space:
+	 * All valid values,
+	 * Null value
+	 * NOTE:
+	 * Why no "corrupted"/"bad" value partition?
+	 *  - Because java is strongly-typed...we cant assign random objects to vars
+	 */
+	
 	@Test (expected = Exception.class)
 	public void testNullGamePlay(){
-		gp.setLevel((Level)null);
-		wxf.saveGame(gp);
+		wxf.saveGame((GamePlay)null);
 	}
 
 
@@ -85,8 +101,28 @@ public class WriteXMLFileTest {
 		wxf.saveGame(gp);
 	}
 	
+	/*
+	 * WriteXML.write doesnt have a HUGE feature space
+	 * There's...
+	 * Valid values
+	 * (A) null value(s)
+	 * Unable to write to disk (Permissions error)
+	 * NOTE: Obviously, cant test hardware/OS issues
+	 */
+	
+	@Test (expected = FileNotFoundException.class)
+	public void testNullValue(){
+		wxf.saveGame(gp);
+		wxf.write();
+		File f = new File("file.xml");
+		f.setReadOnly();
+		wxf.saveGame(gp);
+		wxf.write();
+	}
+	
 	@Test (expected = FileNotFoundException.class)
 	public void testBadFilePermissions(){
+		gp.setLevel((Level)null);
 		wxf.saveGame(gp);
 		wxf.write();
 		File f = new File("file.xml");

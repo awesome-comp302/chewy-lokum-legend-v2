@@ -3,11 +3,10 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,10 +16,11 @@ import Controller.MainGameWindowController;
 import Logic.Board;
 import Logic.Cell;
 import Logic.GamePlay;
+import Logic.GameUpdateListener;
 
 
 @SuppressWarnings("serial")
-public class MainGameWindow extends JFrame {
+public class MainGameWindow extends JFrame implements GameUpdateListener {
 	private JLabel lgoal;
 	private JLabel lmoves;
 	private JLabel lscore;
@@ -32,14 +32,22 @@ public class MainGameWindow extends JFrame {
 	private JPanel	buttonHolder;
 	private JPanel 	boardPanel;
 	private Interact interact;
+	private Color uiColor = new Color(154,173,180);
+	private Color gameColor = new Color(100,180,150);
 	
 	private GamePlay gp;
 	private int score;
 	private int remMove;
+	private CellButton buttons[][];
 	private MainGameWindowController controller;
+	
+
 	
 	public MainGameWindow(GamePlay gap){
 		super("Game");
+		gp = gap;
+		
+		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		controller = new MainGameWindowController(this);
 		
@@ -49,13 +57,13 @@ public class MainGameWindow extends JFrame {
 		getRootPane().setWindowDecorationStyle(2);
 		
 		getContentPane().setLayout(new GridBagLayout());
-		setSize(800, 600);
+		setSize(600, 600);
 		setLocationRelativeTo(null);
 		interact = new Interact();
 		GridBagConstraints c = new GridBagConstraints();
 		
 		buttonHolder = new JPanel();
-		buttonHolder.setBackground(Color.RED);
+		buttonHolder.setBackground(uiColor);
 		c.gridx = 0;
 		c.gridy = 0;
 		c.anchor = GridBagConstraints.PAGE_START;
@@ -108,10 +116,10 @@ public class MainGameWindow extends JFrame {
 		c.gridx = 3;
 		c.gridy = 0;
 		buttonHolder.add(saveExitButton);
-		//saveExitButton.addActionListener(interact);	
+		saveExitButton.addMouseListener(interact);	
 		
 		boardHolder = new JPanel();
-		boardHolder.setBackground(Color.blue);
+		boardHolder.setBackground(gameColor);
 		c.anchor = GridBagConstraints.LAST_LINE_START;
 		c.fill = GridBagConstraints.BOTH;
 		c.gridwidth = 0;
@@ -122,18 +130,36 @@ public class MainGameWindow extends JFrame {
 		add(boardHolder,c);
 		
 		boardPanel = new JPanel();
-		updateBoard(gap);
 		c.anchor = GridBagConstraints.LAST_LINE_START;
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 0.9;
 		c.weighty = 0.9;
+
+		boardPanel.setBackground(gameColor);
+		
 		boardHolder.add(boardPanel,c);
 		boardHolder.setVisible(true);
+
 		
+		Board b = gp.getBoard();
 		
-		//pack();
+		buttons = new CellButton[b.getHeight()][b.getWidth()];
+		
+		for(int i = 0; i < b.getWidth(); i++){
+			for(int j = 0; j < b.getHeight(); j++){
+				Cell curr = b.cellAt(j, i);
+				buttons[j][i] = new CellButton(curr,j,i);
+				buttons[j][i].setBorder(BorderFactory.createLineBorder(gameColor));
+				boardPanel.add(buttons[j][i]);
+				buttons[j][i].addMouseListener(interact);
+			}
+		}
+		
+		controller.setGP(gap);
+		onGameUpdate(gap, "all");
+
 		setVisible(true);
 	}
 	
@@ -142,83 +168,146 @@ public class MainGameWindow extends JFrame {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
-			Object srcButton =  e.getSource();
-			if (srcButton == saveExitButton) {
-				controller.saveExitButtonClicked(gp);
-			} else if (srcButton.getClass() == CellButton.class){
-				controller.cellClicked((CellButton)srcButton);
+			if(e.getButton() == MouseEvent.BUTTON1){
 				
+				Object srcButton =  e.getSource();
+				if (srcButton == saveExitButton) {
+					controller.saveExitButtonClicked(gp);
+				} else if (srcButton.getClass() == CellButton.class){
+					controller.cellClicked((CellButton)srcButton);
+				}
+				
+			}else if(e.getButton() == MouseEvent.BUTTON3){
+				controller.releaseCells();
 			}
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
+			
 			
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
 			
 		}	
 	}
 	
-	public MainGameWindowController getController(){
-		return controller;
-	}
 	
-	public void updateBoard(GamePlay gp){
-		score = gp.getScore();
-		remMove = gp.getMovementsLeft();
-
-		boardPanel.removeAll();
-		llscore.setText(String.valueOf(score));
-		llmoves.setText(String.valueOf(remMove));
+	
+	private void waitGame(int milliseconds){
 		
-		if (score >= gp.getLevel().getPassingScore()) {
-			JLabel win = new JLabel("You WIN \n:D");
-			boardPanel.add(win);
-		} else if(remMove == 0){
-			JLabel lost = new JLabel("GAME OVER \n:'(");
-			boardPanel.add(lost);
-		} else {
-			this.gp = gp;
-			Board b = gp.getLevel().getBoard();
-			
+		int refTime = (int) System.currentTimeMillis();
+		int curr = (int) System.currentTimeMillis();
+		
+		while((curr - refTime) < milliseconds){
+			curr = (int) System.currentTimeMillis();
+		}
+		
+
+	}
+
+	@Override
+	public void onGameUpdate(final GamePlay gp, final String name) {
+
+		setFocusable(false);
+
+
+		if(name.equalsIgnoreCase("all")){
+			score = gp.getScore();
+			remMove = gp.getMovementsLeft();
+
+			boardPanel.removeAll();
+
+			Board b = gp.getBoard();
+
 			boardPanel.setLayout(new GridLayout(b.getHeight(),b.getWidth()));
-			
+
 			llscore.setText(String.valueOf(score));
 			llmoves.setText(String.valueOf(remMove));
-			
+
 			for(int i = 0; i < b.getWidth(); i++){
 				for(int j = 0; j < b.getHeight(); j++){
 					Cell curr = b.cellAt(j, i);
-					CellButton cb = new CellButton(curr,j,i);
-					boardPanel.add(cb);
-					cb.addMouseListener(interact);
+					buttons[j][i].updateButton(curr);
+					boardPanel.add(buttons[j][i]);
 				}
 			}
-		}
-		boardPanel.updateUI();
-		buttonHolder.updateUI();
-	}
 
-	public static void playTheGame(GamePlay gp2) {
-		// TODO Auto-generated method stub
+			boardPanel.updateUI();
+			buttonHolder.updateUI();
+
+		}else if (name.equalsIgnoreCase("board")){
+
+			boardPanel.removeAll();
+
+			Board b = gp.getBoard();
+
+			boardPanel.setLayout(new GridLayout(b.getHeight(),b.getWidth()));
+
+			for(int i = 0; i < b.getWidth(); i++){
+				for(int j = 0; j < b.getHeight(); j++){
+					Cell curr = b.cellAt(j, i);
+					buttons[j][i].updateButton(curr);
+					boardPanel.add(buttons[j][i]);
+					buttons[j][i].setBorder(BorderFactory.createLineBorder(gameColor));
+				}
+			}
+
+			boardPanel.updateUI();
+			
+			boardPanel.paint(boardPanel.getGraphics());
+			
+			waitGame(400);
+			
+		}else if(name.equalsIgnoreCase("time")){
+
+
+		}else if(name.equalsIgnoreCase("endgame")){
+
+			boardPanel.removeAll();
+
+			if (score >= gp.getLevel().getPassingScore()) {
+				JLabel win = new JLabel("You WIN \n:D");
+				boardPanel.add(win);
+			} else if(remMove == 0){
+				JLabel lost = new JLabel("GAME OVER \n:'(");
+				boardPanel.add(lost);
+			}
+
+		}else if(name.equalsIgnoreCase("score")){
+			score = gp.getScore();
+			llscore.setText(String.valueOf(score));
+			buttonHolder.updateUI();
+
+		}else if(name.equalsIgnoreCase("movementsLeft")){
+			remMove = gp.getMovementsLeft();
+			llmoves.setText(String.valueOf(remMove));
+
+			buttonHolder.updateUI();
+
+		}
+
+		setFocusable(true);
+
+	}
+	
+	public void playTheGame(GamePlay gp) {
+		
+		gp.addListener(this);
+		gp.initBoard();
 		
 	}
+
 }
