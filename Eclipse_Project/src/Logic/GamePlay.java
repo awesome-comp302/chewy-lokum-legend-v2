@@ -28,7 +28,7 @@ public class GamePlay implements Serializable{
 	private RuleEngine rules;
 
 	private Position successfullSwapLog[];
-	private Lokum swappedObject1 = new Lokum("red rose"), swappedObject2= new Lokum("red rose");
+	private Lokum swappedObject1 = new Lokum(false, "red rose"), swappedObject2= new Lokum(false, "red rose");
 	
 
 	private Player player;
@@ -226,7 +226,11 @@ public class GamePlay implements Serializable{
 	public int getSpecialMovementsLeft() {
 		return specialMovementsLeft;
 	}
-
+	
+	public void setSpecialMovementsLeft(int spLeft){
+		specialMovementsLeft = spLeft;
+	}
+	
 	/**
 	 * Returns the level played.
 	 */
