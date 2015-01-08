@@ -163,8 +163,8 @@ public class GamePlay implements Serializable{
 		board.fillCellAt(move.getPosition1().getX(), move.getPosition1().getY(), cell2.getCurrentObject());
 		board.fillCellAt(move.getPosition2().getX(), move.getPosition2().getY(), temp);
 		movementsLeft--;
-		publishGame("movementsLeft");
-		publishGame("board");
+		publishGame(UpdateType.movementLeftLabel);
+		publishGame(UpdateType.boardPanel);
 		return true;
 		
 		
@@ -195,9 +195,9 @@ public class GamePlay implements Serializable{
 		board.fillCellAt(x2, y2, temp);
 		
 		movementsLeft--;
-		publishGame("movementsLeft");
+		publishGame(UpdateType.movementLeftLabel);
 		specialMovementsLeft--;
-		publishGame("specialMovementsLeft");
+		publishGame(UpdateType.specialMovementLeftLabel);
 		return true;
 	}
 	
@@ -228,33 +228,33 @@ public class GamePlay implements Serializable{
 	public void updateBoard() {
 		updater = new BoardUpdater(this, rules);
 		updater.eraseAll();
-		publishGame("board");
+		publishGame(UpdateType.boardPanel);
 		
 		while(updater.stillToDo()) {
 			
 			updater.eraseAll();
-			publishGame("board");
+			publishGame(UpdateType.boardPanel);
 			score += updater.getScoreIncrease();
-			publishGame("score");
+			publishGame(UpdateType.scoreLabel);
 			
 			updater.dropAll();
-			publishGame("board");
+			publishGame(UpdateType.boardPanel);
 			
 			updater.fillEmptyCells();
-			publishGame("board");
+			publishGame(UpdateType.boardPanel);
 
 			updater.eraseAll();
-			publishGame("board");
+			publishGame(UpdateType.boardPanel);
 			score += updater.getScoreIncrease();
-			publishGame("score");
+			publishGame(UpdateType.scoreLabel);
 		}
 		
 	}
 	
 	
-	private void publishGame(String name) {
+	private void publishGame(UpdateType type) {
 		for (int i = 0; i < listeners.size(); i++) {
-			listeners.get(i).onGameUpdate(this, name);
+			listeners.get(i).onGameUpdate(this, type);
 		}
 		
 	}
@@ -268,7 +268,7 @@ public class GamePlay implements Serializable{
 			
 			updater.eraseAll();
 		}
-		publishGame("all");
+		publishGame(UpdateType.all);
 
 	}
 

@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,6 +18,7 @@ import Logic.Board;
 import Logic.Cell;
 import Logic.GamePlay;
 import Logic.GameUpdateListener;
+import Logic.UpdateType;
 
 
 @SuppressWarnings("serial")
@@ -24,10 +26,16 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 	private JLabel lgoal;
 	private JLabel lmoves;
 	private JLabel lscore;
+	private JLabel lspeMove;
+	private JLabel ltime;
 	private JLabel llgoal;
 	private JLabel llmoves;
 	private JLabel llscore;
+	private JLabel llspMove;
+	private JLabel lltime;
+	private JCheckBox SpeMoveCB;
 	private JButton saveExitButton;
+	private JButton quitButton;
 	private JPanel 	boardHolder;
 	private JPanel	buttonHolder;
 	private JPanel 	boardPanel;
@@ -158,7 +166,7 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 		}
 		
 		controller.setGP(gap);
-		onGameUpdate(gap, "all");
+		onGameUpdate(gap, UpdateType.all);
 
 		setVisible(true);
 	}
@@ -219,12 +227,12 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 	}
 
 	@Override
-	public void onGameUpdate(final GamePlay gp, final String name) {
+	public void onGameUpdate(final GamePlay gp, final UpdateType type) {
 
 		setFocusable(false);
 
 
-		if(name.equalsIgnoreCase("all")){
+		if(type == UpdateType.all){
 			score = gp.getScore();
 			remMove = gp.getMovementsLeft();
 
@@ -248,7 +256,7 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			boardPanel.updateUI();
 			buttonHolder.updateUI();
 
-		}else if (name.equalsIgnoreCase("board")){
+		}else if (type == UpdateType.boardPanel){
 
 			boardPanel.removeAll();
 
@@ -271,10 +279,13 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			
 			waitGame(400);
 			
-		}else if(name.equalsIgnoreCase("time")){
+		}else if(type == UpdateType.timeLabel){
 
 
-		}else if(name.equalsIgnoreCase("endgame")){
+		}else if(type == UpdateType.specialMovementLeftLabel){
+
+
+		}else if(type == UpdateType.showEndGame){
 
 			boardPanel.removeAll();
 
@@ -286,12 +297,12 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 				boardPanel.add(lost);
 			}
 
-		}else if(name.equalsIgnoreCase("score")){
+		}else if(type == UpdateType.scoreLabel){
 			score = gp.getScore();
 			llscore.setText(String.valueOf(score));
 			buttonHolder.updateUI();
 
-		}else if(name.equalsIgnoreCase("movementsLeft")){
+		}else if(type == UpdateType.movementLeftLabel){
 			remMove = gp.getMovementsLeft();
 			llmoves.setText(String.valueOf(remMove));
 
