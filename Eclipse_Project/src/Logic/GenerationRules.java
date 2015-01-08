@@ -1,5 +1,6 @@
 package Logic;
 
 public interface GenerationRules {
-	public ChewyObject getObject(GamePlay gp);
+
+	public ChewyObject getObject(String lastType, MatchingScaleInformer msi);
 }

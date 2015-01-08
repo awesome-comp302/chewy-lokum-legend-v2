@@ -146,11 +146,20 @@ public class GamePlay implements Serializable{
 
 	public boolean swap(Move move) {
 		
-		SwapRules swapRules = rules.getSwapRules(move);		
+		MatchingScaleInformerFactory f = MatchingScaleInformerFactory.getInstance();
+		for (int i = 0; i < board.getWidth(); i++) {
+			for (int j = 0; j < board.getHeight(); j++) {
+				MatchingScaleInformer msi = f.getMatchingScaleInformer(board, i, j, board.cellAt(i, j).getCurrentObject());
+				System.out.print(msi + " at " + i + " " + j + "\t");
+			}
+			System.out.println();
+		}
 		
+		SwapRules swapRules = rules.getSwapRules(move);		
 		if (!swapRules.isValid(this, move)) {
 			return false;
 		}
+		
 		
 		//ScoringRules scoringRules = rules.getScoringRules(move);
 		lastMove = move;

@@ -131,7 +131,10 @@ public class BoardUpdater {
 
 
 	private void eraseForNormal() {
+		//rules for erasing
 		EraseRules eraseRules = rules.getEraseRules(RuleEngine.NORMAL_ERASE);
+		//rules for 
+		GenerationRules genRules = rules.getGenerationRules();
 		MatchingScaleInformer scaleMatrix[][] = generateScaleMatrix();
 		scoreIncrease += calculateMatchingScore(scaleMatrix);
 		Board board = gp.getLevel().getBoard();
@@ -151,8 +154,15 @@ public class BoardUpdater {
 
 
 	private int calculateMatchingScore(MatchingScaleInformer[][] scaleMatrix) {
-		// TODO Auto-generated method stub
-		return 0;
+		ScoringRules sr = rules.getScoringRules(gp);
+		int score = 0;
+		for (int i = 0; i < scaleMatrix.length; i++) {
+			for (int j = 0; j < scaleMatrix[0].length; j++) {
+				score += sr.getMatchingScore(scaleMatrix[i][j]);
+			}
+		}
+		return score;
+		
 	}
 	
 	private int calculateSpecialScore() {
