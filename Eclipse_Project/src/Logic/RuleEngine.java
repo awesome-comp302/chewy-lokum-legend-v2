@@ -67,6 +67,11 @@ public class RuleEngine {
 		}
 	}
 
+	public GenerationRules getGenerationRules() {
+		return StandardGenerationRules.getInstance();
+		// TODO Auto-generated method stub
+	}
+
 	
 	
 	

@@ -69,6 +69,17 @@ public class MainGameWindowController {
 		
 		releaseCells();
 	}
+
+	public void saveButtonClicked(GamePlay gp2) {
+		WriteXMLFile.getInstance().saveGame(gp);
+		WriteXMLFile.getInstance().write();
+	}
+
+	public void exitButtonClicked(GamePlay gp2) {
+		// to do something to end the gameplay
+		view.dispose();
+	}
+	
 	
 
 }

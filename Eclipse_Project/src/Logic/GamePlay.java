@@ -146,8 +146,16 @@ public class GamePlay implements Serializable{
 
 	public boolean swap(Move move) {
 		
-		SwapRules swapRules = rules.getSwapRules(move);		
+		MatchingScaleInformerFactory f = MatchingScaleInformerFactory.getInstance();
+		for (int i = 0; i < board.getWidth(); i++) {
+			for (int j = 0; j < board.getHeight(); j++) {
+				MatchingScaleInformer msi = f.getMatchingScaleInformer(board, i, j, board.cellAt(i, j).getCurrentObject());
+				System.out.print(msi + " at " + i + " " + j + "\t");
+			}
+			System.out.println();
+		}
 		
+		SwapRules swapRules = rules.getSwapRules(move);		
 		if (!swapRules.isValid(this, move)) {
 			return false;
 		}
@@ -163,6 +171,7 @@ public class GamePlay implements Serializable{
 =======
 >>>>>>> 0e38f928002873cb8dfb0a6085a472f9ecea25a5
 		
+		
 		//ScoringRules scoringRules = rules.getScoringRules(move);
 		lastMove = move;
 		//score += scoringRules.getSwapScore(move);
@@ -174,8 +183,8 @@ public class GamePlay implements Serializable{
 		board.fillCellAt(move.getPosition1().getX(), move.getPosition1().getY(), cell2.getCurrentObject());
 		board.fillCellAt(move.getPosition2().getX(), move.getPosition2().getY(), temp);
 		movementsLeft--;
-		publishGame("movementsLeft");
-		publishGame("board");
+		publishGame(UpdateType.movementLeftLabel);
+		publishGame(UpdateType.boardPanel);
 		return true;
 		
 		
@@ -206,9 +215,9 @@ public class GamePlay implements Serializable{
 		board.fillCellAt(x2, y2, temp);
 		
 		movementsLeft--;
-		publishGame("movementsLeft");
+		publishGame(UpdateType.movementLeftLabel);
 		specialMovementsLeft--;
-		publishGame("specialMovementsLeft");
+		publishGame(UpdateType.specialMovementLeftLabel);
 		return true;
 	}
 	
@@ -239,33 +248,33 @@ public class GamePlay implements Serializable{
 	public void updateBoard() {
 		updater = new BoardUpdater(this, rules);
 		updater.eraseAll();
-		publishGame("board");
+		publishGame(UpdateType.boardPanel);
 		
 		while(updater.stillToDo()) {
 			
 			updater.eraseAll();
-			publishGame("board");
+			publishGame(UpdateType.boardPanel);
 			score += updater.getScoreIncrease();
-			publishGame("score");
+			publishGame(UpdateType.scoreLabel);
 			
 			updater.dropAll();
-			publishGame("board");
+			publishGame(UpdateType.boardPanel);
 			
 			updater.fillEmptyCells();
-			publishGame("board");
+			publishGame(UpdateType.boardPanel);
 
 			updater.eraseAll();
-			publishGame("board");
+			publishGame(UpdateType.boardPanel);
 			score += updater.getScoreIncrease();
-			publishGame("score");
+			publishGame(UpdateType.scoreLabel);
 		}
 		
 	}
 	
 	
-	private void publishGame(String name) {
+	private void publishGame(UpdateType type) {
 		for (int i = 0; i < listeners.size(); i++) {
-			listeners.get(i).onGameUpdate(this, name);
+			listeners.get(i).onGameUpdate(this, type);
 		}
 		
 	}
@@ -279,7 +288,7 @@ public class GamePlay implements Serializable{
 			
 			updater.eraseAll();
 		}
-		publishGame("all");
+		publishGame(UpdateType.all);
 
 	}
 
