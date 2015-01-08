@@ -108,13 +108,13 @@ public class SelectLevelWindow extends JFrame{
 	
 	private void prepareFrame(){
 		setResizable(false);
-		setLocationRelativeTo(null);
 		setUndecorated(true);
 		getRootPane().setWindowDecorationStyle(3);
 		setVisible(true);
 		setLayout(new GridLayout(4, 2));
 		setSize(250, 200);
-		
+		setLocationRelativeTo(null);
+
 		add(title);
 		add(empty);
 	}

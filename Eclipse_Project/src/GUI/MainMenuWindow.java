@@ -72,11 +72,11 @@ public class MainMenuWindow extends JFrame {
 	private void prepareFrame(){
 		controller = new MainMenuController(this);
 		setResizable(false);
-		setLocationRelativeTo(null);
 		setUndecorated(true);
 		getRootPane().setWindowDecorationStyle(3);
 		setVisible(true);
 		setLayout(new GridLayout(4, 1));
 		setSize(300, 400);
+		setLocationRelativeTo(null);
 	}
 }

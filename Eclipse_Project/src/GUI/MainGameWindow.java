@@ -34,7 +34,7 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 	private JLabel llspMove;
 	private JLabel lltime;
 	private JCheckBox SpeMoveCB;
-	private JButton saveExitButton;
+	private JButton saveButton;
 	private JButton quitButton;
 	private JPanel 	boardHolder;
 	private JPanel	buttonHolder;
@@ -104,6 +104,12 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 		llmoves = new JLabel(String.valueOf(gap.getMovementsLeft()));
 		buttonHolder.add(llmoves);
 		
+		lspeMove = new JLabel("Special Moves");
+		buttonHolder.add(lspeMove);
+		
+		llspMove = new JLabel(String.valueOf(gap.getSpecialMovementsLeft()));
+		buttonHolder.add(llspMove);
+		
 		lscore = new JLabel("Score");
 		c.gridheight = 1;
 		c.weightx = 0.5;
@@ -116,15 +122,38 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 		llscore = new JLabel(String.valueOf(gap.getScore()));
 		buttonHolder.add(llscore);
 		
-		saveExitButton = new JButton("Save and Exit");
+		ltime = new JLabel("Time");
+		buttonHolder.add(ltime);
+		
+		lltime = new JLabel(String.valueOf("0"));
+		buttonHolder.add(lltime);
+		
+		SpeMoveCB = new JCheckBox("Activate SM");
+		SpeMoveCB.setBackground(gameColor);
+		SpeMoveCB.setBorder(BorderFactory.createLineBorder(Color.black));
+		SpeMoveCB.setBorderPainted(true);
+		
+		buttonHolder.add(SpeMoveCB);
+		
+		saveButton = new JButton("Save");
 		c.gridheight = 1;
 		c.weightx = 0.5;
 		c.anchor = GridBagConstraints.PAGE_START;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
 		c.gridy = 0;
-		buttonHolder.add(saveExitButton);
-		saveExitButton.addMouseListener(interact);	
+		buttonHolder.add(saveButton);
+		saveButton.addMouseListener(interact);	
+		
+		quitButton = new JButton("Quit");
+		c.gridheight = 1;
+		c.weightx = 0.5;
+		c.anchor = GridBagConstraints.PAGE_START;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 0;
+		buttonHolder.add(quitButton);
+		quitButton.addMouseListener(interact);
 		
 		boardHolder = new JPanel();
 		boardHolder.setBackground(gameColor);
@@ -179,10 +208,12 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			if(e.getButton() == MouseEvent.BUTTON1){
 				
 				Object srcButton =  e.getSource();
-				if (srcButton == saveExitButton) {
-					controller.saveExitButtonClicked(gp);
+				if (srcButton == saveButton) {
+					controller.saveButtonClicked(gp);
 				} else if (srcButton.getClass() == CellButton.class){
 					controller.cellClicked((CellButton)srcButton);
+				} else if (srcButton == quitButton){
+					controller.exitButtonClicked(gp);
 				}
 				
 			}else if(e.getButton() == MouseEvent.BUTTON3){
@@ -280,10 +311,12 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			waitGame(400);
 			
 		}else if(type == UpdateType.timeLabel){
-
+			lltime.setText(String.valueOf(gp.getLevelId()));
+			buttonHolder.updateUI();
 
 		}else if(type == UpdateType.specialMovementLeftLabel){
-
+			llspMove.setText(String.valueOf(gp.getSpecialMovementsLeft()));
+			buttonHolder.updateUI();
 
 		}else if(type == UpdateType.showEndGame){
 
