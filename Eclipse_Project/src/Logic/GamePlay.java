@@ -28,7 +28,7 @@ public class GamePlay implements Serializable{
 	private RuleEngine rules;
 
 	private Position successfullSwapLog[];
-	private Lokum swappedObject1 = new Lokum("red rose"), swappedObject2= new Lokum("red rose");
+	private Lokum swappedObject1 = new Lokum(false, "red rose"), swappedObject2= new Lokum(false, "red rose");
 	
 
 	private Player player;
@@ -159,6 +159,17 @@ public class GamePlay implements Serializable{
 		if (!swapRules.isValid(this, move)) {
 			return false;
 		}
+<<<<<<< HEAD
+			
+		successfullSwapLog[0] = new Position(x1, y1);
+		successfullSwapLog[1] = new Position(x2, y2);
+		
+		Cell cell1 = board.cellAt(x1, y1);
+		Cell cell2 = board.cellAt(x2, y2);
+		swappedObject1 = (Lokum)cell1.getCurrentObject();
+		swappedObject2  = (Lokum)cell2.getCurrentObject();
+=======
+>>>>>>> 0e38f928002873cb8dfb0a6085a472f9ecea25a5
 		
 		
 		//ScoringRules scoringRules = rules.getScoringRules(move);
@@ -215,7 +226,11 @@ public class GamePlay implements Serializable{
 	public int getSpecialMovementsLeft() {
 		return specialMovementsLeft;
 	}
-
+	
+	public void setSpecialMovementsLeft(int spLeft){
+		specialMovementsLeft = spLeft;
+	}
+	
 	/**
 	 * Returns the level played.
 	 */
