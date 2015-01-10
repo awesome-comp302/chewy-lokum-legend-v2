@@ -175,6 +175,7 @@ public class GamePlay implements Serializable{
 	public Move getLastMove() {
 		return lastMove;
 	}
+	
 	/**
 	 * Tries to swap the objects in two cells specified by their coordinates. If
 	 * swap becomes successful, returns true. Otherwise, returns false.
@@ -197,19 +198,76 @@ public class GamePlay implements Serializable{
 	 *           <li>movementsLeft field</li>
 	 *           </ul>
 	 * @ensures If swap returns true, then ChewyObjects of the cells at the
-	 *          board positions (x1, y1), (x2, y2) is exchanged.<br>
+	 *          board positions (x1, y1), (x2, y2) are exchanged.<br>
 	 *          Otherwise, nothing will be changed.
 	 */
-
 	public boolean swap(int x1, int y1, int x2, int y2) {
 		
 		Move move = new Move(x1, y1, x2, y2, this, false);
+		
+		return(swap_cont(move));
+	}
+
+	/**
+	 * Tries to swap the objects in two cells specified by their coordinates. If
+	 * swap becomes successful, returns true. Otherwise, returns false.
+	 *
+	 * @requires <ul>
+	 *           <li>board field is non-null</li>
+	 *           <li>rules field is non-null</li>
+	 *           <li>RuleEngine has instance predicate methods
+	 *           gameEndedByMovements(int) and isSwappable(Board, int, int,
+	 *           int).
+	 *           <li>level.board is non-null, contains non-null cells with
+	 *           non-null ChewyObjects</li>
+	 *           <li>Board has an instance method fillCellAt(int, int,
+	 *           ChewyObject)</li>
+	 *           <li>integer field movementsLeft is initialized</li>
+	 *           </ul>
+	 * @modifies if returned true;
+	 *           <ul>
+	 *           <li>level.board</li>
+	 *           <li>movementsLeft field</li>
+	 *           </ul>
+	 * @ensures If swap returns true, then ChewyObjects of the cells at the
+	 *          board positions of move are exchanged.<br>
+	 *          Otherwise, nothing will be changed.
+	 */
+	public boolean swap(Move move){
+		return(swap_cont(move));
+	}
+
+	/**
+	 * Tries to swap the objects in two cells specified by their coordinates. If
+	 * swap becomes successful, returns true. Otherwise, returns false.
+	 *
+	 * @requires <ul>
+	 *           <li>board field is non-null</li>
+	 *           <li>rules field is non-null</li>
+	 *           <li>RuleEngine has instance predicate methods
+	 *           gameEndedByMovements(int) and isSwappable(Board, int, int,
+	 *           int).
+	 *           <li>level.board is non-null, contains non-null cells with
+	 *           non-null ChewyObjects</li>
+	 *           <li>Board has an instance method fillCellAt(int, int,
+	 *           ChewyObject)</li>
+	 *           <li>integer field movementsLeft is initialized</li>
+	 *           </ul>
+	 * @modifies if returned true;
+	 *           <ul>
+	 *           <li>level.board</li>
+	 *           <li>movementsLeft field</li>
+	 *           </ul>
+	 * @ensures If swap returns true, then ChewyObjects of the cells at the
+	 *          board positions of move are exchanged.<br>
+	 *          Otherwise, nothing will be changed.
+	 */
+	private boolean swap_cont(Move move){
 		
 		SwapRules swapRules = rules.getSwapRules(move);		
 		if (!swapRules.isValid(this, move)) {
 			return false;
 		}
-		
 		
 		//ScoringRules scoringRules = rules.getScoringRules(move);
 		lastMove = move;
@@ -225,13 +283,8 @@ public class GamePlay implements Serializable{
 		publishGame(UpdateType.movementLeftLabel);
 		publishGame(UpdateType.boardPanel);
 		return true;
-		
-		
 	}
-	
-	
-	
-	
+		
 	/**
 	 *@requires RuleEngine generates non null objects that works correctly based on specified rules, level, level.board are non null and level.board have non null cells
 	 *@modifies score, specialMovementsLeft, movementsLeft, level.board
