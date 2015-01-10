@@ -28,3 +28,6 @@ local.properties
 
 # TeXlipse plugin
 .texlipse
+
+# OUR PROJECT - file.xml (save file)
+file.xml
