@@ -99,24 +99,19 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 		llgoal = new JLabel(String.valueOf(gap.getLevel().getPassingScore()));
 		buttonHolder.add(llgoal);
 		
-		
-		lmoves = new JLabel("Moves");
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.anchor = GridBagConstraints.PAGE_START;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 0;
-		buttonHolder.add(lmoves);
-
-		llmoves = new JLabel(String.valueOf(gap.getMovementsLeft()));
-		buttonHolder.add(llmoves);
-		
-		lspeMove = new JLabel("Special Moves");
-		buttonHolder.add(lspeMove);
-		
-		llspMove = new JLabel(String.valueOf(gap.getSpecialMovementsLeft()));
-		buttonHolder.add(llspMove);
+		if(gap.getMovementsLeft() > 0){
+			lmoves = new JLabel("Moves");
+			c.gridheight = 1;
+			c.weightx = 0.5;
+			c.anchor = GridBagConstraints.PAGE_START;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.gridx = 1;
+			c.gridy = 0;
+			buttonHolder.add(lmoves);
+	
+			llmoves = new JLabel(String.valueOf(gap.getMovementsLeft()));
+			buttonHolder.add(llmoves);
+		}
 		
 		lscore = new JLabel("Score");
 		c.gridheight = 1;
@@ -129,19 +124,27 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 
 		llscore = new JLabel(String.valueOf(gap.getScore()));
 		buttonHolder.add(llscore);
-		
+
+		lltime = new JLabel(String.valueOf(gap.getTimeLeft()));
 		ltime = new JLabel("Time");
-		buttonHolder.add(ltime);
-		
-		lltime = new JLabel(String.valueOf("0"));
-		buttonHolder.add(lltime);
-		
+		if(gap.getTimeLeft() > 0){
+			buttonHolder.add(ltime);
+			buttonHolder.add(lltime);
+		}
+
+		lspeMove = new JLabel("Special Moves");
+		llspMove = new JLabel(String.valueOf(gap.getSpecialMovementsLeft()));
 		SpeMoveCB = new JCheckBox("Activate SM");
-		SpeMoveCB.setBackground(gameColor);
-		SpeMoveCB.setBorder(BorderFactory.createLineBorder(Color.black));
-		SpeMoveCB.setBorderPainted(true);
-		
-		buttonHolder.add(SpeMoveCB);
+		SpeMoveCB.setEnabled(false);
+		if(gap.getSpecialMovementsLeft() > 0){
+			SpeMoveCB.setBackground(gameColor);
+			SpeMoveCB.setBorder(BorderFactory.createLineBorder(Color.black));
+			SpeMoveCB.setBorderPainted(true);
+			
+			buttonHolder.add(lspeMove);
+			buttonHolder.add(llspMove);
+			buttonHolder.add(SpeMoveCB);
+		}
 		
 		saveButton = new UIButton("game", "Save", uiColor);
 		c.gridheight = 1;
@@ -318,7 +321,7 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			waitGame(400);
 			
 		}else if(type == UpdateType.timeLabel){
-			lltime.setText(String.valueOf(gp.getLevelId()));
+			lltime.setText(String.valueOf(gp.getTimeLeft()));
 			buttonHolder.updateUI();
 
 		}else if(type == UpdateType.specialMovementLeftLabel){
@@ -390,6 +393,7 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 	public void exitButtonClicked() {
 		// to do something to end the gameplay
 		dispose();
+		System.exit(0);
 	}
 	
 	public void releaseCells(){
