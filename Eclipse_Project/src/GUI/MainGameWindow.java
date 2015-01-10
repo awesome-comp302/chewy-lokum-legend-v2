@@ -21,7 +21,6 @@ import Logic.Board;
 import Logic.Cell;
 import Logic.GamePlay;
 import Logic.GameUpdateListener;
-import Logic.Move;
 import Logic.UpdateType;
 
 
@@ -276,8 +275,6 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			score = gp.getScore();
 			remMove = gp.getMovementsLeft();
 
-			boardPanel.removeAll();
-
 			Board b = gp.getBoard();
 
 			boardPanel.setLayout(new GridLayout(b.getHeight(),b.getWidth()));
@@ -297,8 +294,6 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			buttonHolder.updateUI();
 
 		}else if (type == UpdateType.boardPanel){
-
-			boardPanel.removeAll();
 
 			Board b = gp.getBoard();
 
