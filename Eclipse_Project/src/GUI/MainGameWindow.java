@@ -377,9 +377,17 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 	}
 	
 	public void sendSwap(){
-		Move move = new Move(click1.coordX, click1.coordY, click2.coordX, click2.coordY, gp, SpeMoveCB.isSelected());
-		gp.swap(move);
-		gp.updateBoard();
+		
+		boolean swapped;
+		if (SpeMoveCB.isSelected()) {
+			swapped = gp.specialSwap(click1.coordX, click1.coordY, click2.coordX, click2.coordY);
+		} else {
+			swapped = gp.swap(click1.coordX, click1.coordY, click2.coordX, click2.coordY);
+		}
+		
+		if (swapped) {
+			gp.updateBoard();
+		}
 		
 		releaseCells();
 	}
