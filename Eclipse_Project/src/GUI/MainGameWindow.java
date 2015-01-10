@@ -135,7 +135,6 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 		lspeMove = new JLabel("Special Moves");
 		llspMove = new JLabel(String.valueOf(gap.getSpecialMovementsLeft()));
 		SpeMoveCB = new JCheckBox("Activate SM");
-		SpeMoveCB.setEnabled(false);
 		if(gap.getSpecialMovementsLeft() > 0){
 			SpeMoveCB.setBackground(gameColor);
 			SpeMoveCB.setBorder(BorderFactory.createLineBorder(Color.black));
