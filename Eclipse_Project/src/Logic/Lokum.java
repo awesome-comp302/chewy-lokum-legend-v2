@@ -2,7 +2,10 @@ package Logic;
 
 import java.util.Arrays;
 
-public class Lokum extends ChewyObject implements Matchable {
+public class Lokum extends ChewyObject implements Matchable{
+
+	private boolean timed;
+
 	public static final String specialTypes[] = { "Color Bomb",
 			"Horizontal Striped", "Regular", "Vertical Striped", "Wrapped"
 
@@ -17,15 +20,33 @@ public class Lokum extends ChewyObject implements Matchable {
 	/*
 	 * 
 	 */
-	public Lokum(int isTimed, String type, String specialType)
+	
+	public Lokum clone() {
+		return new Lokum(type, specialType, timed);
+	}
+
+	public Lokum(String type, String specialType, boolean timed) {
+		this.specialType = specialType;
+		this.timed = timed;
+		if (isValid(type)) {
+			this.type = type;
+			
+		} else {
+			throw new IllegalArgumentException("Type: " + type + " is unknown.");
+		}
+	}
+	
+	public boolean isTimed() {
+		return timed;
+	}
+	
+	public void setTimed(boolean b){
+		timed = b;
+	}
+	
+	public Lokum(String type, String specialType)
 			throws IllegalArgumentException {
 		this.specialType = specialType;
-
-		if (isTimed == 1 || isTimed == 0) {
-			this.isTimed = isTimed;
-		} else {
-			throw new IllegalArgumentException("Is timed can only be 0 or 1");
-		}
 
 		if (isValid(type)) {
 			this.type = type;
@@ -34,8 +55,8 @@ public class Lokum extends ChewyObject implements Matchable {
 		}
 	}
 
-	public Lokum(int isTimed, String type) {
-		this(isTimed, type, "Regular");
+	public Lokum(String type) {
+		this(type, "Regular");
 	}
 
 	public void setSpecialType(String specialType) {

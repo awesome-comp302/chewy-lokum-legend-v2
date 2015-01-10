@@ -1,7 +1,11 @@
 package Logic;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.swing.Timer;
 
 
 /**
@@ -28,16 +32,20 @@ public class GamePlay implements Serializable{
 	private RuleEngine rules;
 
 	private Position successfullSwapLog[];
-	private Lokum swappedObject1 = new Lokum(false, "red rose"), swappedObject2= new Lokum(false, "red rose");
 	
-
+	
 	private Player player;
 	private BoardUpdater updater;
+	
+
 
 	/**
 	 *private field for storing listeners 
 	 */
 	private ArrayList<GameUpdateListener> listeners;
+	
+	private int timeLeft;
+	private Timer timer;
 	
 	/**
 	 * Instantiates a new game play.
@@ -52,7 +60,56 @@ public class GamePlay implements Serializable{
 		movementsLeft = level.getPossibleMovements();
 		board = level.getBoard();
 		player = new Player();
+		timeLeft = level.getTime();
+		specialMovementsLeft = level.getSpecialMoveCount();
+		ActionListener runner = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(!isGameOver()){
+					timeLeft--;
+	
+					publishGame(UpdateType.timeLabel);
+				}
+				else {
+					publishGame(UpdateType.showEndGame);
+				}
+			}
+		};
+		
+		
+		Timer timer = new Timer(1000,runner);
+		timer.setRepeats(true);
+		if (level.hasTimer()) {
+			timer.start();
+		}
+		
 		//successfullSwapLog = new Position[2];
+		
+		/*aTask = new TimerTask() {
+			public void run() {
+				timeLeft--;
+				publishGame(UpdateType.timeLabel);
+			}
+		};
+		
+		timer = new Timer();
+		timer.scheduleAtFixedRate(aTask, 1000, 1000);*/
+		
+		
+	}
+	
+	public void countDownTimer(){
+		timeLeft--;
+	}
+	
+	public int getTimeLeft() {
+		return timeLeft;
+	}
+	
+	public void increaseTime() {
+		timeLeft += 5;
 	}
 	
 	public void addListener(GameUpdateListener listener) {
@@ -144,32 +201,14 @@ public class GamePlay implements Serializable{
 	 *          Otherwise, nothing will be changed.
 	 */
 
-	public boolean swap(Move move) {
+	public boolean swap(int x1, int y1, int x2, int y2) {
 		
-		MatchingScaleInformerFactory f = MatchingScaleInformerFactory.getInstance();
-		for (int i = 0; i < board.getWidth(); i++) {
-			for (int j = 0; j < board.getHeight(); j++) {
-				MatchingScaleInformer msi = f.getMatchingScaleInformer(board, i, j, board.cellAt(i, j).getCurrentObject());
-				System.out.print(msi + " at " + i + " " + j + "\t");
-			}
-			System.out.println();
-		}
+		Move move = new Move(x1, y1, x2, y2, this, false);
 		
 		SwapRules swapRules = rules.getSwapRules(move);		
 		if (!swapRules.isValid(this, move)) {
 			return false;
 		}
-<<<<<<< HEAD
-			
-		successfullSwapLog[0] = new Position(x1, y1);
-		successfullSwapLog[1] = new Position(x2, y2);
-		
-		Cell cell1 = board.cellAt(x1, y1);
-		Cell cell2 = board.cellAt(x2, y2);
-		swappedObject1 = (Lokum)cell1.getCurrentObject();
-		swappedObject2  = (Lokum)cell2.getCurrentObject();
-=======
->>>>>>> 0e38f928002873cb8dfb0a6085a472f9ecea25a5
 		
 		
 		//ScoringRules scoringRules = rules.getScoringRules(move);
@@ -206,6 +245,8 @@ public class GamePlay implements Serializable{
 		if (!swapRules.isValid(this, move)) {
 			return false;
 		}
+		
+		lastMove = move;
 		Cell cell1 = board.cellAt(x1, y1);
 		Cell cell2 = board.cellAt(x2, y2);
 		
@@ -226,11 +267,7 @@ public class GamePlay implements Serializable{
 	public int getSpecialMovementsLeft() {
 		return specialMovementsLeft;
 	}
-	
-	public void setSpecialMovementsLeft(int spLeft){
-		specialMovementsLeft = spLeft;
-	}
-	
+
 	/**
 	 * Returns the level played.
 	 */
@@ -250,6 +287,8 @@ public class GamePlay implements Serializable{
 
 
 	public void updateBoard() {
+		
+		
 		updater = new BoardUpdater(this, rules);
 		updater.eraseAll();
 		publishGame(UpdateType.boardPanel);
@@ -271,29 +310,40 @@ public class GamePlay implements Serializable{
 			publishGame(UpdateType.boardPanel);
 			score += updater.getScoreIncrease();
 			publishGame(UpdateType.scoreLabel);
+			
+			
 		}
+		
+		timeLeft += updater.getTimeIncrease();
+
 		
 	}
 	
-	
-	private void publishGame(UpdateType type) {
+
+	void publishGame(UpdateType type) {
 		for (int i = 0; i < listeners.size(); i++) {
 			listeners.get(i).onGameUpdate(this, type);
-		}
-		
+		}		
+	}
+	
+	boolean anyListeners() {
+		return !(listeners == null || listeners.isEmpty());
 	}
 
 	public void initBoard() {
 
 		updater = new BoardUpdater(this, rules);
 		
+		
 		while(updater.stillToDo()){ 
 			updater.fillEmptyCells();
 			
 			updater.eraseAll();
 		}
+		
 		publishGame(UpdateType.all);
 
+		
 	}
 
 	/**
@@ -321,58 +371,6 @@ public class GamePlay implements Serializable{
 	 * @param scaleMatrix the scale matrix
 	 */
 
-
-	@SuppressWarnings("unused")
-	private void eraseForNormal(MatchingScaleInformer currentMSI, int i, int j) {
-		String type;
-		if (board.cellAt(i, j).getCurrentObject() instanceof Lokum) {
-			Lokum lokum = (Lokum) board.cellAt(i, j).getCurrentObject();
-			type = lokum.getSpecialType();
-		}else{
-			type = "Nothing";
-		}
-		Lokum temp;
-		if(swappedObject1.isSpecial()){
-			temp = swappedObject2 ;
-		}else{ 
-			temp = swappedObject1;
-		}
-		
-
-		try {
-			if (type.equalsIgnoreCase("Regular")) {
-				board.fillCellAt(i, j, new Nothing());
-			} else if (type.equalsIgnoreCase("vertical striped")) {
-				clearColumn(j);
-			} else if (type.equalsIgnoreCase("horizontal striped")) {
-				clearRow(i);
-			} else if (type.equals("Wrapped")) {
-				clearArea(i, j);
-			} else if (type.equals("Color Bomb")) {
-				clearSameObjects(temp);
-			}
-		} catch (Exception e) {
-			
-		}
-		Position p = new Position(i, j);
-		if (recentlySwapped(p)) {
-			
-			Lokum swapped = null;
-			if (p.isSamePlace(successfullSwapLog[0])) {
-				swapped = swappedObject2;
-			} else {
-				swapped = swappedObject1;
-			}
-			
-			/*int specialityCode = rules.getSpecialityCode(currentMSI);
-			if (rules.isSpecialCase(specialityCode)) {
-				score += rules.getRelevantCreationScore(specialityCode);
-				board.fillCellAt(i, j,
-						rules.getRelevantSpecialObject(swapped.getType(), specialityCode));
-			}*/
-		}
-
-	}
 	
 
 	private void clearSameObjects(Matchable m) {
@@ -389,7 +387,7 @@ public class GamePlay implements Serializable{
 
 		for (int i = x-2; i < x+2; i++) {
 			for (int j =  y-2; j < y+2; j++) {
-					board.fillCellAt(i, j, new Nothing());
+				board.fillCellAt(i, j, new Nothing());
 			}
 
 		}	
@@ -541,6 +539,13 @@ public class GamePlay implements Serializable{
 	
 	public boolean isGameOver(){
 		//return rules.gameEndedByMovements(movementsLeft);
+		if (movementsLeft <= 0) {
+			return true;
+		}
+		
+		if (timeLeft == 0) {
+			return true;
+		}
 		return false;
 	}
 	

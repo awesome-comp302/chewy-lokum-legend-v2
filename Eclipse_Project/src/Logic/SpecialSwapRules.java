@@ -31,7 +31,18 @@ public class SpecialSwapRules implements SwapRules {
 			return false;
 		}
 		
-		return true;
+		MatchingScaleInformerFactory f = MatchingScaleInformerFactory.getInstance();
+		MatchingScaleInformer match1 = f.getMatchingScaleInformer(board, x1, y1, board.cellAt(x2, y2).getCurrentObject());
+		MatchingScaleInformer match2 = f.getMatchingScaleInformer(board, x2, y2, board.cellAt(x1, y1).getCurrentObject() );
+		
+		if (match1.horizontalMatchTotalScale() >= 3 || 
+				match1.verticalMatchTotalScale() >= 3 ||
+				match2.horizontalMatchTotalScale() >= 3 ||
+				match2.verticalMatchTotalScale() >= 3) {
+			return true;
+		}
+		
+		return false;
 		
 	}
 

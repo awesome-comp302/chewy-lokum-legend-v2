@@ -21,20 +21,24 @@ public class StandardGenerationRules implements GenerationRules {
 	//lastMove stores allready waps adresses
 	public ChewyObject getObject(String lastType, MatchingScaleInformer msi) {
 		
-		if (msi.horizontalMatchTotalScale() == 4) {
-			return new Lokum(lastType, "Horizontal Striped");
-		}
-		if (msi.verticalMatchTotalScale() == 4) {
-			return new Lokum(lastType, "Vertical Striped");
-		}
 		if (msi.horizontalMatchTotalScale() == 5 || msi.verticalMatchTotalScale() == 5) {
 			return new Lokum(lastType, "Color Bomb");
 		}
-		if (msi.horizontalMatchTotalScale() == 3 && msi.verticalMatchTotalScale() == 3) {
+		
+		if (msi.horizontalMatchTotalScale() >= 3 && msi.verticalMatchTotalScale() >= 3) {
 			return new Lokum(lastType, "Wrapped");
 		}
 		
-		return null;
+		if (msi.horizontalMatchTotalScale() == 4) {
+			return new Lokum(lastType, "Vertical Striped");
+		}
+		if (msi.verticalMatchTotalScale() == 4) {
+			return new Lokum(lastType, "Horizontal Striped");
+		}
+		
+		
+		
+		return new Nothing();
 	}
 	
 

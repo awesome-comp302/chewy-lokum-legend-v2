@@ -11,8 +11,6 @@ public class Level {
 	private int time;
 	private int specialMoveCount;
 	private boolean[] levelModes;
-	
-	private int[] levelVars;
 
 
 	/**
@@ -59,9 +57,6 @@ public class Level {
 	 * 
 	 */
 	public Level(int[] levelVars, boolean[] levelMode) throws IllegalArgumentException{
-		this.levelVars = levelVars;
-		this.levelModes = levelMode;
-		
 		setLevelModes(levelMode);
 		setPassingScore(levelVars);
 		setPossibleMovements(levelVars);
@@ -122,21 +117,13 @@ public class Level {
 		return specialMoveCount;
 	}
 	
-	public int[] getLevelVars(){
-		return this.levelVars;
-	}
-	
-	public boolean[] getLevelModes(){
-		return this.levelModes;
-	}
-	
 
 	/**
 	 * -Going to be removed-
 	 * Clears the LevelIDs list's history 
 	 */
 	public static void clearLevelIDs(){
-		allLevelIds = new ArrayList<Integer>();
+		allLevelIds.clear();
 	}
 
 
@@ -173,15 +160,6 @@ public class Level {
 		time = levelVars[2];
 		
 		if (time <= 0 && hasTimer()) {
-			throw new IllegalArgumentException("Timer should be positive");
-		}
-	}
-	
-	public void setTime(int time){
-		
-		this.time = time;
-		
-		if(time<=0 && hasTimer()){
 			throw new IllegalArgumentException("Timer should be positive");
 		}
 	}

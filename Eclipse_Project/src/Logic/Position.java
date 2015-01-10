@@ -29,6 +29,10 @@ public class Position {
 		return p.x == x &&
 				p.y == y;
 	}
+	
+	public boolean isSamePlace(int x, int y) {
+		return this.x == x && this.y == y;
+	}
 	@Override
 	public String toString() {
 		return "Position [x=" + x + ", y=" + y + "]";

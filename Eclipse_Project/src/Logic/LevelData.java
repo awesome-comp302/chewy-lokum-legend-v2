@@ -58,11 +58,11 @@ public class LevelData {
 	}
 	
 	private void createVarsForLevels(){
-		idsToLevelVars.put(1, createLevelVar(1000000, 50, 0, 0, 1));
-		idsToLevelVars.put(2, createLevelVar(2000000, 35, 0, 0, 2));
+		idsToLevelVars.put(1, createLevelVar(1000000, 50, -1, 0, 1));
+		idsToLevelVars.put(2, createLevelVar(2000000, 35, -1, 0, 2));
 		idsToLevelVars.put(3, createLevelVar(2000000, 35, 90, 0, 3));
 		idsToLevelVars.put(4, createLevelVar(2500000, 30, 60, 0, 4));
-		idsToLevelVars.put(5, createLevelVar(3000000, 20, 60, 5, 5));
+		idsToLevelVars.put(5, createLevelVar(3000000, 90, 900, 65, 5));
 		
 	}
 	

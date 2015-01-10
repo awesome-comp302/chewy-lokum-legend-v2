@@ -7,6 +7,16 @@ public class NormalEraseRules implements EraseRules{
 	@Override
 	public boolean shouldErased(GamePlay gp, MatchingScaleInformer match,
 			Position position) {
+		
+		ChewyObject ob = gp.getLevel().getBoard().cellAt(position.getX(),
+				position.getY()).getCurrentObject();
+		
+		if (ob instanceof Lokum) {
+			if(((Lokum)ob).isSpecial()) {
+				return false;
+			}
+		}
+		
 		if (match.horizontalMatchTotalScale() >= MINIMUM_MATCH) {
 			return true;
 		}
