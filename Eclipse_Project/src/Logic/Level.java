@@ -11,37 +11,9 @@ public class Level {
 	private int time;
 	private int specialMoveCount;
 	private boolean[] levelModes;
-
-
-	/**
-	 * -Going to be removed-
-	 * Note: Some optimizations should be done to constructor.
-	 * @requires
-	 * board class exists and accessible from the Level, 
-	 * allLevelIds ArrayList is non-null
-	 * @modifies
-	 * passingScore, levelId, board, allLevelIds, possibleMovements
-	 * @ensures
-	 * An IllegalArgumentException is thrown if passing score is negative or levelId is alreadey taken by another Level instance.
-	 * Constructor arguments possibleMovements, passingScore, board, levelId are assigned to the relevant fields.
-	 * allLevelIds arrayList is extended by the given levelId.
-	 * 
-	 */
-	public Level(int passingScore, int possibleMovements, Board board, int levelId) throws IllegalArgumentException{
-		if (passingScore <= 0) {
-			throw new IllegalArgumentException("passing score should be positive");
-		}
-		if (allLevelIds.contains(levelId)) {
-			throw new IllegalArgumentException("ID has been chosen");
-		}
-		this.possibleMovements = possibleMovements;
-		this.passingScore = passingScore;
-		this.levelId = levelId;
-		allLevelIds.add(levelId);
-		this.board = board;
-	}
 	
-	
+	private static int lastUnlockedLevel;
+
 	
 	
 	/**
@@ -65,6 +37,12 @@ public class Level {
 		setLevelId(levelVars);
 		
 		board = new Board(6,6);
+		
+		lastUnlockedLevel = 2;
+		if(lastUnlockedLevel < levelId) 
+			lastUnlockedLevel = levelId;
+		
+		
 		
 	}
 
@@ -306,5 +284,31 @@ public class Level {
 				"Special number count: " +specialMoveCount+ "\n"+
 				"=======================\n"+
 				board.status();
+	}
+
+
+
+
+	public static int getLastUnlockedLevel() {
+		return lastUnlockedLevel;
+	}
+
+
+
+	public void setBoardSize(int x, int y) {
+		board = new Board(x,y);
+		
+	}
+
+
+
+	public static void setLastUnlockedLevel(int lastUnlockeldLevel) {
+		lastUnlockedLevel = lastUnlockeldLevel;
+	}
+
+
+
+	public boolean[] getLevelModes() {
+		return levelModes;
 	}
 }

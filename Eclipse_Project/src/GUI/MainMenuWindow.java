@@ -167,7 +167,6 @@ public class MainMenuWindow extends JFrame {
 
 	}
 	
-	@SuppressWarnings("unused")
 	private void loadButtonClicked(){
 		setAlwaysOnTop(false);
 		

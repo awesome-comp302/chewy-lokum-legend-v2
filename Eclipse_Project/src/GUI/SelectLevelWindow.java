@@ -65,7 +65,9 @@ public class SelectLevelWindow extends JFrame{
 	}
 	
 	public void setLockedButtonsText(){
-		int lastUnlocked = Level.getLastUnlockedLevel();
+		int lastUnlocked = Level.getLastUnlockedLevel()+1;
+		
+		System.out.println(lastUnlocked);
 		
 		
 		if(lastUnlocked == 1){
@@ -106,7 +108,7 @@ public class SelectLevelWindow extends JFrame{
 				setVisible(false);
 				MainMenuWindow.getInstance().setVisible(true);
 			}else{
-				int lastUnlocked = Level.getLastUnlockedLevel();
+				int lastUnlocked = Level.getLastUnlockedLevel()+1;
 				if(srcButton == level1){
 					buttonId = 1;
 				}else if(srcButton == level2){
