@@ -41,7 +41,6 @@ public class NormalEraseRules implements EraseRules{
 	}
 
 	public static NormalEraseRules getInstance() {
-		// TODO Auto-generated method stub
 		if (instance == null) {
 			instance = new NormalEraseRules();
 		}
@@ -50,11 +49,6 @@ public class NormalEraseRules implements EraseRules{
 
 	public NormalEraseRules() {}
 
-	@Override
-	public void moveUsed(boolean b) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	
 }

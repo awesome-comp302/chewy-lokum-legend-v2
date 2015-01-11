@@ -1,11 +1,11 @@
 package Logic;
 
 public enum UpdateType {
-	scoreLabel,
-	movementLeftLabel,
-	showEndGame,
-	timeLabel,
-	boardPanel,
-	specialMovementLeftLabel,
-	all;	
+	SCORE,
+	MOVEMENT_LEFT,
+	END_GAME,
+	TIME,
+	BOARD,
+	SPECIAL_MOVEMENT_LEFT,
+	ALL;	
 }

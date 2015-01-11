@@ -49,20 +49,20 @@ public class LevelData {
 	}
 	
 	private void createModesForLevels(){
-		idsToLevelModes.put(1, createLevelMode(false, false, false, false));
-		idsToLevelModes.put(2, createLevelMode(true, false, false, false));
-		idsToLevelModes.put(3, createLevelMode(true, true, false, false));
-		idsToLevelModes.put(4, createLevelMode(true, true, true, false));
-		idsToLevelModes.put(5, createLevelMode(true, true, true, true));
+		idsToLevelModes.put(1, createLevelMode(true, true, true, true));
+		idsToLevelModes.put(2, createLevelMode(false, false, false, false));
+		idsToLevelModes.put(3, createLevelMode(true, false, false, false));
+		idsToLevelModes.put(4, createLevelMode(true, true, false, false));
+		idsToLevelModes.put(5, createLevelMode(true, true, true, false));
 		
 	}
 	
 	private void createVarsForLevels(){
-		idsToLevelVars.put(1, createLevelVar(100, 50, -1, 0, 1));
-		idsToLevelVars.put(2, createLevelVar(200, 35, -1, 0, 2));
-		idsToLevelVars.put(3, createLevelVar(300, 35, 90, 0, 3));
-		idsToLevelVars.put(4, createLevelVar(400, 30, 60, 0, 4));
-		idsToLevelVars.put(5, createLevelVar(500, 90, 900, 65, 5));
+		idsToLevelVars.put(1, createLevelVar(5000, 20, 90, 10, 5));
+		idsToLevelVars.put(2, createLevelVar(30000, 35, -1, 0, 2));
+		idsToLevelVars.put(3, createLevelVar(40000, 35, -1, 0, 3));
+		idsToLevelVars.put(4, createLevelVar(50000, 30, 60, 0, 4));
+		idsToLevelVars.put(5, createLevelVar(50000, 90, 90, 0, 5));
 		
 	}
 	

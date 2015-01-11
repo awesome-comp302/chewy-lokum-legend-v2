@@ -27,7 +27,7 @@ public class Cell implements Clonable{
 	public boolean isExchangable() {
 		return currentObject instanceof Matchable;
 	}
-	//this implementation maybe connected to the rule engine
+	
 	
 	
 	/**

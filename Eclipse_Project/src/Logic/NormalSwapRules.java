@@ -5,7 +5,6 @@ public class NormalSwapRules implements SwapRules {
 	public static NormalSwapRules instance;
 
 	public static SwapRules getInstance() {
-		// TODO Auto-generated method stub
 		if (instance == null) {
 			instance = new NormalSwapRules();	
 		}
@@ -29,12 +28,10 @@ public class NormalSwapRules implements SwapRules {
 		Board board = gp.getLevel().getBoard();
 
 		if (!(board.inBoard(x1, y1) && board.inBoard(x2, y2))) {
-			//System.err.println("inBoard");
 			return false;
 		}
 						
 		if (!isConsecutive(x1, y1, x2, y2)) {
-			//System.err.println("consecutive");
 			return false;
 		}
 		
@@ -42,7 +39,6 @@ public class NormalSwapRules implements SwapRules {
 		ChewyObject o2 = gp.getLevel().getBoard().cellAt(x2, y2).getCurrentObject();
 		
 		if (!areLokums( o1, o2) ) {
-			//System.err.println("areLokums");
 			return false;
 		}
 		
@@ -66,20 +62,17 @@ public class NormalSwapRules implements SwapRules {
 			
 			return true;
 		}
-		//System.err.println("hm");
+
 		
 		if (msi1.verticalMatchTotalScale() >= 3) {
-			//System.err.println("vm");
 			return true;
 		}
 		
 		if (msi2.horizontalMatchTotalScale() >= 3) {
-			//System.err.println("hm2");
 			return true;
 		}
 		
 		if (msi2.verticalMatchTotalScale() >= 3) {
-			//System.err.println("vm2");
 			return true;
 		}
 		
@@ -88,7 +81,6 @@ public class NormalSwapRules implements SwapRules {
 	
 	/**@requires: o1 and o2 are lokums*/
 	private boolean isOneColorBomb(ChewyObject o1, ChewyObject o2) {
-		// TODO Auto-generated method stub
 		Lokum l1 = (Lokum)o1;
 		if (l1.getSpecialType().equalsIgnoreCase("Color Bomb")) {
 			return true;
@@ -103,7 +95,6 @@ public class NormalSwapRules implements SwapRules {
 	}
 
 	private boolean areLokums(ChewyObject o1, ChewyObject o2) {
-		// TODO Auto-generated method stub
 		return (o1 instanceof Lokum) && (o2 instanceof Lokum);
 	}
 

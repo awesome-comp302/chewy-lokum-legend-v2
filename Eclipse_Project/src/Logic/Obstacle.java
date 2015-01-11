@@ -11,10 +11,8 @@ public class Obstacle extends ChewyObject{
 		else {
 			throw new IllegalArgumentException("Illegal obstacle type");
 		}
-		// TODO Auto-generated constructor stub
 	}
 	private boolean isValid(String type) {
-		// TODO Auto-generated method stub
 		return Arrays.binarySearch(types, type) >= 0;
 	}
 	

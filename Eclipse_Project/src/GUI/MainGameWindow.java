@@ -249,7 +249,7 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 					cellClicked((CellButton)srcButton);
 				} else if (srcButton == quitButton){
 					gp.stopTimer();
-					onGameUpdate(gp,UpdateType.showEndGame);
+					onGameUpdate(gp,UpdateType.END_GAME);
 				} else if(srcButton == nextLevelButton){
 					int levelID = gp.getLevelId()+1;
 
@@ -261,7 +261,6 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 					MainGameWindow gs = new MainGameWindow(gap);
 					
 					gs.playTheGame();
-					System.out.println("Game is done");
 					
 				} else if(srcButton == mainMenuButton){
 					exitButtonClicked();
@@ -324,9 +323,8 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 		setFocusable(false);
 
 
-		if(type == UpdateType.all){
+		if(type == UpdateType.ALL){
 			
-			System.out.println("All");
 			score = gp.getScore();
 			remMove = gp.getMovementsLeft();
 
@@ -350,7 +348,7 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			boardPanel.updateUI();
 			buttonHolder.updateUI();
 
-		}else if (type == UpdateType.boardPanel){
+		}else if (type == UpdateType.BOARD){
 			Board b = gp.getBoard();
 
 			boardPanel.setLayout(new GridLayout(b.getHeight(),b.getWidth()));
@@ -368,15 +366,15 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			
 			waitGame(400);
 			
-		}else if(type == UpdateType.timeLabel){
+		}else if(type == UpdateType.TIME){
 			lltime.setText(String.valueOf(gp.getTimeLeft()));
 			buttonHolder.updateUI();
 
-		}else if(type == UpdateType.specialMovementLeftLabel){
+		}else if(type == UpdateType.SPECIAL_MOVEMENT_LEFT){
 			llspMove.setText(String.valueOf(gp.getSpecialMovementsLeft()));
 			buttonHolder.updateUI();
 
-		}else if(type == UpdateType.showEndGame){
+		}else if(type == UpdateType.END_GAME){
 			setFocusable(true);
 			boardPanel.removeAll();
 			
@@ -410,12 +408,12 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 				boardPanel.add(endGamePanel);
 			}
 
-		}else if(type == UpdateType.scoreLabel){
+		}else if(type == UpdateType.SCORE){
 			score = gp.getScore();
 			llscore.setText(String.valueOf(score));
 			buttonHolder.updateUI();
 
-		}else if(type == UpdateType.movementLeftLabel){
+		}else if(type == UpdateType.MOVEMENT_LEFT){
 			remMove = gp.getMovementsLeft();
 			llmoves.setText(String.valueOf(remMove));
 
@@ -439,7 +437,6 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			if(click1 == null || click2 == null){ System.out.println("ouch"); }
 			click1.setBorder(BorderFactory.createEmptyBorder());
 			click2.setBorder(BorderFactory.createEmptyBorder());
-			System.out.println("both clicked");
 			sendSwap();
 		}else {
 			click1 = cb;
@@ -453,13 +450,10 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 		if (SpeMoveCB.isSelected()) {
 			swapped = gp.specialSwap(click1.coordX, click1.coordY, click2.coordX, click2.coordY);
 		} else {
-			System.out.println("swapEnter");
+
 			swapped = gp.swap(click1.coordX, click1.coordY, click2.coordX, click2.coordY);
-			System.out.println("swapEnd");
 		}
-		System.out.println(swapped);
 		if (swapped) {
-			System.out.println("swapped");
 			gp.updateBoard();
 		}
 		
@@ -467,9 +461,8 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 	}
 	
 	public void saveButtonClicked() {
-		if(gp.getLevel().hasTimer()){
-			gp.stopTimer();
-		}
+		
+		gp.stopTimer();
 		
 		FileDialog fd = new FileDialog(this, "Save Game", FileDialog.SAVE);
 		fd.setFile("*.xml");
@@ -482,9 +475,7 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			WriteXMLFile.getInstance().write(filename);
 			setAlwaysOnTop(false);
 			JOptionPane.showMessageDialog(null, "Game Saved");
-			if(gp.getLevel().hasTimer()){
-				gp.startTimer();
-			}
+			gp.startTimer();
 
 		}
 		

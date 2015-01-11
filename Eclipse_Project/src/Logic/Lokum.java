@@ -17,9 +17,6 @@ public class Lokum extends ChewyObject implements Matchable{
 
 	private String specialType;
 
-	/*
-	 * 
-	 */
 	
 	public Lokum clone() {
 		return new Lokum(type, specialType, timed);

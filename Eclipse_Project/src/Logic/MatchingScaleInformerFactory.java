@@ -105,7 +105,6 @@ public class MatchingScaleInformerFactory {
 
 	public MatchingScaleInformer getMatchingScaleInformer(Board board, int x,
 			int y) {
-		// TODO Auto-generated method stub
 		return getMatchingScaleInformer(board, x, y, board.cellAt(x, y).getCurrentObject());
 	}
 	

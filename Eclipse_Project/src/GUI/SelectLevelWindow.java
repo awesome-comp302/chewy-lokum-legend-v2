@@ -67,8 +67,6 @@ public class SelectLevelWindow extends JFrame{
 	public void setLockedButtonsText(){
 		int lastUnlocked = Level.getLastUnlockedLevel()+1;
 		
-		System.out.println(lastUnlocked);
-		
 		
 		if(lastUnlocked == 1){
 			level2.setText("Level 2 [Locked]");
@@ -127,7 +125,6 @@ public class SelectLevelWindow extends JFrame{
 					dispose();
 					
 					MainGameWindow gs = new MainGameWindow(gp);
-					
 					gs.playTheGame();
 				}else{
 					JOptionPane.showMessageDialog(null, "The level is Locked");
@@ -140,25 +137,21 @@ public class SelectLevelWindow extends JFrame{
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 		

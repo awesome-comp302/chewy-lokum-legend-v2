@@ -65,16 +65,6 @@ public class BoardUpdater {
 		}
 	}
 
-	/**
-	 * @requires gp, gp.level, gp.level.board are non null, gp.level.board have
-	 *           non null cells, gp.rules is non null and works properly
-	 * @modifies gp.level.board
-	 * @ensures there are valid swap in the game
-	 */
-	public void shuffle() {
-
-	}
-
 	public boolean isThereAvailableMove() {
 		Board board = gp.getLevel().getBoard();
 		for (int i = 0; i < board.getWidth() - 1; i++) {
@@ -129,7 +119,6 @@ public class BoardUpdater {
 	
 
 	private void collectCBs() {
-		//System.out.println("Ahan");
 		
 		Move move = gp.getLastMove();
 		if (move.getSpecialType1().equals("Color Bomb")) {
@@ -242,7 +231,6 @@ public class BoardUpdater {
 		//Striped-Color Bomb
 		else if (st1.endsWith("Striped") && st2.equals("Color Bomb")
 				|| st1.equals("Color Bomb") && st2.endsWith("Striped")) {
-			//System.err.println("Girdik");
 			
 			String type = st1.endsWith("Striped") ? lm.getType1() : lm.getType2();
 			Random rand = new Random();
@@ -310,7 +298,6 @@ public class BoardUpdater {
 	}
 
 	private boolean isCombo() {
-		// TODO Auto-generated method stub
 		Move m = gp.getLastMove();
 		if (m.getSpecialType1().equals("Regular") && m.getSpecialType2().equals("Regular")) {
 			return false;
@@ -383,10 +370,6 @@ public class BoardUpdater {
 				// erasing
 				if (eraseRules.shouldErased(gp, scaleMatrix[i][j],
 						new Position(x, y))) {
-					/*ChewyObject current = board.cellAt(x, y).getCurrentObject();
-					if (!(current instanceof Nothing)) {
-						board.fillCellAt(x, y, new Nothing());
-					}*/
 					addTimeToGame(board.cellAt(x, y).getCurrentObject());
 					board.fillCellAt(x, y, objectToPut);
 				}
@@ -401,16 +384,12 @@ public class BoardUpdater {
 		for (int i = 0; i < scaleMatrix.length; i++) {
 			for (int j = 0; j < scaleMatrix[0].length; j++) {
 				score += sr.getMatchingScore(scaleMatrix[i][j]);
-				//System.out.println(score + "at "+ j + " " + i);
 			}
 		}
 		return score;
 
 	}
 
-	private int calculateSpecialScore() {
-		return 0;
-	}
 
 	private MatchingScaleInformer[][] generateScaleMatrix() {
 		Board board = gp.getLevel().getBoard();
@@ -467,48 +446,11 @@ public class BoardUpdater {
 	 *          to erase in the gp.level.board
 	 */
 	public boolean stillToDo() {
-		// shuffle needed
-		 //if (!isThereAvailableMove()) 
-			 //return true;
-		// empty places
 		if (isThereNothing()) {
 			return true;
 		}
 
-		/*if (isThereAnythingToErase()) {
-			return true;
-		}*/
-
 		return false;
-	}
-
-	private boolean isThereAnythingToErase() {
-		Move lastMove = gp.getLastMove();
-		
-		if (lastMove != null) {
-			if (!lastMove.getSpecialType1().equals("Color Bomb")
-					|| lastMove.getSpecialType2().equals("Color Bomb")) {
-				return true;
-			}
-		}
-		
-		Board board = gp.getBoard();
-		for (int i = 0; i < board.getWidth(); i++) {
-			for (int j = 0; j < board.getHeight(); j++) {
-				MatchingScaleInformer msi = MatchingScaleInformerFactory.getInstance().getMatchingScaleInformer(board, i, j);
-				//System.out.println(msi);
-				if (msi.horizontalMatchTotalScale() >= 3) {
-					return true;
-				}
-		
-				if (msi.verticalMatchTotalScale() >= 3) {
-					return true;
-				}
-			}
-		}
-				
-		return false;
-
 	}
 
 	private boolean isThereNothing() {
@@ -524,7 +466,7 @@ public class BoardUpdater {
 	}
 
 	public int getTimeIncrease() {
-		// TODO Auto-generated method stub
+
 		return timeIncrease;
 	}
 	

@@ -5,12 +5,10 @@ public class StandardGenerationRules implements GenerationRules {
 	private static StandardGenerationRules instance;
 
 	private StandardGenerationRules() {
-		// TODO Auto-generated constructor stub
 	}
 	
 
 	public static StandardGenerationRules getInstance() {
-		// TODO Auto-generated method stub
 		if (instance == null) {
 			instance = new StandardGenerationRules();
 		}

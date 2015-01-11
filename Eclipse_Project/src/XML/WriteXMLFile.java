@@ -177,13 +177,11 @@ public class WriteXMLFile {
 			remainingSpecialMoves.appendChild(doc.createTextNode(""
 					+ gp.getSpecialMovementsLeft()));
 			
-			System.out.println(gp.getSpecialMovementsLeft());
-			System.out.println(remainingSpecialMoves);
 			
 			rootElement.appendChild(remainingSpecialMoves);
 
 			Element remainingTime = doc.createElement("remainingTime");
-			remainingTime.appendChild(doc.createTextNode("" + level.getTime()));
+			remainingTime.appendChild(doc.createTextNode("" + gp.getTimeLeft()));
 			rootElement.appendChild(remainingTime);
 
 			Element levelID = doc.createElement("levelID");
@@ -218,7 +216,6 @@ public class WriteXMLFile {
 			StreamResult result = new StreamResult(new File(filename));
 
 			// Output to console for testing
-			// StreamResult result = new StreamResult(System.out);
 
 			transformer.transform(source, result);
 

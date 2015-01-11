@@ -30,8 +30,6 @@ public class GamePlay implements Serializable{
 	
 	/** The rules. */
 	private RuleEngine rules;
-
-	private Position successfullSwapLog[];
 	
 	
 	private Player player;
@@ -66,36 +64,23 @@ public class GamePlay implements Serializable{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				if(!isGameOver()){
 					timeLeft--;
 	
-					publishGame(UpdateType.timeLabel);
+					publishGame(UpdateType.TIME);
 				}
 				else {
-					publishGame(UpdateType.showEndGame);
+					publishGame(UpdateType.END_GAME);
 				}
 			}
 		};
 		
 		
-		Timer timer = new Timer(1000,runner);
+		timer = new Timer(1000,runner);
 		timer.setRepeats(true);
 		if (level.hasTimer()) {
 			timer.start();
 		}
-		
-		//successfullSwapLog = new Position[2];
-		
-		/*aTask = new TimerTask() {
-			public void run() {
-				timeLeft--;
-				publishGame(UpdateType.timeLabel);
-			}
-		};
-		
-		timer = new Timer();
-		timer.scheduleAtFixedRate(aTask, 1000, 1000);*/
 		
 		
 	}
@@ -211,9 +196,7 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 		}
 		
 		
-		//ScoringRules scoringRules = rules.getScoringRules(move);
 		lastMove = move;
-		//score += scoringRules.getSwapScore(move);
 		
 		Cell cell1 = board.cellAt(move.getPosition1().getX(), move.getPosition1().getY());
 		Cell cell2 = board.cellAt(move.getPosition2().getX(), move.getPosition2().getY());
@@ -222,8 +205,8 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 		board.fillCellAt(move.getPosition1().getX(), move.getPosition1().getY(), cell2.getCurrentObject());
 		board.fillCellAt(move.getPosition2().getX(), move.getPosition2().getY(), temp);
 		movementsLeft--;
-		publishGame(UpdateType.movementLeftLabel);
-		publishGame(UpdateType.boardPanel);
+		publishGame(UpdateType.MOVEMENT_LEFT);
+		publishGame(UpdateType.BOARD);
 		return true;
 		
 		
@@ -258,9 +241,9 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 		board.fillCellAt(x2, y2, temp);
 		
 		movementsLeft--;
-		publishGame(UpdateType.movementLeftLabel);
+		publishGame(UpdateType.MOVEMENT_LEFT);
 		specialMovementsLeft--;
-		publishGame(UpdateType.specialMovementLeftLabel);
+		publishGame(UpdateType.SPECIAL_MOVEMENT_LEFT);
 		return true;
 	}
 	
@@ -289,49 +272,45 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 
 
 	public void updateBoard() {
-		//System.out.println("New update board call");
 		
 		updater = new BoardUpdater(this, rules);
 
 		int addingthing = StandardScoringRules.getInstance().getSwapScore(lastMove, board);
-		//System.out.println("Score = " + score + " Swap Score = "+addingthing);
 		if(addingthing > -1) score += addingthing;
 		
 		updater.eraseAll();
-		publishGame(UpdateType.boardPanel);
-		publishGame(UpdateType.scoreLabel);
+		publishGame(UpdateType.BOARD);
+		publishGame(UpdateType.SCORE);
 		
 		while(updater.stillToDo()) {
 			
 			updater.eraseAll();
-			publishGame(UpdateType.boardPanel);
+			publishGame(UpdateType.BOARD);
 			score += updater.getScoreIncrease();
 			updater.resetScoreIncrease();
-			publishGame(UpdateType.scoreLabel);
+			publishGame(UpdateType.SCORE);
 			
 			updater.dropAll();
-			publishGame(UpdateType.boardPanel);
+			publishGame(UpdateType.BOARD);
 			
 			updater.fillEmptyCells();
-			publishGame(UpdateType.boardPanel);
+			publishGame(UpdateType.BOARD);
 
 			updater.eraseAll();
-			publishGame(UpdateType.boardPanel);
+			publishGame(UpdateType.BOARD);
 			score += updater.getScoreIncrease();
 			updater.resetScoreIncrease();
-			publishGame(UpdateType.scoreLabel);
+			publishGame(UpdateType.SCORE);
 			
 			timeLeft += updater.getTimeIncrease();
 			updater.resetTimeIncrease();
 			
 			if (isGameOver()) {
-				publishGame(UpdateType.showEndGame);
+				publishGame(UpdateType.END_GAME);
 				break;
 			}
 			
 		}
-		
-		//score += 3600;//StandardScoringRules.getInstance().getSwapScore(lastMove, board);
 		
 		
 	}
@@ -357,11 +336,9 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 			updater.eraseAll();
 		}
 		
-		//testing!!!
-		//board.fillCellAt(0, 1, new Lokum(Lokum.possibleTypes[0], "Vertical Striped"));
-		//board.fillCellAt(1, 1, new Lokum(Lokum.possibleTypes[0], "Vertical Striped"));
 		
-		publishGame(UpdateType.all);
+		
+		publishGame(UpdateType.ALL);
 
 		
 	}
@@ -385,53 +362,6 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 		return scaleMatrix;
 	}
 
-	/**
-	 * Erase all matches.
-	 *
-	 * @param scaleMatrix the scale matrix
-	 */
-
-	
-
-	private void clearSameObjects(Matchable m) {
-		for (int i = 0; i < board.getWidth(); i++) {
-			for (int j = 0; j < board.getHeight(); j++) {
-				Lokum current = (Lokum)board.cellAt(i, j).getCurrentObject();
-					if(m.isMatched(current))
-						board.fillCellAt(i, j, new Nothing());
-			}
-		}
-	}
-
-	private void clearArea(int x, int y) {
-
-		for (int i = x-2; i < x+2; i++) {
-			for (int j =  y-2; j < y+2; j++) {
-				board.fillCellAt(i, j, new Nothing());
-			}
-
-		}	
-	}
-
-
-	private void clearRow(int y) {
-		for (int x = 0; x < board.getWidth(); x++) {
-			board.fillCellAt(x, y, new Nothing());
-		}
-	}
-
-	private void clearColumn(int x) {
-		for (int y = 0; y < board.getHeight(); y++) {
-			board.fillCellAt(x, y, new Nothing());
-		}
-	}
-	//end of eraseForSpecial helper definitions
-	
-
-	private boolean recentlySwapped(Position p) {
-		return p.isSamePlace(successfullSwapLog[0])
-				|| p.isSamePlace(successfullSwapLog[1]);
-	}
 
 
 	/**
@@ -442,7 +372,6 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 	 * @return the int
 	 */
 	public int calculateScore(MatchingScaleInformer[][] msi) {
-		//int eraseCount = 0;
 		
 		for (int i = 0; i < msi.length; i++) {
 			for (int j = 0; j < msi[0].length; j++) {
@@ -492,20 +421,6 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 
 	}
 
-	public boolean isThereAvailableMove() {
-		for (int i = 0; i < board.getWidth() - 1; i++) {
-			for (int j = 0; j < board.getHeight() - 1; j++) {
-				/*if (rules.isSwappable(board, i, j, i + 1, j))
-					return true;
-				if (rules.isSwappable(board, i, j, i + 1, j + 1))
-					return true;
-				if (rules.isSwappable(board, i, j, i, j + 1))
-					return true;*/
-			}
-		}
-
-		return false;
-	}
 	
 	
 
@@ -558,7 +473,7 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 	}
 	
 	public boolean isGameOver(){
-		//return rules.gameEndedByMovements(movementsLeft);
+		
 		if (movementsLeft <= 0) {
 			return true;
 		}
@@ -629,12 +544,14 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 	}
 
 	public void stopTimer() {
-		if(timer != null)timer.stop();
+		if(timer != null)
+			timer.stop();
 		
 	}
 
 	public void startTimer() {
-		if(timer != null)timer.start();
+		if(timer != null)
+			timer.start();
 		
 	}
 

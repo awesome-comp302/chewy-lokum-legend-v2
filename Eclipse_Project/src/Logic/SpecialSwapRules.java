@@ -5,7 +5,6 @@ public class SpecialSwapRules implements SwapRules {
 	private static SpecialSwapRules instance;
 	
 	public static SpecialSwapRules getInstance() {
-		// TODO Auto-generated method stub
 		if (instance == null) {
 			instance = new SpecialSwapRules();
 		}
