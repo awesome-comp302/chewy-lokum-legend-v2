@@ -29,12 +29,12 @@ public class NormalSwapRules implements SwapRules {
 		Board board = gp.getLevel().getBoard();
 
 		if (!(board.inBoard(x1, y1) && board.inBoard(x2, y2))) {
-			System.err.println("inBoard");
+			//System.err.println("inBoard");
 			return false;
 		}
 						
 		if (!isConsecutive(x1, y1, x2, y2)) {
-			System.err.println("consecutive");
+			//System.err.println("consecutive");
 			return false;
 		}
 		
@@ -42,7 +42,7 @@ public class NormalSwapRules implements SwapRules {
 		ChewyObject o2 = gp.getLevel().getBoard().cellAt(x2, y2).getCurrentObject();
 		
 		if (!areLokums( o1, o2) ) {
-			System.err.println("areLokums");
+			//System.err.println("areLokums");
 			return false;
 		}
 		

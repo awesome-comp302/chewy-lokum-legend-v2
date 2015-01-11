@@ -117,7 +117,7 @@ public class SpecialEraseRules implements EraseRules {
 	}
 
 	private void markForColorBomb(GamePlay gp) {
-		System.out.println("Color bomb marking");
+		//System.out.println("Color bomb marking");
 		Move move = gp.getLastMove();
 		String otherType = "";
 		Position cbp = null;

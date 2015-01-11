@@ -38,7 +38,42 @@ public class StandardScoringRules implements ScoringRules {
 
 	@Override
 	public int getSwapScore(Move m, Board b) {
-		//do something with move
+		String sa1[] = m.getSpecialType1().toLowerCase().split(" ");
+		String s1 = sa1[sa1.length - 1];
+		String sa2[] = m.getSpecialType2().toLowerCase().split(" ");
+		String s2 = sa2[sa2.length - 1];
+		System.out.println("s1 = "+s1 + " s2 = "+s2);
+		
+		if(s1.equals( "striped") && s2.equals( "striped")){
+			//2x striped score
+			return 2 * 120;
+		}
+		if((s1.equals( "striped") && s1.equals( "wrapped")) ||
+				(s1.equals( "wrapped") && s2.equals( "striped"))){
+			//6x striped score
+			return 6 * 120;
+		}
+		if(s1.equals( "wrapped") && s2.equals( "wrapped")){
+			//3600 (number is given in document)
+			return 3600;
+		}
+		if((s1.equals( "bomb") && s2.equals( "striped")) || (s2.equals( "bomb") && s1.equals( "striped"))){
+			// # lokums matched by color bomb * striped score
+			String cb_type = (s1.equals( "bomb")) ? m.getType2() : m.getType1();
+			int count = 0 ;
+			if(m.getSpecialType1() == "Vertical Striped" || m.getSpecialType2() == "Vertical Striped") count = b.getHeight();
+			else count = b.getWidth();
+			
+			return count * 120;
+		}
+		if((s1.equals( "bomb") && s2.equals( "wrapped")) || (s2.equals( "bomb") && s1.equals( "wrapped"))){
+			// Another color bomb explodes
+			return -1;
+		}
+		if(s1.equals( "bomb") && s2.equals( "bomb")){
+			// # cells on board ^ 2 x 100
+			return (int)(Math.pow(b.getHeight() * b.getWidth(),2) * 100);
+		}
 		return 0;
 	}
 
