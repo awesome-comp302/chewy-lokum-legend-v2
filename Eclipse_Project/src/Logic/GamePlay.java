@@ -614,4 +614,14 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 		return player;
 	}
 
+	public void stopTimer() {
+		timer.stop();
+		
+	}
+
+	public void startTimer() {
+		timer.start();
+		
+	}
+
 }
