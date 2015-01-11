@@ -68,7 +68,9 @@ public class Level {
 		
 	}
 
-	
+	public void setBoardSize(int x, int y){
+		board = new Board(x, y);
+	}
 	
 	/**
 	 * 
@@ -307,4 +309,17 @@ public class Level {
 				"=======================\n"+
 				board.status();
 	}
+
+
+
+
+	
+	public boolean[] getLevelModes() {
+		// TODO Auto-generated method stub
+		return levelModes;
+	}
+
+
+	
+	
 }

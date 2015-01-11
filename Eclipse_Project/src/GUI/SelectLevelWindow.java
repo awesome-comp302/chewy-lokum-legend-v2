@@ -22,6 +22,8 @@ public class SelectLevelWindow extends JFrame{
 	private JPanel logoPanel; 
 	private UIButton logo;
 	private int buttonId;
+	private static int sWidth;
+	private static int sHeight;
 
 	
 	private GraphicsDevice device = GraphicsEnvironment
@@ -29,8 +31,18 @@ public class SelectLevelWindow extends JFrame{
 	
 	private Color uiColor = new Color(100,180,150);
 	
-	public SelectLevelWindow() {
+	private static SelectLevelWindow instance;
+	
+	public static SelectLevelWindow getInstance(){
+		if(instance == null) instance = new SelectLevelWindow();
+		return instance;
+	}
+	
+	private SelectLevelWindow() {
 		super("Game");
+		
+		sWidth = device.getDisplayMode().getWidth();
+		sHeight = device.getDisplayMode().getHeight();
 		
 		prepareFrame();
 		
@@ -41,6 +53,16 @@ public class SelectLevelWindow extends JFrame{
 		
 	}
 	
+	public void setFullScreen(boolean cond){
+		if (cond){
+			setAlwaysOnTop(true);
+			setVisible(true);
+		}else{
+			setAlwaysOnTop(false);
+			setVisible(false);
+		}
+	}
+	
 	private class Interact implements MouseListener {
 
 
@@ -49,8 +71,8 @@ public class SelectLevelWindow extends JFrame{
 		public void mouseClicked(MouseEvent e) {
 			Object srcButton =  e.getSource();
 			if(srcButton == cancel){
-				dispose();
-				MainMenuWindow menu = new MainMenuWindow();
+				setVisible(false);
+				MainMenuWindow.getInstance().setVisible(true);
 			}else{
 				if(srcButton == level1){
 					buttonId = 1;
@@ -65,9 +87,10 @@ public class SelectLevelWindow extends JFrame{
 				}
 				GamePlay gp = LevelSelector.createGamePlay(buttonId);
 				
+				dispose();
+				
 				MainGameWindow gs = new MainGameWindow(gp);
 				
-				gs.playTheGame(gp);
 			}
 			
 			
@@ -134,8 +157,8 @@ public class SelectLevelWindow extends JFrame{
 		
 		setVisible(true);
 		
+		setSize(sWidth, sHeight);
 		setLocationRelativeTo(null);
-		device.setFullScreenWindow(this);
 		
 		setLayout(new GridLayout(2,1));
 		

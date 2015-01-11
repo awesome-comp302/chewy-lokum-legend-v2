@@ -79,7 +79,7 @@ public class GamePlay implements Serializable{
 		};
 		
 		
-		Timer timer = new Timer(1000,runner);
+		timer = new Timer(1000,runner);
 		timer.setRepeats(true);
 		if (level.hasTimer()) {
 			timer.start();
@@ -98,6 +98,14 @@ public class GamePlay implements Serializable{
 		timer.scheduleAtFixedRate(aTask, 1000, 1000);*/
 		
 		
+	}
+	
+	public void stopTimer(){
+		timer.stop();
+	}
+	
+	public void startTimer(){
+		timer.start();
 	}
 	
 	public void countDownTimer(){

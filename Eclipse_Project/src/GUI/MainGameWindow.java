@@ -1,5 +1,6 @@
 package GUI;
 import java.awt.Color;
+import java.awt.FileDialog;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
@@ -12,10 +13,10 @@ import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import XML.WriteXMLFile;
-
 
 import Logic.Board;
 import Logic.Cell;
@@ -46,10 +47,14 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 	private Color uiColor = new Color(154,173,180);
 	private Color gameColor = new Color(100,180,150);
 	
+	
 	private GamePlay gp;
 	private int score;
 	private int remMove;
 	private CellButton buttons[][];
+	
+	private static int sWidth;
+	private static int sHeight;
 
 	
 	private GraphicsDevice device = GraphicsEnvironment
@@ -60,12 +65,18 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 	
 	public MainGameWindow(GamePlay gap){
 		super("Game");
+		
+		sWidth = device.getDisplayMode().getWidth();
+		sHeight = device.getDisplayMode().getHeight();
+
 		gp = gap;
 		
 		setUndecorated(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		device.setFullScreenWindow(this);
+		setSize(sWidth, sHeight);
+		setLocationRelativeTo(null);
+		
 		
 		setResizable(false);
 		
@@ -154,7 +165,7 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 		buttonHolder.add(saveButton);
 		saveButton.addMouseListener(interact);	
 		
-		quitButton = new UIButton("game", "Quit", uiColor);
+		quitButton = new UIButton("game", "End Game", uiColor);
 		c.gridheight = 1;
 		c.weightx = 0.5;
 		c.anchor = GridBagConstraints.PAGE_START;
@@ -203,9 +214,11 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			}
 		}
 		
-		onGameUpdate(gap, UpdateType.all);
+		gp.addListener(this);
+		gp.initBoard();
 
 		setVisible(true);
+		
 	}
 	
 	private class Interact implements MouseListener {
@@ -250,7 +263,6 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			
 		}	
 	}
-	
 	
 	
 	private void waitGame(int milliseconds){
@@ -307,6 +319,9 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 					buttons[j][i].setBorder(BorderFactory.createLineBorder(gameColor));
 				}
 			}
+			
+			gp.addListener(this);
+			gp.initBoard();
 
 			boardPanel.updateUI();
 			
@@ -351,12 +366,6 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 
 	}
 	
-	public void playTheGame(GamePlay gp) {
-		
-		gp.addListener(this);
-		gp.initBoard();
-		
-	}
 	
 	public void cellClicked(CellButton cb){
 		if(click1 != null && (cb.coordX != click1.coordX || cb.coordY != click1.coordY)){
@@ -388,14 +397,27 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 	}
 	
 	public void saveButtonClicked() {
-		WriteXMLFile.getInstance().saveGame(gp);
-		WriteXMLFile.getInstance().write();
+		gp.stopTimer();
+		
+		FileDialog fd = new FileDialog(this, "Save Game", FileDialog.SAVE);
+		fd.setFile("*.xml");
+		fd.setVisible(true);
+		fd.setAlwaysOnTop(true);
+		String filename = fd.getFile();
+		
+		if (filename != null){
+			WriteXMLFile.getInstance().saveGame(gp);
+			WriteXMLFile.getInstance().write(filename);
+			setAlwaysOnTop(false);
+			JOptionPane.showMessageDialog(null, "Game Saved");
+			gp.startTimer();
+		}
+		
 	}
 
 	public void exitButtonClicked() {
-		// to do something to end the gameplay
 		dispose();
-		System.exit(0);
+		MainMenuWindow.getInstance().setFullScreen(true);
 	}
 	
 	public void releaseCells(){
@@ -408,6 +430,5 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			click2 = null;
 		}
 	}
-	
 
 }

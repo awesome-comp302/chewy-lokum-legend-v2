@@ -1,15 +1,17 @@
 package GUI;
 import java.awt.Color;
-
+import java.awt.FileDialog;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import XML.ReadXMLFile;
+
 
 
 
@@ -24,13 +26,24 @@ public class MainMenuWindow extends JFrame {
 	private GraphicsDevice device = GraphicsEnvironment
 	        .getLocalGraphicsEnvironment().getScreenDevices()[0];
 	
+	private static int sWidth;
+	private static int sHeight;
+	
 	
 	private Color uiColor = new Color(100,180,150);
 	
-	public MainMenuWindow() {
+	private static MainMenuWindow instance;
+	
+	public static MainMenuWindow  getInstance(){
+		if(instance == null) instance = new MainMenuWindow();
+		return instance;
+	}
+	
+	private MainMenuWindow() {
 		super("Game");
 		
-		
+		sWidth = device.getDisplayMode().getWidth();
+		sHeight = device.getDisplayMode().getHeight();
 		
 		prepareFrame();
 		
@@ -41,18 +54,28 @@ public class MainMenuWindow extends JFrame {
 		
 	}
 	
+	public void setFullScreen(boolean cond){
+		if (cond){
+			setAlwaysOnTop(true);
+			setVisible(true);
+		}else{
+			setAlwaysOnTop(false);
+			setVisible(false);
+		}
+	}
+	
 	private class Interact implements MouseListener {
 
-		@SuppressWarnings("unused")
+
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			Object srcButton =  e.getSource();
 			if (srcButton == startGameButton) {
-				SelectLevelWindow levelWindow = new SelectLevelWindow();
-				dispose();
+				SelectLevelWindow.getInstance().setFullScreen(true);
+				setFullScreen(false);
 			}  else if (srcButton == loadGameButton) {
-				
-				
+				loadButtonClicked();
+
 			} else if (srcButton == exitButton) {
 				System.exit(0);
 			}
@@ -112,10 +135,10 @@ public class MainMenuWindow extends JFrame {
 		setUndecorated(true);
 		getRootPane().setWindowDecorationStyle(0);
 		
-		setVisible(true);
+		setFullScreen(true);
 		
+		setSize(sWidth, sHeight);
 		setLocationRelativeTo(null);
-		device.setFullScreenWindow(this);
 		
 		setLayout(new GridLayout(2,1));
 		
@@ -142,8 +165,26 @@ public class MainMenuWindow extends JFrame {
 		logoPanel.setLocation(300, 300);
 		
 
+	}
+	
+	@SuppressWarnings("unused")
+	private void loadButtonClicked(){
+		setAlwaysOnTop(false);
 		
+		FileDialog fd = new FileDialog(this, "Load Game", FileDialog.LOAD);
+		fd.setFile("*.xml");
+		fd.setVisible(true);
+		fd.setAlwaysOnTop(true);
+		String filename = fd.getFile();
 		
+		setAlwaysOnTop(true);
+		
+		if (filename != null){
+			ReadXMLFile.getInstance().read(filename);
+			MainGameWindow gameScreen = new MainGameWindow(ReadXMLFile.getInstance().loadGame());
+			setFullScreen(false);
+		}
+
 	}
 
 }

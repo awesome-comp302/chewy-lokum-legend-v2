@@ -44,7 +44,7 @@ public class ReadXMLFileTest {
 		gp.setPlayer(new Player());
 		gp.initBoard();
 		WriteXMLFile.getInstance().saveGame(gp);
-		WriteXMLFile.getInstance().write();
+		//WriteXMLFile.getInstance().write();
 
 		Level.clearLevelIDs();
 	}
@@ -64,13 +64,13 @@ public class ReadXMLFileTest {
 
 	@Test
 	public void testRead() {
-		rxf.read();
+		//rxf.read();
 		assertTrue(rxf.loadGame() != null);
 	}
 
 	@Test
 	public void testLoadGame() {
-		rxf.read();
+		//rxf.read();
 		assertSame(gp , rxf.loadGame());
 	}
 	
@@ -91,7 +91,7 @@ public class ReadXMLFileTest {
 	public void testUnicode() {
 		gp.setPlayer(new Player());
 		WriteXMLFile.getInstance().saveGame(gp);
-		rxf.read();
+		//rxf.read();
 		assertSame(gp.getPlayer().getName() , rxf.loadGame().getPlayer().getName());
 	}
 	
@@ -111,7 +111,7 @@ public class ReadXMLFileTest {
 			System.out.println(e.getMessage().toString());
 		}
 		
-		rxf.read();
+		//rxf.read();
 	}
 
 	//-------------------------------------------------------------------------

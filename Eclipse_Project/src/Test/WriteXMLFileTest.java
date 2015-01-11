@@ -70,7 +70,7 @@ public class WriteXMLFileTest {
 	@Test
 	public void testWrite() {
 		WriteXMLFile.getInstance().saveGame(gp);
-		WriteXMLFile.getInstance().write();
+		//WriteXMLFile.getInstance().write();
 		File f = new File("file.xml");
 		assertTrue(f.exists() && !f.isDirectory());
 	}
@@ -113,21 +113,21 @@ public class WriteXMLFileTest {
 	@Test (expected = FileNotFoundException.class)
 	public void testNullValue(){
 		wxf.saveGame(gp);
-		wxf.write();
+		//wxf.write();
 		File f = new File("file.xml");
 		f.setReadOnly();
-		wxf.saveGame(gp);
-		wxf.write();
+		//wxf.saveGame(gp);
+		//wxf.write();
 	}
 	
 	@Test (expected = FileNotFoundException.class)
 	public void testBadFilePermissions(){
 		gp.setLevel((Level)null);
 		wxf.saveGame(gp);
-		wxf.write();
+		//wxf.write();
 		File f = new File("file.xml");
 		f.setReadOnly();
 		wxf.saveGame(gp);
-		wxf.write();
+		//wxf.write();
 	}
 }

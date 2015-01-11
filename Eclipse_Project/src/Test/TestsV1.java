@@ -374,7 +374,7 @@ public class TestsV1 {
 		WriteXMLFile writer = WriteXMLFile.getInstance();
 		
 		writer.saveGame(gp);
-		writer.write();
+		//writer.write();
 		
 	}
 	
@@ -384,7 +384,7 @@ public class TestsV1 {
 		ReadXMLFile reader = ReadXMLFile.getInstance();
 		
 		
-		reader.read();
+		//reader.read();
 		GamePlay gp = reader.loadGame();
 		
 		System.out.println(gp.getLevel().getBoard());
