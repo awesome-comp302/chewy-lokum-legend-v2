@@ -1,15 +1,15 @@
 package Application;
+import GUI.BackgroundWindow;
 import GUI.MainMenuWindow;
+import GUI.SelectLevelWindow;
 
 
 public class run {
 
-	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		
-		
-		MainMenuWindow lg = new MainMenuWindow(); 
-
+		BackgroundWindow.getInstance();
+		SelectLevelWindow.getInstance().setVisible(false);
+		MainMenuWindow.getInstance(); 
 	}
 
 }

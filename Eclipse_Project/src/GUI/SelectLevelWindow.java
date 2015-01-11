@@ -8,9 +8,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Logic.GamePlay;
+import Logic.Level;
 import Logic.LevelSelector;
 
 
@@ -22,6 +24,8 @@ public class SelectLevelWindow extends JFrame{
 	private JPanel logoPanel; 
 	private UIButton logo;
 	private int buttonId;
+	private static int sWidth;
+	private static int sHeight;
 
 	
 	private GraphicsDevice device = GraphicsEnvironment
@@ -29,8 +33,18 @@ public class SelectLevelWindow extends JFrame{
 	
 	private Color uiColor = new Color(100,180,150);
 	
-	public SelectLevelWindow() {
+	private static SelectLevelWindow instance;
+	
+	public static SelectLevelWindow getInstance(){
+		if(instance == null) instance = new SelectLevelWindow();
+		return instance;
+	}
+	
+	private SelectLevelWindow() {
 		super("Game");
+		
+		sWidth = device.getDisplayMode().getWidth();
+		sHeight = device.getDisplayMode().getHeight();
 		
 		prepareFrame();
 		
@@ -41,17 +55,58 @@ public class SelectLevelWindow extends JFrame{
 		
 	}
 	
+	public void setFullScreen(boolean cond){
+		if (cond){
+			setLockedButtonsText();
+			setVisible(true);
+		}else{
+			setVisible(false);
+		}
+	}
+	
+	public void setLockedButtonsText(){
+		int lastUnlocked = Level.getLastUnlockedLevel();
+		
+		
+		if(lastUnlocked == 1){
+			level2.setText("Level 2 [Locked]");
+			level3.setText("Level 3 [Locked]");
+			level4.setText("Level 4 [Locked]");
+			level5.setText("Level 5 [Locked]");
+		}else if(lastUnlocked == 2){
+			level2.setText("Level 2 ");
+			level3.setText("Level 3 [Locked]");
+			level4.setText("Level 4 [Locked]");
+			level5.setText("Level 5 [Locked]");
+		}else if(lastUnlocked == 3){
+			level2.setText("Level 2 ");
+			level3.setText("Level 3 ");
+			level4.setText("Level 4 [Locked]");
+			level5.setText("Level 5 [Locked]");
+		}else if(lastUnlocked == 4){
+			level2.setText("Level 2 ");
+			level3.setText("Level 3 ");
+			level4.setText("Level 4 ");
+			level5.setText("Level 5 [Locked]");
+		} else {
+			level2.setText("Level 2 ");
+			level3.setText("Level 3 ");
+			level4.setText("Level 4 ");
+			level5.setText("Level 5 ");
+		}
+	}
+	
 	private class Interact implements MouseListener {
 
 
-		@SuppressWarnings("unused")
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			Object srcButton =  e.getSource();
 			if(srcButton == cancel){
-				dispose();
-				MainMenuWindow menu = new MainMenuWindow();
+				setVisible(false);
+				MainMenuWindow.getInstance().setVisible(true);
 			}else{
+				int lastUnlocked = Level.getLastUnlockedLevel();
 				if(srcButton == level1){
 					buttonId = 1;
 				}else if(srcButton == level2){
@@ -63,11 +118,18 @@ public class SelectLevelWindow extends JFrame{
 				}else if(srcButton == level5){
 					buttonId = 5;
 				}
-				GamePlay gp = LevelSelector.createGamePlay(buttonId);
+				if(lastUnlocked >= buttonId){
+					GamePlay gp = LevelSelector.createGamePlay(buttonId);
+					
+					dispose();
+					
+					MainGameWindow gs = new MainGameWindow(gp);
+					
+					gs.playTheGame();
+				}else{
+					JOptionPane.showMessageDialog(null, "The level is Locked");
+				}
 				
-				MainGameWindow gs = new MainGameWindow(gp);
-				
-				gs.playTheGame(gp);
 			}
 			
 			
@@ -134,11 +196,8 @@ public class SelectLevelWindow extends JFrame{
 		
 		setVisible(true);
 		
-		
-		
-		setSize(800, 800);
+		setSize(sWidth, sHeight);
 		setLocationRelativeTo(null);
-		//device.setFullScreenWindow(this);
 		
 		setLayout(new GridLayout(2,1));
 		

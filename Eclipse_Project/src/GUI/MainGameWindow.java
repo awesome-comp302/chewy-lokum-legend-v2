@@ -1,5 +1,6 @@
 package GUI;
 import java.awt.Color;
+import java.awt.FileDialog;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
@@ -12,17 +13,15 @@ import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import XML.WriteXMLFile;
-
-
 import Logic.Board;
 import Logic.Cell;
 import Logic.GamePlay;
 import Logic.GameUpdateListener;
-import Logic.Lokum;
-import Logic.Move;
+import Logic.LevelSelector;
 import Logic.UpdateType;
 
 
@@ -41,17 +40,25 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 	private JCheckBox SpeMoveCB;
 	private UIButton saveButton;
 	private UIButton quitButton;
+	private UIButton retryButton;
+	private UIButton nextLevelButton;
+	private UIButton mainMenuButton;
 	private JPanel 	boardHolder;
 	private JPanel	buttonHolder;
 	private JPanel 	boardPanel;
+	private JPanel endGamePanel;
 	private Interact interact;
 	private Color uiColor = new Color(154,173,180);
 	private Color gameColor = new Color(100,180,150);
+	
 	
 	private GamePlay gp;
 	private int score;
 	private int remMove;
 	private CellButton buttons[][];
+	
+	private static int sWidth;
+	private static int sHeight;
 
 	
 	private GraphicsDevice device = GraphicsEnvironment
@@ -61,20 +68,19 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 
 	
 	public MainGameWindow(GamePlay gap){
-		
-		
 		super("Game");
+		
+		sWidth = device.getDisplayMode().getWidth();
+		sHeight = device.getDisplayMode().getHeight();
+
 		gp = gap;
-		
-		/*gp.getBoard().fillCellAt(2, 3, new Lokum("red rose", "Color Bomb"));
-		gp.getBoard().fillCellAt(4,5, new Lokum("red rose", "Color Bomb"));*/
-		
 		
 		setUndecorated(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		setSize(800, 800);
-		//device.setFullScreenWindow(this);
+		setSize(sWidth, sHeight);
+		setLocationRelativeTo(null);
+		
 		
 		setResizable(false);
 		
@@ -163,7 +169,7 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 		buttonHolder.add(saveButton);
 		saveButton.addMouseListener(interact);	
 		
-		quitButton = new UIButton("game", "Quit", uiColor);
+		quitButton = new UIButton("game", "End Game", uiColor);
 		c.gridheight = 1;
 		c.weightx = 0.5;
 		c.anchor = GridBagConstraints.PAGE_START;
@@ -196,9 +202,14 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 		
 		boardHolder.add(boardPanel,c);
 		boardHolder.setVisible(true);
+		
+		
+
 
 		
 		Board b = gp.getBoard();
+		
+		boardPanel.setLayout(new GridLayout(b.getHeight(),b.getWidth()));
 		
 		buttons = new CellButton[b.getHeight()][b.getWidth()];
 		
@@ -211,10 +222,9 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 				buttons[j][i].addMouseListener(interact);
 			}
 		}
-		
-		onGameUpdate(gap, UpdateType.all);
 
 		setVisible(true);
+		
 	}
 	
 	private class Interact implements MouseListener {
@@ -230,7 +240,33 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 				} else if (srcButton.getClass() == CellButton.class){
 					cellClicked((CellButton)srcButton);
 				} else if (srcButton == quitButton){
+					onGameUpdate(gp,UpdateType.showEndGame);
+				} else if(srcButton == nextLevelButton){
+					int levelID = gp.getLevelId()+1;
+
+					
+					GamePlay gap = LevelSelector.createGamePlay(levelID);
+					
+					dispose();
+					
+					MainGameWindow gs = new MainGameWindow(gap);
+					
+					gs.playTheGame();
+					System.out.println("Game is done");
+					
+				} else if(srcButton == mainMenuButton){
 					exitButtonClicked();
+				} else if(srcButton == retryButton){
+					int levelID = gp.getLevelId();
+
+					
+					GamePlay gp = LevelSelector.createGamePlay(levelID);
+					
+					dispose();
+					
+					MainGameWindow gs = new MainGameWindow(gp);
+					
+					gs.playTheGame();
 				}
 				
 			}else if(e.getButton() == MouseEvent.BUTTON3){
@@ -261,7 +297,6 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 	}
 	
 	
-	
 	private void waitGame(int milliseconds){
 		
 		int refTime = (int) System.currentTimeMillis();
@@ -281,10 +316,10 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 
 
 		if(type == UpdateType.all){
+			
+			System.out.println("All");
 			score = gp.getScore();
 			remMove = gp.getMovementsLeft();
-
-			boardPanel.removeAll();
 
 			Board b = gp.getBoard();
 
@@ -292,6 +327,8 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 
 			llscore.setText(String.valueOf(score));
 			llmoves.setText(String.valueOf(remMove));
+			
+			
 
 			for(int i = 0; i < b.getWidth(); i++){
 				for(int j = 0; j < b.getHeight(); j++){
@@ -305,9 +342,6 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			buttonHolder.updateUI();
 
 		}else if (type == UpdateType.boardPanel){
-
-			boardPanel.removeAll();
-
 			Board b = gp.getBoard();
 
 			boardPanel.setLayout(new GridLayout(b.getHeight(),b.getWidth()));
@@ -319,9 +353,7 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 					boardPanel.add(buttons[j][i]);
 					buttons[j][i].setBorder(BorderFactory.createLineBorder(gameColor));
 				}
-			}
-
-			boardPanel.updateUI();
+			}			
 			
 			boardPanel.paint(boardPanel.getGraphics());
 			
@@ -336,15 +368,47 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			buttonHolder.updateUI();
 
 		}else if(type == UpdateType.showEndGame){
-
+			setFocusable(true);
 			boardPanel.removeAll();
+			
+			endGamePanel = new JPanel();
+			endGamePanel.setSize(400,400);
+			quitButton.setVisible(false);
+			JPanel empty = new JPanel();
+			empty.setSize(500,500);
 
 			if (score >= gp.getLevel().getPassingScore()) {
-				JLabel win = new JLabel("You WIN \n:D");
-				boardPanel.add(win);
-			} else if(remMove == 0){
-				JLabel lost = new JLabel("GAME OVER \n:'(");
-				boardPanel.add(lost);
+				
+				JLabel lb = new JLabel("Level Succesful");
+				lb.setForeground(Color.white);
+				nextLevelButton = new UIButton("game", "Next Level", gameColor);
+				nextLevelButton.addMouseListener(interact);
+				mainMenuButton = new UIButton("game", "Main Menu", gameColor);
+				mainMenuButton.addMouseListener(interact);
+				endGamePanel.setLayout(new GridLayout(3,1));	
+				endGamePanel.add(lb);
+				endGamePanel.add(nextLevelButton);
+				endGamePanel.add(mainMenuButton);
+				endGamePanel.setBackground(gameColor);
+				
+				
+				boardPanel.add(endGamePanel);
+				
+			} else {
+				JLabel lb = new JLabel("Level Failed!");
+				lb.setForeground(Color.red);
+				retryButton = new UIButton("game", "Retry", gameColor);
+				retryButton.addMouseListener(interact);
+				mainMenuButton = new UIButton("game", "Main Menu", gameColor);
+				mainMenuButton.addMouseListener(interact);
+				endGamePanel.setLayout(new GridLayout(3,1));
+				
+				endGamePanel.add(lb);
+				endGamePanel.add(retryButton);
+				endGamePanel.add(mainMenuButton);
+				endGamePanel.setBackground(gameColor);
+				
+				boardPanel.add(endGamePanel);
 			}
 
 		}else if(type == UpdateType.scoreLabel){
@@ -364,13 +428,11 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 
 	}
 	
-	public void playTheGame(GamePlay gp) {
-		
+	public void playTheGame(){
 		gp.addListener(this);
 		gp.initBoard();
-		
-		
 	}
+	
 	
 	public void cellClicked(CellButton cb){
 		if(click1 != null && (cb.coordX != click1.coordX || cb.coordY != click1.coordY)){
@@ -378,6 +440,7 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			if(click1 == null || click2 == null){ System.out.println("ouch"); }
 			click1.setBorder(BorderFactory.createEmptyBorder());
 			click2.setBorder(BorderFactory.createEmptyBorder());
+			System.out.println("both clicked");
 			sendSwap();
 		}else {
 			click1 = cb;
@@ -385,16 +448,19 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 		}
 	}
 	
-	public void sendSwap(){
+	private void sendSwap(){
 		
 		boolean swapped;
 		if (SpeMoveCB.isSelected()) {
 			swapped = gp.specialSwap(click1.coordX, click1.coordY, click2.coordX, click2.coordY);
 		} else {
+			System.out.println("swapEnter");
 			swapped = gp.swap(click1.coordX, click1.coordY, click2.coordX, click2.coordY);
+			System.out.println("swapEnd");
 		}
-		
+		System.out.println(swapped);
 		if (swapped) {
+			System.out.println("swapped");
 			gp.updateBoard();
 		}
 		
@@ -402,14 +468,32 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 	}
 	
 	public void saveButtonClicked() {
-		WriteXMLFile.getInstance().saveGame(gp);
-		WriteXMLFile.getInstance().write();
+		if(gp.getLevel().hasTimer()){
+			gp.stopTimer();
+		}
+		
+		FileDialog fd = new FileDialog(this, "Save Game", FileDialog.SAVE);
+		fd.setFile("*.xml");
+		fd.setVisible(true);
+		fd.setAlwaysOnTop(true);
+		String filename = fd.getFile();
+		
+		if (filename != null){
+			WriteXMLFile.getInstance().saveGame(gp);
+			WriteXMLFile.getInstance().write(filename);
+			setAlwaysOnTop(false);
+			JOptionPane.showMessageDialog(null, "Game Saved");
+			if(gp.getLevel().hasTimer()){
+				gp.startTimer();
+			}
+
+		}
+		
 	}
 
 	public void exitButtonClicked() {
-		// to do something to end the gameplay
 		dispose();
-		System.exit(0);
+		MainMenuWindow.getInstance().setFullScreen(true);
 	}
 	
 	public void releaseCells(){
@@ -422,6 +506,5 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			click2 = null;
 		}
 	}
-	
 
 }

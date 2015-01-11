@@ -16,6 +16,7 @@ public class CellButton extends JLabel{
 		private String type;
 		private String sType;
 		
+		
 		public CellButton(Cell c, int i, int j){
 			super();
 			coordX = i;
@@ -110,6 +111,10 @@ public class CellButton extends JLabel{
 		
 		public void unsetAsTimer(){
 			setText("");
+		}
+
+		public ChewyObject getCurrentObject() {
+			return co;
 		}
 		
 		
