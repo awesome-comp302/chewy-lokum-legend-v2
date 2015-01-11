@@ -7,10 +7,11 @@ public class StandardScoringRules implements ScoringRules {
 	@Override
 	public int getMatchingScore(MatchingScaleInformer msi) {
 		int score = 0;
-		if (msi.horizontalMatchTotalScale() >= 3) {
+		
+		if (msi.getRightScale() >= 2) {
 			score += 60;
 		}
-		if (msi.verticalMatchTotalScale() >= 3) {
+		else if (msi.getDownScale() >= 2) {
 			score += 60;
 		}
 		return score;

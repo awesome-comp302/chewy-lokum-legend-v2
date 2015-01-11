@@ -208,11 +208,12 @@ public class BoardUpdater {
 					else {
 						objectToPut = new Nothing();
 					}
-					scoreIncrease += scoringRules.getCreationScore(objectToPut);
 				}
 				else {
 					objectToPut = new Nothing();
 				}
+				
+				scoreIncrease += scoringRules.getCreationScore(objectToPut);
 				
 				// erasing
 				if (eraseRules.shouldErased(gp, scaleMatrix[i][j],
@@ -235,6 +236,7 @@ public class BoardUpdater {
 		for (int i = 0; i < scaleMatrix.length; i++) {
 			for (int j = 0; j < scaleMatrix[0].length; j++) {
 				score += sr.getMatchingScore(scaleMatrix[i][j]);
+				System.out.println(score + "at "+ j + " " + i);
 			}
 		}
 		return score;
