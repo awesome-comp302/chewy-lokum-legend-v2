@@ -295,7 +295,7 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 
 		int addingthing = StandardScoringRules.getInstance().getSwapScore(lastMove, board);
 		System.out.println("Score = " + score + " Swap Score = "+addingthing);
-		score += addingthing;
+		if(addingthing > -1) score += addingthing;
 		
 		updater.eraseAll();
 		publishGame(UpdateType.boardPanel);

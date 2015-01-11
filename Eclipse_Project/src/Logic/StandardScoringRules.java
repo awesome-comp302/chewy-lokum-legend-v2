@@ -68,7 +68,7 @@ public class StandardScoringRules implements ScoringRules {
 		}
 		if((s1.equals( "bomb") && s2.equals( "wrapped")) || (s2.equals( "bomb") && s1.equals( "wrapped"))){
 			// Another color bomb explodes
-			return 0;
+			return -1;
 		}
 		if(s1.equals( "bomb") && s2.equals( "bomb")){
 			// # cells on board ^ 2 x 100
