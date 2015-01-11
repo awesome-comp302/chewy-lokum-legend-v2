@@ -45,9 +45,14 @@ public class CellButton extends JLabel{
 			
 			if(co instanceof Lokum){
 				setAsLokum((Lokum)co);
+				if(((Lokum)co).isTimed()) 
+					setAsTimer();
+				else
+					unsetAsTimer();
 			}else{
 				setAsNothing();
 			}
+			
 		}
 		
 		private void setAsNothing(){

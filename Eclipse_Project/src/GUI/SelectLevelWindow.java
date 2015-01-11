@@ -120,6 +120,7 @@ public class SelectLevelWindow extends JFrame{
 				}else if(srcButton == level5){
 					buttonId = 5;
 				}
+				
 				if(lastUnlocked >= buttonId){
 					GamePlay gp = LevelSelector.createGamePlay(buttonId);
 					

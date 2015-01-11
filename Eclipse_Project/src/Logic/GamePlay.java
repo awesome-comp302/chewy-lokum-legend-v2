@@ -320,6 +320,7 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 			
 			if (isGameOver()) {
 				publishGame(UpdateType.showEndGame);
+				break;
 			}
 			
 		}
@@ -343,7 +344,6 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 	public void initBoard() {
 
 		updater = new BoardUpdater(this, rules);
-		
 		
 		while(updater.stillToDo()){ 
 			updater.fillEmptyCells();
@@ -553,6 +553,10 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 			return true;
 		}
 		
+		if(score >= level.getPassingScore()){
+			return true;
+		}
+		
 		if (timeLeft == 0) {
 			return true;
 		}
@@ -615,12 +619,12 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 	}
 
 	public void stopTimer() {
-		timer.stop();
+		if(timer != null)timer.stop();
 		
 	}
 
 	public void startTimer() {
-		timer.start();
+		if(timer != null)timer.start();
 		
 	}
 

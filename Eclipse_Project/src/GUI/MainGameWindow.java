@@ -218,10 +218,18 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 				Cell curr = b.cellAt(j, i);
 				buttons[j][i] = new CellButton(curr,j,i);
 				buttons[j][i].setBorder(BorderFactory.createLineBorder(gameColor));
+				
 				boardPanel.add(buttons[j][i]);
 				buttons[j][i].addMouseListener(interact);
 			}
 		}
+		
+		nextLevelButton = new UIButton("game", "Next Level", gameColor);
+		nextLevelButton.addMouseListener(interact);
+		mainMenuButton = new UIButton("game", "Main Menu", gameColor);
+		mainMenuButton.addMouseListener(interact);
+		retryButton = new UIButton("game", "Retry", gameColor);
+		retryButton.addMouseListener(interact);
 
 		setVisible(true);
 		
@@ -240,6 +248,7 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 				} else if (srcButton.getClass() == CellButton.class){
 					cellClicked((CellButton)srcButton);
 				} else if (srcButton == quitButton){
+					gp.stopTimer();
 					onGameUpdate(gp,UpdateType.showEndGame);
 				} else if(srcButton == nextLevelButton){
 					int levelID = gp.getLevelId()+1;
@@ -374,17 +383,11 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			endGamePanel = new JPanel();
 			endGamePanel.setSize(400,400);
 			quitButton.setVisible(false);
-			JPanel empty = new JPanel();
-			empty.setSize(500,500);
 
 			if (score >= gp.getLevel().getPassingScore()) {
 				
 				JLabel lb = new JLabel("Level Succesful");
 				lb.setForeground(Color.white);
-				nextLevelButton = new UIButton("game", "Next Level", gameColor);
-				nextLevelButton.addMouseListener(interact);
-				mainMenuButton = new UIButton("game", "Main Menu", gameColor);
-				mainMenuButton.addMouseListener(interact);
 				endGamePanel.setLayout(new GridLayout(3,1));	
 				endGamePanel.add(lb);
 				endGamePanel.add(nextLevelButton);
@@ -397,10 +400,6 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			} else {
 				JLabel lb = new JLabel("Level Failed!");
 				lb.setForeground(Color.red);
-				retryButton = new UIButton("game", "Retry", gameColor);
-				retryButton.addMouseListener(interact);
-				mainMenuButton = new UIButton("game", "Main Menu", gameColor);
-				mainMenuButton.addMouseListener(interact);
 				endGamePanel.setLayout(new GridLayout(3,1));
 				
 				endGamePanel.add(lb);
