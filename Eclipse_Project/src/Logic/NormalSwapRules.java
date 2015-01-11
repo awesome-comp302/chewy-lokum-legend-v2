@@ -47,7 +47,11 @@ public class NormalSwapRules implements SwapRules {
 		}
 		
 		if(isOneColorBomb(o1, o2)) {
-			
+			return true;
+		}
+		
+		if (!(move.getSpecialType1().equals("Regular") &&
+				move.getSpecialType2().equals("Regular"))) {
 			return true;
 		}
 		
@@ -62,20 +66,20 @@ public class NormalSwapRules implements SwapRules {
 			
 			return true;
 		}
-		System.err.println("hm");
+		//System.err.println("hm");
 		
 		if (msi1.verticalMatchTotalScale() >= 3) {
-			System.err.println("vm");
+			//System.err.println("vm");
 			return true;
 		}
 		
 		if (msi2.horizontalMatchTotalScale() >= 3) {
-			System.err.println("hm2");
+			//System.err.println("hm2");
 			return true;
 		}
 		
 		if (msi2.verticalMatchTotalScale() >= 3) {
-			System.err.println("vm2");
+			//System.err.println("vm2");
 			return true;
 		}
 		

@@ -40,7 +40,7 @@ public class SpecialEraseRules implements EraseRules {
 		// TODO Auto-generated method stub
 		Board board = gp.getLevel().getBoard();
 		erasePool = new boolean[board.getHeight()][board.getWidth()];
-		if (gp.getLastMove() != null && !lastMoveUsed) {
+		/*if (gp.getLastMove() != null && !lastMoveUsed) {
 			markForCombos(gp);
 			markForColorBomb(gp);
 			
@@ -53,7 +53,8 @@ public class SpecialEraseRules implements EraseRules {
 			}
 			
 			lastMoveUsed = true;
-		}
+		}*/
+		
 		markForWrappeds(gp);
 		markForStripes(gp);
 		
@@ -116,6 +117,7 @@ public class SpecialEraseRules implements EraseRules {
 	}
 
 	private void markForColorBomb(GamePlay gp) {
+		System.out.println("Color bomb marking");
 		Move move = gp.getLastMove();
 		String otherType = "";
 		Position cbp = null;
@@ -174,6 +176,7 @@ public class SpecialEraseRules implements EraseRules {
 			else if (st2.endsWith("Striped")) {
 				markSame(b, lm.getType2());
 			}
+			
 		}
 		
 		//Wrapped-Color Bomb
@@ -188,6 +191,7 @@ public class SpecialEraseRules implements EraseRules {
 			
 			String randomType = Lokum.possibleTypes[new Random().nextInt(Lokum.possibleTypes.length)];
 			markSame(b, randomType);
+			
 		}
 		
 		else if (st1.endsWith("Striped") && st2.equals("Wrapped")
@@ -199,6 +203,7 @@ public class SpecialEraseRules implements EraseRules {
 			markVer(b, p1.getX());
 			markVer(b, p1.getX() + 1);
 			markVer(b, p1.getX() - 1);
+			
 		}
 		
 		
@@ -218,13 +223,12 @@ public class SpecialEraseRules implements EraseRules {
 					}
 				}
 			}
-		}
-		
+		}		
 	}
 
 	private void markHor(Board b, int y) {
 		if (b.inBoard(0, y)) { //secure programming
-			for (int i = 0; i < 6; i++) {
+			for (int i = 0; i < b.getWidth(); i++) {
 				erasePool[y][i] = true;
 			}
 		}
@@ -239,11 +243,13 @@ public class SpecialEraseRules implements EraseRules {
 	}
 	
 	
+	
+	
+	
 
 	@Override
 	public void taskCompleted() {
 		erasePool = null;
-		lastMoveUsed = false;
 	}
 
 	public static SpecialEraseRules getInstance() {
@@ -255,5 +261,13 @@ public class SpecialEraseRules implements EraseRules {
 	}
 	
 	private SpecialEraseRules(){}
+
+	@Override
+	public void moveUsed(boolean b) {
+		lastMoveUsed = b;
+		
+	}
+	
+	
 
 }

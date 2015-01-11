@@ -49,6 +49,12 @@ public class NormalEraseRules implements EraseRules{
 	}
 
 	public NormalEraseRules() {}
+
+	@Override
+	public void moveUsed(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

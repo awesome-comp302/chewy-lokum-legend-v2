@@ -42,6 +42,16 @@ public class SpecialSwapRules implements SwapRules {
 			return true;
 		}
 		
+		if (move.getSpecialType1().equals("Color Bomb")
+				|| move.getSpecialType2().equals("Color Bomb")) {
+			return true;
+		}
+		
+		if (!(move.getSpecialType1().equals("Regular") &&
+				move.getSpecialType2().equals("Regular"))) {
+			return true;
+		}
+		
 		return false;
 		
 	}
