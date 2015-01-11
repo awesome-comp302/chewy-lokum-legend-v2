@@ -373,6 +373,7 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			if(click1 == null || click2 == null){ System.out.println("ouch"); }
 			click1.setBorder(BorderFactory.createEmptyBorder());
 			click2.setBorder(BorderFactory.createEmptyBorder());
+			System.out.println("both clicked");
 			sendSwap();
 		}else {
 			click1 = cb;
@@ -380,16 +381,18 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 		}
 	}
 	
-	public void sendSwap(){
+	private void sendSwap(){
 		
 		boolean swapped;
 		if (SpeMoveCB.isSelected()) {
 			swapped = gp.specialSwap(click1.coordX, click1.coordY, click2.coordX, click2.coordY);
 		} else {
 			swapped = gp.swap(click1.coordX, click1.coordY, click2.coordX, click2.coordY);
+			System.out.println("swapdone");
 		}
-		
+		System.out.println(swapped);
 		if (swapped) {
+			System.out.println("swapped");
 			gp.updateBoard();
 		}
 		

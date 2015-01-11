@@ -303,6 +303,8 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 		updater.eraseAll();
 		publishGame(UpdateType.boardPanel);
 		
+		System.out.println("enter");
+		
 		while(updater.stillToDo()) {
 			
 			updater.eraseAll();
@@ -325,6 +327,8 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 				publishGame(UpdateType.showEndGame);
 				break;
 			}
+			
+			System.out.println(updater.stillToDo());
 			
 		}
 		
