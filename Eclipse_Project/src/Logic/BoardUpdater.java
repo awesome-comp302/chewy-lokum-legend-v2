@@ -242,7 +242,7 @@ public class BoardUpdater {
 		//Striped-Color Bomb
 		else if (st1.endsWith("Striped") && st2.equals("Color Bomb")
 				|| st1.equals("Color Bomb") && st2.endsWith("Striped")) {
-			System.err.println("Girdik");
+			//System.err.println("Girdik");
 			
 			String type = st1.endsWith("Striped") ? lm.getType1() : lm.getType2();
 			Random rand = new Random();
@@ -496,7 +496,7 @@ public class BoardUpdater {
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
 				MatchingScaleInformer msi = MatchingScaleInformerFactory.getInstance().getMatchingScaleInformer(board, i, j);
-				System.out.println(msi);
+				//System.out.println(msi);
 				if (msi.horizontalMatchTotalScale() >= 3) {
 					return true;
 				}

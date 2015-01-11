@@ -293,13 +293,13 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 		
 		updater = new BoardUpdater(this, rules);
 
-		int addingthing = StandardScoringRules.getInstance().getSwapScore(new Move(0,1,1,1, this, false), board);
+		int addingthing = StandardScoringRules.getInstance().getSwapScore(lastMove, board);
+		System.out.println("Score = " + score + " Swap Score = "+addingthing);
 		score += addingthing;
-		System.out.println("Swap Score = "+addingthing);
 		
 		updater.eraseAll();
 		publishGame(UpdateType.boardPanel);
-		//publishGame(UpdateType.scoreLabel);
+		publishGame(UpdateType.scoreLabel);
 		
 		while(updater.stillToDo()) {
 			
@@ -358,8 +358,8 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 		}
 		
 		//testing!!!
-		board.fillCellAt(0, 1, new Lokum(Lokum.possibleTypes[0], "Color Bomb"));
-		board.fillCellAt(1, 1, new Lokum(Lokum.possibleTypes[0], "Color Bomb"));
+		board.fillCellAt(0, 1, new Lokum(Lokum.possibleTypes[0], "Vertical Striped"));
+		board.fillCellAt(1, 1, new Lokum(Lokum.possibleTypes[0], "Vertical Striped"));
 		
 		publishGame(UpdateType.all);
 
