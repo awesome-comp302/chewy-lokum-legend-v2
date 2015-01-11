@@ -11,4 +11,6 @@ public interface EraseRules {
 	public boolean shouldErased(GamePlay gp, MatchingScaleInformer match, Position position);
 	public boolean shouldErased(int option, GamePlay gp, MatchingScaleInformer match, Position position);
 	public void taskCompleted();
+	public void moveUsed(boolean b);
+	
 }
