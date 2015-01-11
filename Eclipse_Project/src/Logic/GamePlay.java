@@ -79,7 +79,7 @@ public class GamePlay implements Serializable{
 		};
 		
 		
-		timer = new Timer(1000,runner);
+		Timer timer = new Timer(1000,runner);
 		timer.setRepeats(true);
 		if (level.hasTimer()) {
 			timer.start();
@@ -98,14 +98,6 @@ public class GamePlay implements Serializable{
 		timer.scheduleAtFixedRate(aTask, 1000, 1000);*/
 		
 		
-	}
-	
-	public void stopTimer(){
-		timer.stop();
-	}
-	
-	public void startTimer(){
-		timer.start();
 	}
 	
 	public void countDownTimer(){
@@ -230,6 +222,7 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 		board.fillCellAt(move.getPosition1().getX(), move.getPosition1().getY(), cell2.getCurrentObject());
 		board.fillCellAt(move.getPosition2().getX(), move.getPosition2().getY(), temp);
 		movementsLeft--;
+		
 		publishGame(UpdateType.movementLeftLabel);
 		publishGame(UpdateType.boardPanel);
 		return true;
@@ -297,19 +290,18 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 
 
 	public void updateBoard() {
-		
+		System.out.println("New update board call");
 		
 		updater = new BoardUpdater(this, rules);
 		updater.eraseAll();
 		publishGame(UpdateType.boardPanel);
-		
-		System.out.println("enter");
 		
 		while(updater.stillToDo()) {
 			
 			updater.eraseAll();
 			publishGame(UpdateType.boardPanel);
 			score += updater.getScoreIncrease();
+			updater.resetScoreIncrease();
 			publishGame(UpdateType.scoreLabel);
 			
 			updater.dropAll();
@@ -321,18 +313,19 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 			updater.eraseAll();
 			publishGame(UpdateType.boardPanel);
 			score += updater.getScoreIncrease();
+			updater.resetScoreIncrease();
 			publishGame(UpdateType.scoreLabel);
+			
+			timeLeft += updater.getTimeIncrease();
+			updater.resetTimeIncrease();
 			
 			if (isGameOver()) {
 				publishGame(UpdateType.showEndGame);
-				break;
 			}
-			
-			System.out.println(updater.stillToDo());
 			
 		}
 		
-		timeLeft += updater.getTimeIncrease();
+		
 		
 		
 	}
@@ -620,6 +613,16 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 
 	public Player getPlayer() {
 		return player;
+	}
+
+	public void stopTimer() {
+		timer.stop();
+		
+	}
+
+	public void startTimer() {
+		timer.start();
+		
 	}
 
 }

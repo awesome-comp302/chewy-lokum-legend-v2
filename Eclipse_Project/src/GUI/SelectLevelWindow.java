@@ -88,7 +88,6 @@ public class SelectLevelWindow extends JFrame{
 	private class Interact implements MouseListener {
 
 
-		@SuppressWarnings("unused")
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			Object srcButton =  e.getSource();
@@ -114,6 +113,8 @@ public class SelectLevelWindow extends JFrame{
 					dispose();
 					
 					MainGameWindow gs = new MainGameWindow(gp);
+					
+					gs.playTheGame();
 				}else{
 					JOptionPane.showMessageDialog(null, "The level is Locked");
 				}

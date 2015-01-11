@@ -213,9 +213,6 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 				buttons[j][i].addMouseListener(interact);
 			}
 		}
-		
-		gp.addListener(this);
-		gp.initBoard();
 
 		setVisible(true);
 		
@@ -284,6 +281,8 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 
 
 		if(type == UpdateType.all){
+			
+			System.out.println("All");
 			score = gp.getScore();
 			remMove = gp.getMovementsLeft();
 
@@ -293,6 +292,8 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 
 			llscore.setText(String.valueOf(score));
 			llmoves.setText(String.valueOf(remMove));
+			
+			
 
 			for(int i = 0; i < b.getWidth(); i++){
 				for(int j = 0; j < b.getHeight(); j++){
@@ -306,7 +307,6 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			buttonHolder.updateUI();
 
 		}else if (type == UpdateType.boardPanel){
-
 			Board b = gp.getBoard();
 
 			boardPanel.setLayout(new GridLayout(b.getHeight(),b.getWidth()));
@@ -318,12 +318,7 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 					boardPanel.add(buttons[j][i]);
 					buttons[j][i].setBorder(BorderFactory.createLineBorder(gameColor));
 				}
-			}
-			
-			gp.addListener(this);
-			gp.initBoard();
-
-			boardPanel.updateUI();
+			}			
 			
 			boardPanel.paint(boardPanel.getGraphics());
 			
@@ -366,6 +361,11 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 
 	}
 	
+	public void playTheGame(){
+		gp.addListener(this);
+		gp.initBoard();
+	}
+	
 	
 	public void cellClicked(CellButton cb){
 		if(click1 != null && (cb.coordX != click1.coordX || cb.coordY != click1.coordY)){
@@ -387,8 +387,9 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 		if (SpeMoveCB.isSelected()) {
 			swapped = gp.specialSwap(click1.coordX, click1.coordY, click2.coordX, click2.coordY);
 		} else {
+			System.out.println("swapEnter");
 			swapped = gp.swap(click1.coordX, click1.coordY, click2.coordX, click2.coordY);
-			System.out.println("swapdone");
+			System.out.println("swapEnd");
 		}
 		System.out.println(swapped);
 		if (swapped) {

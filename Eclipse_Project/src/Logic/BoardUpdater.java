@@ -127,12 +127,14 @@ public class BoardUpdater {
 	
 
 	private void collectCBs() {
-		System.out.println("Ahan");
+		//System.out.println("Ahan");
+		
 		Move move = gp.getLastMove();
 		if (move.getSpecialType1().equals("Color Bomb")) {
 			gp.getBoard().fillCellAt(move.getPosition2().getX(),
 					move.getPosition2().getY(), new Nothing());
 		}
+		
 		if (move.getSpecialType2().equals("Color Bomb")) {
 			gp.getBoard().fillCellAt(move.getPosition1().getX(),
 					move.getPosition1().getY(), new Nothing());
@@ -151,8 +153,6 @@ public class BoardUpdater {
 	}
 
 	private void eraseForSpecial() {
-		scoreIncrease += calculateSpecialScore();
-		
 		
 		Board board = gp.getLevel().getBoard();
 		EraseRules eraseRules = rules.getEraseRules(RuleEngine.SPECIAL_ERASE);
@@ -208,11 +208,12 @@ public class BoardUpdater {
 					else {
 						objectToPut = new Nothing();
 					}
-					scoreIncrease += scoringRules.getCreationScore(objectToPut);
 				}
 				else {
 					objectToPut = new Nothing();
 				}
+				
+				scoreIncrease += scoringRules.getCreationScore(objectToPut);
 				
 				// erasing
 				if (eraseRules.shouldErased(gp, scaleMatrix[i][j],
@@ -235,6 +236,7 @@ public class BoardUpdater {
 		for (int i = 0; i < scaleMatrix.length; i++) {
 			for (int j = 0; j < scaleMatrix[0].length; j++) {
 				score += sr.getMatchingScore(scaleMatrix[i][j]);
+				//System.out.println(score + "at "+ j + " " + i);
 			}
 		}
 		return score;
@@ -308,14 +310,38 @@ public class BoardUpdater {
 			return true;
 		}
 
-		if (isThereAnythingToErase()) {
+		/*if (isThereAnythingToErase()) {
 			return true;
-		}
+		}*/
 
 		return false;
 	}
 
 	private boolean isThereAnythingToErase() {
+		Move lastMove = gp.getLastMove();
+		
+		if (lastMove != null) {
+			if (!lastMove.getSpecialType1().equals("Color Bomb")
+					|| lastMove.getSpecialType2().equals("Color Bomb")) {
+				return true;
+			}
+		}
+		
+		Board board = gp.getBoard();
+		for (int i = 0; i < board.getWidth(); i++) {
+			for (int j = 0; j < board.getHeight(); j++) {
+				MatchingScaleInformer msi = MatchingScaleInformerFactory.getInstance().getMatchingScaleInformer(board, i, j);
+				System.out.println(msi);
+				if (msi.horizontalMatchTotalScale() >= 3) {
+					return true;
+				}
+		
+				if (msi.verticalMatchTotalScale() >= 3) {
+					return true;
+				}
+			}
+		}
+				
 		return false;
 
 	}
@@ -335,6 +361,14 @@ public class BoardUpdater {
 	public int getTimeIncrease() {
 		// TODO Auto-generated method stub
 		return timeIncrease;
+	}
+	
+	public void resetScoreIncrease() {
+		scoreIncrease = 0;
+	}
+	
+	public void resetTimeIncrease() {
+		timeIncrease = 0;
 	}
 
 }

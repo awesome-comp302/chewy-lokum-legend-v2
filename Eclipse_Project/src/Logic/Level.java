@@ -7,11 +7,11 @@ public class Level {
 	private int levelId;
 	private Board board;
 	private static ArrayList<Integer> allLevelIds = new ArrayList<Integer>();
+	private static int lastUnlockedLevel;
 	private int possibleMovements;
 	private int time;
 	private int specialMoveCount;
 	private boolean[] levelModes;
-	private static int lastUnlockedLevel;
 
 
 	/**
@@ -42,12 +42,6 @@ public class Level {
 		this.board = board;
 		
 		if(lastUnlockedLevel < levelId) lastUnlockedLevel = levelId;
-		
-	}
-	
-	public static int getLastUnlockedLevel(){
-		if(lastUnlockedLevel < 1) lastUnlockedLevel = 1;
-		return lastUnlockedLevel;
 	}
 	
 	
@@ -77,9 +71,7 @@ public class Level {
 		
 	}
 
-	public void setBoardSize(int x, int y){
-		board = new Board(x, y);
-	}
+	
 	
 	/**
 	 * 
@@ -322,13 +314,24 @@ public class Level {
 
 
 
-	
-	public boolean[] getLevelModes() {
-		// TODO Auto-generated method stub
-		return levelModes;
+	public static int getLastUnlockedLevel() {
+		if(lastUnlockedLevel < 1) lastUnlockedLevel = 1;
+		return lastUnlockedLevel;
 	}
 
 
-	
-	
+
+
+	public void setBoardSize(int x, int y) {
+		board = new Board(x,y);
+		
+	}
+
+
+
+
+	public boolean[] getLevelModes() {
+		
+		return levelModes;
+	}
 }
