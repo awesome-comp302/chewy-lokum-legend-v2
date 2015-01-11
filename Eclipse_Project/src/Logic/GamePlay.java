@@ -292,7 +292,11 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 		System.out.println("New update board call");
 		
 		updater = new BoardUpdater(this, rules);
-		//score += 3600;//StandardScoringRules.getInstance().getSwapScore(lastMove, board);
+
+		int addingthing = StandardScoringRules.getInstance().getSwapScore(new Move(0,1,1,1, this, false), board);
+		score += addingthing;
+		System.out.println("Swap Score = "+addingthing);
+		
 		updater.eraseAll();
 		publishGame(UpdateType.boardPanel);
 		//publishGame(UpdateType.scoreLabel);
@@ -326,7 +330,7 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 			
 		}
 		
-		
+		//score += 3600;//StandardScoringRules.getInstance().getSwapScore(lastMove, board);
 		
 		
 	}
