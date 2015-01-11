@@ -358,8 +358,8 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 		}
 		
 		//testing!!!
-		board.fillCellAt(0, 1, new Lokum(Lokum.possibleTypes[0], "Vertical Striped"));
-		board.fillCellAt(1, 1, new Lokum(Lokum.possibleTypes[0], "Vertical Striped"));
+		//board.fillCellAt(0, 1, new Lokum(Lokum.possibleTypes[0], "Vertical Striped"));
+		//board.fillCellAt(1, 1, new Lokum(Lokum.possibleTypes[0], "Vertical Striped"));
 		
 		publishGame(UpdateType.all);
 
