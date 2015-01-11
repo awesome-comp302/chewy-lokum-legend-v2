@@ -11,6 +11,7 @@ public class Level {
 	private int time;
 	private int specialMoveCount;
 	private boolean[] levelModes;
+	private static int lastUnlockedLevel;
 
 
 	/**
@@ -39,6 +40,14 @@ public class Level {
 		this.levelId = levelId;
 		allLevelIds.add(levelId);
 		this.board = board;
+		
+		if(lastUnlockedLevel < levelId) lastUnlockedLevel = levelId;
+		
+	}
+	
+	public static int getLastUnlockedLevel(){
+		if(lastUnlockedLevel < 1) lastUnlockedLevel = 1;
+		return lastUnlockedLevel;
 	}
 	
 	
