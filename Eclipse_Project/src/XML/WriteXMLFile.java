@@ -187,6 +187,7 @@ public class WriteXMLFile {
 			rootElement.appendChild(remainingTime);
 
 			Element levelID = doc.createElement("levelID");
+			levelID.setAttribute("lastUnlockedLevel","" + Level.getLastUnlockedLevel());
 			levelID.appendChild(doc.createTextNode("" + level.getLevelId()));
 			rootElement.appendChild(levelID);
 			

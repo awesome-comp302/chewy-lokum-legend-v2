@@ -17,11 +17,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import XML.WriteXMLFile;
-
 import Logic.Board;
 import Logic.Cell;
 import Logic.GamePlay;
 import Logic.GameUpdateListener;
+import Logic.LevelSelector;
 import Logic.UpdateType;
 
 
@@ -40,9 +40,13 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 	private JCheckBox SpeMoveCB;
 	private UIButton saveButton;
 	private UIButton quitButton;
+	private UIButton retryButton;
+	private UIButton nextLevelButton;
+	private UIButton mainMenuButton;
 	private JPanel 	boardHolder;
 	private JPanel	buttonHolder;
 	private JPanel 	boardPanel;
+	private JPanel endGamePanel;
 	private Interact interact;
 	private Color uiColor = new Color(154,173,180);
 	private Color gameColor = new Color(100,180,150);
@@ -198,9 +202,14 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 		
 		boardHolder.add(boardPanel,c);
 		boardHolder.setVisible(true);
+		
+		
+
 
 		
 		Board b = gp.getBoard();
+		
+		boardPanel.setLayout(new GridLayout(b.getHeight(),b.getWidth()));
 		
 		buttons = new CellButton[b.getHeight()][b.getWidth()];
 		
@@ -231,7 +240,33 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 				} else if (srcButton.getClass() == CellButton.class){
 					cellClicked((CellButton)srcButton);
 				} else if (srcButton == quitButton){
+					onGameUpdate(gp,UpdateType.showEndGame);
+				} else if(srcButton == nextLevelButton){
+					int levelID = gp.getLevelId()+1;
+
+					
+					GamePlay gap = LevelSelector.createGamePlay(levelID);
+					
+					dispose();
+					
+					MainGameWindow gs = new MainGameWindow(gap);
+					
+					gs.playTheGame();
+					System.out.println("Game is done");
+					
+				} else if(srcButton == mainMenuButton){
 					exitButtonClicked();
+				} else if(srcButton == retryButton){
+					int levelID = gp.getLevelId();
+
+					
+					GamePlay gp = LevelSelector.createGamePlay(levelID);
+					
+					dispose();
+					
+					MainGameWindow gs = new MainGameWindow(gp);
+					
+					gs.playTheGame();
 				}
 				
 			}else if(e.getButton() == MouseEvent.BUTTON3){
@@ -333,15 +368,47 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			buttonHolder.updateUI();
 
 		}else if(type == UpdateType.showEndGame){
-
+			setFocusable(true);
 			boardPanel.removeAll();
+			
+			endGamePanel = new JPanel();
+			endGamePanel.setSize(400,400);
+			quitButton.setVisible(false);
+			JPanel empty = new JPanel();
+			empty.setSize(500,500);
 
 			if (score >= gp.getLevel().getPassingScore()) {
-				JLabel win = new JLabel("You WIN \n:D");
-				boardPanel.add(win);
-			} else if(remMove == 0){
-				JLabel lost = new JLabel("GAME OVER \n:'(");
-				boardPanel.add(lost);
+				
+				JLabel lb = new JLabel("Level Succesful");
+				lb.setForeground(Color.white);
+				nextLevelButton = new UIButton("game", "Next Level", gameColor);
+				nextLevelButton.addMouseListener(interact);
+				mainMenuButton = new UIButton("game", "Main Menu", gameColor);
+				mainMenuButton.addMouseListener(interact);
+				endGamePanel.setLayout(new GridLayout(3,1));	
+				endGamePanel.add(lb);
+				endGamePanel.add(nextLevelButton);
+				endGamePanel.add(mainMenuButton);
+				endGamePanel.setBackground(gameColor);
+				
+				
+				boardPanel.add(endGamePanel);
+				
+			} else {
+				JLabel lb = new JLabel("Level Failed!");
+				lb.setForeground(Color.red);
+				retryButton = new UIButton("game", "Retry", gameColor);
+				retryButton.addMouseListener(interact);
+				mainMenuButton = new UIButton("game", "Main Menu", gameColor);
+				mainMenuButton.addMouseListener(interact);
+				endGamePanel.setLayout(new GridLayout(3,1));
+				
+				endGamePanel.add(lb);
+				endGamePanel.add(retryButton);
+				endGamePanel.add(mainMenuButton);
+				endGamePanel.setBackground(gameColor);
+				
+				boardPanel.add(endGamePanel);
 			}
 
 		}else if(type == UpdateType.scoreLabel){
@@ -401,7 +468,9 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 	}
 	
 	public void saveButtonClicked() {
-		gp.stopTimer();
+		if(gp.getLevel().hasTimer()){
+			gp.stopTimer();
+		}
 		
 		FileDialog fd = new FileDialog(this, "Save Game", FileDialog.SAVE);
 		fd.setFile("*.xml");
@@ -414,7 +483,10 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 			WriteXMLFile.getInstance().write(filename);
 			setAlwaysOnTop(false);
 			JOptionPane.showMessageDialog(null, "Game Saved");
-			gp.startTimer();
+			if(gp.getLevel().hasTimer()){
+				gp.startTimer();
+			}
+
 		}
 		
 	}

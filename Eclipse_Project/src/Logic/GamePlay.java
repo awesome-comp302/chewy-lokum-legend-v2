@@ -320,7 +320,9 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 			updater.resetTimeIncrease();
 			
 			if (isGameOver()) {
+				
 				publishGame(UpdateType.showEndGame);
+				break;
 			}
 			
 		}

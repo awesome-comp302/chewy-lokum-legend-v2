@@ -57,14 +57,14 @@ public class SelectLevelWindow extends JFrame{
 	
 	public void setFullScreen(boolean cond){
 		if (cond){
-			setLockedButtons();
+			setLockedButtonsText();
 			setVisible(true);
 		}else{
 			setVisible(false);
 		}
 	}
 	
-	public void setLockedButtons(){
+	public void setLockedButtonsText(){
 		int lastUnlocked = Level.getLastUnlockedLevel();
 		
 		
@@ -74,14 +74,25 @@ public class SelectLevelWindow extends JFrame{
 			level4.setText("Level 4 [Locked]");
 			level5.setText("Level 5 [Locked]");
 		}else if(lastUnlocked == 2){
+			level2.setText("Level 2 ");
 			level3.setText("Level 3 [Locked]");
 			level4.setText("Level 4 [Locked]");
 			level5.setText("Level 5 [Locked]");
 		}else if(lastUnlocked == 3){
+			level2.setText("Level 2 ");
+			level3.setText("Level 3 ");
 			level4.setText("Level 4 [Locked]");
 			level5.setText("Level 5 [Locked]");
 		}else if(lastUnlocked == 4){
+			level2.setText("Level 2 ");
+			level3.setText("Level 3 ");
+			level4.setText("Level 4 ");
 			level5.setText("Level 5 [Locked]");
+		} else {
+			level2.setText("Level 2 ");
+			level3.setText("Level 3 ");
+			level4.setText("Level 4 ");
+			level5.setText("Level 5 ");
 		}
 	}
 	

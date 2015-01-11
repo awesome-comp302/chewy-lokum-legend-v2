@@ -182,6 +182,7 @@ public class MainMenuWindow extends JFrame {
 		if (filename != null){
 			ReadXMLFile.getInstance().read(filename);
 			MainGameWindow gameScreen = new MainGameWindow(ReadXMLFile.getInstance().loadGame());
+			gameScreen.playTheGame();
 			setFullScreen(false);
 		}
 

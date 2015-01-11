@@ -67,6 +67,8 @@ public class Level {
 		setTime(levelVars);
 		setLevelId(levelVars);
 		
+		if(lastUnlockedLevel < levelId) lastUnlockedLevel = levelId;
+		
 		board = new Board(6,6);
 		
 	}
@@ -333,5 +335,13 @@ public class Level {
 	public boolean[] getLevelModes() {
 		
 		return levelModes;
+	}
+
+
+
+
+	public static void setLastUnlockedLevel(int lastUnlocked) {
+		lastUnlockedLevel = lastUnlocked;
+		
 	}
 }

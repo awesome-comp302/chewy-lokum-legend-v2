@@ -101,12 +101,15 @@ public class ReadXMLFile {
 		// Node levelVals = doc.getElementsByTagName("levelVars").item(0);
 		Node levelID = doc.getElementsByTagName("levelID").item(0);
 		// Node level = doc.getElementsByTagName("level").item(0);
+		
+		
 
 		int passingScoreState = Integer.parseInt(passingScore.getTextContent());
 		int currentScoreState = Integer.parseInt(currentScore.getTextContent());
 		int remainingMovesState = Integer.parseInt(remainingMoves
 				.getTextContent());
 		int levelIdState = Integer.parseInt(levelID.getTextContent());
+		int lastUnlockeldLevel = Integer.parseInt(((Node)levelID).getAttributes().getNamedItem("lastUnlockedLevel").getNodeValue());
 		int spLeftState = Integer.parseInt(remainingSpecialMoves
 				.getTextContent());
 		int remainingTimeState = Integer.parseInt(remainingTime
@@ -166,6 +169,7 @@ public class ReadXMLFile {
 		
 		Player playerTest = new Player();
 		playerTest.setID(id);
+		Level.setLastUnlockedLevel(lastUnlockeldLevel);
 		
 		gp = new GamePlay(levelTemp);
 		gp.setPlayer(playerTest);
