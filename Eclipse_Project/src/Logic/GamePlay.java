@@ -300,6 +300,7 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 			updater.eraseAll();
 			publishGame(UpdateType.boardPanel);
 			score += updater.getScoreIncrease();
+			updater.resetScoreIncrease();
 			publishGame(UpdateType.scoreLabel);
 			
 			updater.dropAll();
@@ -311,16 +312,19 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 			updater.eraseAll();
 			publishGame(UpdateType.boardPanel);
 			score += updater.getScoreIncrease();
+			updater.resetScoreIncrease();
 			publishGame(UpdateType.scoreLabel);
+			
+			timeLeft += updater.getTimeIncrease();
+			updater.resetTimeIncrease();
 			
 			if (isGameOver()) {
 				publishGame(UpdateType.showEndGame);
-				break;
 			}
 			
 		}
 		
-		timeLeft += updater.getTimeIncrease();
+		
 		
 		
 	}

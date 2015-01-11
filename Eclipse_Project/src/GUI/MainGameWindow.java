@@ -66,7 +66,8 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 		setUndecorated(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		device.setFullScreenWindow(this);
+		setSize(800, 800);
+		//device.setFullScreenWindow(this);
 		
 		setResizable(false);
 		

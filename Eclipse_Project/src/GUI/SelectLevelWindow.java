@@ -134,8 +134,11 @@ public class SelectLevelWindow extends JFrame{
 		
 		setVisible(true);
 		
+		
+		
+		setSize(800, 800);
 		setLocationRelativeTo(null);
-		device.setFullScreenWindow(this);
+		//device.setFullScreenWindow(this);
 		
 		setLayout(new GridLayout(2,1));
 		

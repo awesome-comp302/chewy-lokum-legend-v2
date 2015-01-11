@@ -151,6 +151,7 @@ public class BoardUpdater {
 	}
 
 	private void eraseForSpecial() {
+		System.out.println("Score increase" + scoreIncrease);
 		scoreIncrease += calculateSpecialScore();
 		
 		
@@ -310,14 +311,38 @@ public class BoardUpdater {
 			return true;
 		}
 
-		if (isThereAnythingToErase()) {
+		/*if (isThereAnythingToErase()) {
 			return true;
-		}
+		}*/
 
 		return false;
 	}
 
 	private boolean isThereAnythingToErase() {
+		Move lastMove = gp.getLastMove();
+		
+		if (lastMove != null) {
+			if (!lastMove.getSpecialType1().equals("Color Bomb")
+					|| lastMove.getSpecialType2().equals("Color Bomb")) {
+				return true;
+			}
+		}
+		
+		Board board = gp.getBoard();
+		for (int i = 0; i < board.getWidth(); i++) {
+			for (int j = 0; j < board.getHeight(); j++) {
+				MatchingScaleInformer msi = MatchingScaleInformerFactory.getInstance().getMatchingScaleInformer(board, i, j);
+				System.out.println(msi);
+				if (msi.horizontalMatchTotalScale() >= 3) {
+					return true;
+				}
+		
+				if (msi.verticalMatchTotalScale() >= 3) {
+					return true;
+				}
+			}
+		}
+				
 		return false;
 
 	}
@@ -337,6 +362,14 @@ public class BoardUpdater {
 	public int getTimeIncrease() {
 		// TODO Auto-generated method stub
 		return timeIncrease;
+	}
+	
+	public void resetScoreIncrease() {
+		scoreIncrease = 0;
+	}
+	
+	public void resetTimeIncrease() {
+		timeIncrease = 0;
 	}
 
 }
