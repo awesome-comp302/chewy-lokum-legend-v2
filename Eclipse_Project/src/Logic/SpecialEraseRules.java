@@ -43,6 +43,15 @@ public class SpecialEraseRules implements EraseRules {
 		if (gp.getLastMove() != null && !lastMoveUsed) {
 			markForCombos(gp);
 			markForColorBomb(gp);
+			
+			System.out.println("After color bomb marking");
+			for (int i = 0; i < erasePool.length; i++) {
+				for (int j = 0; j < erasePool[0].length; j++) {
+					System.out.print(erasePool[i][j] + " ");
+				}
+				System.out.println();
+			}
+			
 			lastMoveUsed = true;
 		}
 		markForWrappeds(gp);
@@ -91,8 +100,7 @@ public class SpecialEraseRules implements EraseRules {
 					}
 				}
 			}
-		}
-		
+		}	
 	}
 
 	private void markSquare(Board b, int x, int y) {
@@ -128,7 +136,6 @@ public class SpecialEraseRules implements EraseRules {
 		}*/
 		if (!otherType.isEmpty()) {
 			markSame(gp.getBoard(), otherType);
-			
 		}
 	}
 
@@ -236,7 +243,7 @@ public class SpecialEraseRules implements EraseRules {
 	@Override
 	public void taskCompleted() {
 		erasePool = null;
-		
+		lastMoveUsed = false;
 	}
 
 	public static SpecialEraseRules getInstance() {

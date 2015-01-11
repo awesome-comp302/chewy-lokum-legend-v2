@@ -289,7 +289,7 @@ public boolean swap(int x1, int y1, int x2, int y2) {
 
 
 	public void updateBoard() {
-		
+		System.out.println("New update board call");
 		
 		updater = new BoardUpdater(this, rules);
 		updater.eraseAll();

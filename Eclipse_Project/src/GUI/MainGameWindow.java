@@ -21,6 +21,7 @@ import Logic.Board;
 import Logic.Cell;
 import Logic.GamePlay;
 import Logic.GameUpdateListener;
+import Logic.Lokum;
 import Logic.Move;
 import Logic.UpdateType;
 
@@ -60,8 +61,14 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 
 	
 	public MainGameWindow(GamePlay gap){
+		
+		
 		super("Game");
 		gp = gap;
+		
+		/*gp.getBoard().fillCellAt(2, 3, new Lokum("red rose", "Color Bomb"));
+		gp.getBoard().fillCellAt(4,5, new Lokum("red rose", "Color Bomb"));*/
+		
 		
 		setUndecorated(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -361,6 +368,7 @@ public class MainGameWindow extends JFrame implements GameUpdateListener {
 		
 		gp.addListener(this);
 		gp.initBoard();
+		
 		
 	}
 	

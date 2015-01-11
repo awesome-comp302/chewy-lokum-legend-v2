@@ -127,12 +127,14 @@ public class BoardUpdater {
 	
 
 	private void collectCBs() {
-		System.out.println("Ahan");
+		//System.out.println("Ahan");
+		
 		Move move = gp.getLastMove();
 		if (move.getSpecialType1().equals("Color Bomb")) {
 			gp.getBoard().fillCellAt(move.getPosition2().getX(),
 					move.getPosition2().getY(), new Nothing());
 		}
+		
 		if (move.getSpecialType2().equals("Color Bomb")) {
 			gp.getBoard().fillCellAt(move.getPosition1().getX(),
 					move.getPosition1().getY(), new Nothing());
@@ -151,9 +153,6 @@ public class BoardUpdater {
 	}
 
 	private void eraseForSpecial() {
-		System.out.println("Score increase" + scoreIncrease);
-		scoreIncrease += calculateSpecialScore();
-		
 		
 		Board board = gp.getLevel().getBoard();
 		EraseRules eraseRules = rules.getEraseRules(RuleEngine.SPECIAL_ERASE);
@@ -237,7 +236,7 @@ public class BoardUpdater {
 		for (int i = 0; i < scaleMatrix.length; i++) {
 			for (int j = 0; j < scaleMatrix[0].length; j++) {
 				score += sr.getMatchingScore(scaleMatrix[i][j]);
-				System.out.println(score + "at "+ j + " " + i);
+				//System.out.println(score + "at "+ j + " " + i);
 			}
 		}
 		return score;
